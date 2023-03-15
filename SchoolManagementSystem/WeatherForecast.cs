@@ -1,4 +1,4 @@
-namespace School_Management_System;
+namespace SchoolManagementSystem;
 
 public class WeatherForecast
 {
