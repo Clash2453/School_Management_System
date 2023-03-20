@@ -1,9 +1,11 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import HomeView from './views/HomeView.vue';
+import NavigationComponent from './components/NavigationComponent.vue'
 </script>
 
 <template>
-  <h1 class="text-3xl font-bold underline">Hello world</h1>
+    <NavigationComponent />
 </template>
 
 <style scoped>

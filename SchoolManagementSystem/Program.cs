@@ -12,6 +12,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<SchoolDbContext>(options => 
     options.UseMySql(ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("SchoolDb"))));
+builder.Services.AddCors(c =>
+{
+    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
 builder.Services.AddControllers();
 var app = builder.Build();
 
