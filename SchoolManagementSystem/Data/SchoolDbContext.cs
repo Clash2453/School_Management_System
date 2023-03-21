@@ -25,4 +25,10 @@ public class SchoolDbContext : DbContext
         var connectionString =  _configuration.GetConnectionString("SchoolDb");
         optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
     }
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+    }
 }
