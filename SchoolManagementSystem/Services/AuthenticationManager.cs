@@ -2,7 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using Microsoft.IdentityModel.Tokens;
-using SchoolManagementSystem.Models;
+using SchoolManagementSystem.Models.DataTransferObjects;
 
 namespace SchoolManagementSystem.Services;
 
@@ -16,27 +16,24 @@ public class AuthenticationManager
     }
     public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
     {
-        using (var hmac = new HMACSHA512())
-        {
-            passwordHash = hmac.Key;
-            passwordSalt = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-        }
+        using var hmac = new HMACSHA512();
+        passwordHash = hmac.Key;
+        passwordSalt = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
     }
 
     public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
     {
-        using (var hmac = new HMACSHA512(passwordSalt))
-        {
-            var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            return computedHash.SequenceEqual(passwordHash);
-        }
+        using var hmac = new HMACSHA512(passwordSalt);
+        var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+        return computedHash.SequenceEqual(passwordHash);
     }
 
-    public string CreateAuthenticationToken(LoginUserDto user)
+    public string CreateAuthenticationToken(LoginUserDto user, string role)
     {
         List<Claim> claims = new List<Claim>()
         {
-            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Email,user.Email),
+            new Claim(ClaimTypes.Role, role), 
         };
         var key = new SymmetricSecurityKey(
             System.Text.Encoding.UTF8.GetBytes(_config.GetSection("Authentication:Token").Value));
