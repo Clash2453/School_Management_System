@@ -1,4 +1,20 @@
-@import './base.css';
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url(base.css);
+
+.wh-p {
+    color: white;
+    font-size: 1rem;
+    font-family: "Montserrat", sans-serif;
+}
+.align-c {
+    text-align: center;
+}
+.main-title {
+    font-family: "Roboto", sans-serif;
+    font-size: 2.5rem;
+    color: inherit;
+}
+.subtitle{
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.25rem;
+    color: inherit;
+}
