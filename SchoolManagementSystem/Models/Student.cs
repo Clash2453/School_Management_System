@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using SchoolManagementSystem.Models.IntermediateTables;
 
 namespace SchoolManagementSystem.Models;
 [Table( "Students" )]
