@@ -79,6 +79,7 @@ export default {
   background-color: #2a619b;
   padding: 0.5rem;
   box-sizing: border-box;
+  z-index: 999;
 }
 .link-list {
   gap: 1rem;
