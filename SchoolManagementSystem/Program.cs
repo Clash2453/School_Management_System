@@ -27,8 +27,6 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 
 });
-
-
 builder.Services.AddDbContext<SchoolDbContext>(options => 
     options.UseMySql(ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("SchoolDb"))));
 builder.Services.AddCors(c =>
@@ -59,7 +57,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("AllowOrigin");
 app.UseAuthentication();
 
 app.UseAuthorization();
