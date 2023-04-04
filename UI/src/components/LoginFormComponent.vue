@@ -4,9 +4,12 @@ export default {
   data: function () {
     return {
       login: true,
-      userName: '',
-      userEmail: '',
-      userPassword: ''
+      firstName: '',
+      lastName: '',
+      loginEmail: '',
+      loginPassword: '',
+      registerEmail: '',
+      registerPassword: ''
     }
   },
   methods: {
@@ -32,8 +35,23 @@ export default {
       }).catch((e) => console.log(e))
       console.log(token)
     },
-    logger() {
+    async registerUser() {
       console.log(this.userEmail)
+      const data = {
+        name: `${this.firstName} ${this.lastName}`,
+        email: this.registerEmail,
+        password: this.userPassword
+      }
+      const token = await axios({
+        method: 'POST',
+        url: 'https://localhost:7080/api/User/register',
+        data: data,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).catch((e) => console.log(e))
+      console.log(token)
+      console.log(data.name)
     }
   }
 }
@@ -56,42 +74,81 @@ export default {
       <h1 class="main-title">Login</h1>
       <div class="label-wrapper">
         <label class="input-label" for="email">Email</label>
-        <input v-model="userEmail" class="form-input" type="email" name="email" required />
+        <input
+          v-model="loginEmail"
+          class="form-input"
+          type="email"
+          name="email"
+          required
+          @keypress.enter.prevent
+        />
       </div>
       <div class="label-wrapper">
         <label class="input-label" for="">Password</label>
         <input
-          v-model="userPassword"
-          @input="logger"
+          v-model="loginPassword"
           class="form-input"
           type="password"
           name="password"
           required
+          @keypress.enter.prevent
         />
       </div>
       <div class="button-wrapper">
-        <button class="hero-main-button" @click="loginUser">Log in</button>
+        <button class="main-button" @click="loginUser">Log in</button>
         <router-link to="/change-password" class="password-link">Forgotten password?</router-link>
       </div>
     </form>
 
-    <form v-if="!login" class="form" action="">
+    <form v-if="!login" class="form" v-on:submit.prevent="onSubmit">
       <h1 class="main-title">Register</h1>
       <div class="label-wrapper">
-        <label class="input-label" for="name">First and Last name:</label>
-        <input class="form-input" type="name" name="userName" required />
+        <label class="input-label" for="name">First name:</label>
+        <input
+          class="form-input"
+          v-model="firstName"
+          type="name"
+          name="firstName"
+          required
+          @keypress.enter.prevent
+        />
+      </div>
+      <div class="label-wrapper">
+        <label class="input-label" for="name">Last name:</label>
+        <input
+          class="form-input"
+          v-model="lastName"
+          type="name"
+          name="lastName"
+          required
+          @keypress.enter.prevent
+        />
       </div>
       <div class="label-wrapper">
         <label class="input-label" for="email">Email</label>
-        <input class="form-input" type="email" name="email" required />
+        <input
+          class="form-input"
+          v-model="registerEmail"
+          type="email"
+          name="email"
+          required
+          @keypress.enter.prevent
+        />
       </div>
       <div class="label-wrapper">
         <label class="input-label" for="">Password</label>
-        <input class="form-input" type="password" name="password" required />
+        <input
+          class="form-input"
+          v-model="registerPassword"
+          type="password"
+          name="password"
+          required
+          @keypress.enter.prevent
+        />
       </div>
       <div class="button-wrapper">
-        <button class="hero-main-button">Log in</button>
-        <router-link to="/Register" class="password-link">Forgotten password?</router-link>
+        <button class="main-button" @click="registerUser">Register</button>
+        <router-link to="/Login" class="password-link">Already have an account?</router-link>
       </div>
     </form>
   </section>
@@ -108,7 +165,7 @@ export default {
 #form-section {
   width: 60%;
   height: 100%;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   object-fit: fill;
 
   flex: auto;
@@ -125,7 +182,7 @@ export default {
 .tab-container,
 .form {
   width: 100%;
-  height: 100%;
+  height: 80%;
   max-width: 25rem;
 }
 .form {
@@ -164,7 +221,7 @@ export default {
 }
 .button-wrapper {
   width: 90%;
-  height: 100%;
+  /* height: 100%; */
   max-width: 20rem;
   display: flex;
   flex-direction: row-reverse;
@@ -173,6 +230,9 @@ export default {
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
 }
+/* .main-button {
+  background-color: #3c88da;
+} */
 .label-wrapper {
   width: 90%;
   display: flex;
@@ -192,6 +252,7 @@ export default {
   display: flex;
   justify-content: center;
   flex-direction: row;
+  height: 10%;
 }
 .left-radius {
   border-top-left-radius: 5px;
