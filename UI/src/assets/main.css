@@ -22,12 +22,13 @@
 #app{
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
 }
 textarea:focus, input:focus{
     outline: none;
 }
-.hero-main-button {
-    background-color: #1a395a;
+.main-button {
+    background-color: #1e4269;
     border: 1px solid transparent;
     border-radius: 0.75rem;
     color: #ffffff;
@@ -46,17 +47,17 @@ textarea:focus, input:focus{
     width: auto;
   }
   
-  .hero-main-button:hover {
+  .main-button:hover {
     background-color: #27598f;
   }
   
-  .hero-main-button:focus {
+  .main-button:focus {
     box-shadow: none;
     outline: 2px solid transparent;
     outline-offset: 2px;
   }
   
-  .hero-secondary-button {
+  .secondary-button {
     appearance: none;
     background-color: transparent;
     border: 2px solid #ffffff;
@@ -80,11 +81,11 @@ textarea:focus, input:focus{
     will-change: transform;
   }
   
-.hero-secondary-button:disabled {
+.secondary-button:disabled {
     pointer-events: none;
 }
   
-  .hero-secondary-button:hover {
+  .secondary-button:hover {
     color: #fff;
     background-color: #27598f;
     box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;

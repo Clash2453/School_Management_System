@@ -9,8 +9,8 @@
         event scheduler
       </h2>
       <div class="button-wrapper">
-        <button class="hero-main-button">Try it out</button>
-        <button class="hero-secondary-button">Learn more</button>
+        <button class="main-button">Try it out</button>
+        <button class="secondary-button">Learn more</button>
       </div>
     </div>
     <v-icon name="md-school-outlined" class="hero-image" fill="white"></v-icon>
