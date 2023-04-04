@@ -30,9 +30,8 @@ export default {
   padding: 1rem;
 
   flex-direction: column;
-  /* position: sticky; */
   gap: 1rem;
-
+  min-height: 7rem;
   bottom: 0;
   right: 0;
 

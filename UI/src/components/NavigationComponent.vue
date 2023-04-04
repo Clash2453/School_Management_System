@@ -76,6 +76,7 @@ export default {
   position: sticky;
   top: 0;
   left: 0;
+  min-height: 6rem;
   background-color: #2a619b;
   padding: 0.5rem;
   box-sizing: border-box;
