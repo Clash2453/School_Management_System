@@ -171,7 +171,7 @@ export default {
   flex: auto;
   background-color: #0e2a47;
   padding: 2rem;
-  background-image: url('../components/icons/login-background.svg');
+  background-image: url('../../components/icons/login-background.svg');
 }
 .main-title {
   text-align: left;

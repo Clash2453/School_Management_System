@@ -1,5 +1,5 @@
 <script>
-import LoginFormComponent from '../components/LoginFormComponent.vue'
+import LoginFormComponent from '../components/login/LoginFormComponent.vue'
 
 export default {
   data: function () {

@@ -38,7 +38,7 @@ export default {
     <div class="wrapper">
       <div class="logo-container" @click="triggerMenu">
         <router-link to="/" class="nav-link">
-          <img id="logo" src="./icons/logo-no-background.svg" alt="" />
+          <img id="logo" src=".././icons/logo-no-background.svg" alt="" />
         </router-link>
       </div>
       <button v-if="toggleMobileButton" class="button-container" @click="triggerMenu">
@@ -47,14 +47,14 @@ export default {
     </div>
     <nav class="nav-bar">
       <ul class="link-list">
-        <li v-if="!toggleMobile" class="nav-list-item">
-          <router-link to="/" class="nav-link" id="logo">Home</router-link>
+        <li v-if="!toggleMobile">
+          <router-link to="/" class="nav-link nav-list-item" id="logo">Home</router-link>
         </li>
-        <li v-if="!toggleMobile" class="nav-list-item">
-          <router-link to="/" class="nav-link">About</router-link>
+        <li v-if="!toggleMobile">
+          <router-link to="/" class="nav-link nav-list-item">About</router-link>
         </li>
-        <li v-if="!toggleMobile" class="nav-list-item">
-          <router-link to="Login" class="nav-link">Login</router-link>
+        <li v-if="!toggleMobile" class="">
+          <router-link to="Login" class="nav-link nav-list-item">Login</router-link>
         </li>
       </ul>
     </nav>
@@ -121,6 +121,7 @@ export default {
   font-size: 1.5rem;
   font-family: 'Roboto', sans-serif;
   font-weight: 800;
+  color: white;
 }
 .material-symbols-outlined {
   font-size: 3rem;
