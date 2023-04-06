@@ -1,13 +1,15 @@
 <script setup>
 import RoundLoader from './RoundLoaderComponent.vue'
+
+const props = defineProps(['mainContent', 'firstArgument', 'secondArgument'])
 </script>
 <template>
   <section class="overview">
     <RoundLoader></RoundLoader>
     <div class="stats-container">
-      <h3 class="average subtitle">Average Grade:</h3>
-      <h4 class="discipline">Highest Grade:</h4>
-      <h4 class="discipline">Lowest Subject:</h4>
+      <h3 class="average subtitle">{{ mainContent }}</h3>
+      <h4 class="discipline">{{ firstArgument }}</h4>
+      <h4 class="discipline">{{ secondArgument }}</h4>
     </div>
   </section>
 </template>
@@ -26,10 +28,14 @@ import RoundLoader from './RoundLoaderComponent.vue'
   height: 100%;
 }
 .stats-container {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
+  gap: 0.5rem;
 }
 .discipline {
   font-family: 'Lato', sans-serif;
