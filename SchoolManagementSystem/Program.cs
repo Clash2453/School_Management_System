@@ -31,9 +31,15 @@ builder.Services.AddDbContext<SchoolDbContext>(options =>
     options.UseMySql(ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("SchoolDb"))));
 builder.Services.AddCors(c =>
 {
-    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+    c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://localhost:5173").AllowCredentials()
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+
+        );
 });
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddCookie(x=> x.Cookie.Name = "token")
+    .AddJwtBearer(
     options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters()
@@ -43,6 +49,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
                 builder.Configuration.GetSection("Authentication:Token").Value)),
             ValidateIssuer = false,
             ValidateAudience = false
+        };
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                context.Token = context.Request.Cookies["token"];
+                return Task.CompletedTask;
+            }
         };
     }
     );
