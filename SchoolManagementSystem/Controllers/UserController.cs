@@ -33,18 +33,27 @@ public class UserController : ControllerBase
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
         if (user == null)
-            return NotFound("Wrong email");
+            return Unauthorized("Wrong email");
 
-        if (_authManager.VerifyPasswordHash(request.Password, user.Password, user.Salt))
-            return NotFound("Wrong password");
-        
+        if (!_authManager.VerifyPasswordHash(request.Password, user.Password))
+            return Unauthorized("Wrong password");
 
-        return Ok(_authManager.CreateAuthenticationToken(request, user.Role));
+        var encryptedToken = _authManager.CreateAuthenticationToken(request, user.Role);
+        HttpContext.Response.Cookies.Append("token", encryptedToken, new CookieOptions
+        {
+            Expires = DateTime.UtcNow.AddHours(2),
+            HttpOnly = true,
+            Secure = true,
+            Domain = "localhost",
+            IsEssential = true,
+            SameSite = SameSiteMode.None,
+        });
+        return Ok();
     }
 
     // PUT: api/User/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut]
+    [HttpPut("update")]
     [Authorize( Roles = "Admin")]
 
     public async Task<IActionResult> Update(LoginUserDto request)
@@ -78,21 +87,6 @@ public class UserController : ControllerBase
         await _context.SaveChangesAsync();
 
         return CreatedAtAction("Register", "Registered user");
-    }
-
-    // DELETE: api/User/5
-    [HttpDelete("{id}")]
-    [Authorize( Roles = "Admin")]
-    public async Task<IActionResult> DeleteUser(int id)
-    {
-        if (_context.Users == null) return NotFound();
-        var user = await _context.Users.FindAsync(id);
-        if (user == null) return NotFound();
-
-        _context.Users.Remove(user);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
     }
 
     private bool UserExists(string email)
