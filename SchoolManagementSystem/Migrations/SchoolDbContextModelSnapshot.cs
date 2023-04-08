@@ -82,17 +82,17 @@ namespace SchoolManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<byte[]>("Password")
+                    b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("longblob");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<byte[]>("Salt")
+                    b.Property<string>("Salt")
                         .IsRequired()
-                        .HasColumnType("longblob");
+                        .HasColumnType("longtext");
 
                     b.HasKey("UserId");
 
