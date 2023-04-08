@@ -1,6 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using Microsoft.IdentityModel.Tokens;
 using SchoolManagementSystem.Models.DataTransferObjects;
 
@@ -14,20 +13,16 @@ public class AuthenticationManager
     {
         _config = configuration;
     }
-    public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+    public void CreatePasswordHash(string password, out string passwordHash, out string passwordSalt)
     {
-        using var hmac = new HMACSHA512();
-        passwordHash = hmac.Key;
-        passwordSalt = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+        passwordSalt = BCrypt.Net.BCrypt.GenerateSalt(12);
+        passwordHash = BCrypt.Net.BCrypt.HashPassword(password, passwordSalt);
     }
 
-    public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+    public bool VerifyPasswordHash(string password, string passwordHash)
     {
-        using var hmac = new HMACSHA512(passwordSalt);
-        var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-        return computedHash.SequenceEqual(passwordHash);
+        return BCrypt.Net.BCrypt.Verify(password, passwordHash);
     }
-
     public string CreateAuthenticationToken(LoginUserDto user, string role)
     {
         List<Claim> claims = new List<Claim>()
