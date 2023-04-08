@@ -22,8 +22,8 @@ export default {
     async loginUser() {
       console.log(this.userEmail)
       const data = {
-        email: this.userEmail,
-        password: this.userPassword
+        email: this.loginEmail,
+        password: this.loginPassword
       }
       const token = await axios({
         method: 'POST',
@@ -31,7 +31,8 @@ export default {
         data: data,
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
+        withCredentials: true
       }).catch((e) => console.log(e))
       console.log(token)
     },
@@ -40,7 +41,7 @@ export default {
       const data = {
         name: `${this.firstName} ${this.lastName}`,
         email: this.registerEmail,
-        password: this.userPassword
+        password: this.registerPassword
       }
       const token = await axios({
         method: 'POST',
