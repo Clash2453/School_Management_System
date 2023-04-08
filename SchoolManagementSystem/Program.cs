@@ -31,11 +31,13 @@ builder.Services.AddDbContext<SchoolDbContext>(options =>
     options.UseMySql(ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("SchoolDb"))));
 builder.Services.AddCors(c =>
 {
-    c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://localhost:5173").AllowCredentials()
+    c.AddPolicy("AllowOrigin",
+        options => options.WithOrigins("http://localhost:5173",
+                "https://localhost:5173")
+            .AllowCredentials()
         .AllowAnyMethod()
         .AllowAnyHeader()
-
-        );
+    );
 });
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddCookie(x=> x.Cookie.Name = "token")
