@@ -12,25 +12,15 @@ public class UserCreationService
     }
     public User CreateUser(UserDto request)
     {
-        _authManager.CreatePasswordHash(request.Password, out var passwordHash, out var passwordSalt);
-        var user = new User();
-        user.Email = request.Email;
-        user.Password = passwordHash;
-        user.Salt = passwordSalt;
-        user.Name = request.Name;
-        user.Role = "Guest";
+        _authManager.CreatePasswordHash(request.Password, out string passwordHash, out string passwordSalt);
+        var user = new User
+        {
+            Email = request.Email,
+            Password = passwordHash,
+            Salt = passwordSalt,
+            Name = request.Name,
+            Role = "Guest"
+        };
         return user;
     }
-    // public Student CreateSTudent()
-    // {
-    //     
-    // }
-    // public Teacher CreateTeacher()
-    // {
-    //     
-    // }
-    // public Admin CreateAdmin()
-    // {
-    //     
-    // }
 }
