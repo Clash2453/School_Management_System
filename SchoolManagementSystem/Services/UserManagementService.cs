@@ -1,20 +1,93 @@
+using Microsoft.EntityFrameworkCore;
+using SchoolManagementSystem.Data;
+using SchoolManagementSystem.Enums;
+using SchoolManagementSystem.Interfaces;
 using SchoolManagementSystem.Models;
 using SchoolManagementSystem.Models.DataTransferObjects;
 
 namespace SchoolManagementSystem.Services;
 
-public class UserManagementService
+public class UserManagementService : IUserManagementService
 {
-    public Student CreateStudent(StudentDto request, User user)
+    private SchoolDbContext _context;
+    public UserManagementService(SchoolDbContext context)
     {
-        return new Student(request, user);
+        _context = context;
     }
-    public Teacher CreateTeacher(TeacherDto request, User user)
+
+    public Task<User?> UserExists(int id)
     {
-        return new Teacher(request, user);
+        return _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
     }
-    public Admin CreateAdmin(AdminDto request, User user)
+    public async Task<Status> CreateStudent(StudentDto request)
     {
-        return new Admin(request, user);
+        var user = await UserExists(request.UserId);
+        if (user == null)
+            return Status.Fail;
+
+        user.Role = "Student";
+        
+        await _context.SaveChangesAsync();
+        Student student = new Student()
+        {
+            StudentId = user.UserId,
+            Group = request.Group,
+            Course = request.Course,
+            Specialty = request.Specialty,
+            Faculty = request.Faculty,
+            Subject = "placeholder"
+        };
+        _context.Students.Add(student);
+        await _context.SaveChangesAsync();
+
+        return Status.Success;
+    }
+    public async Task<Status> CreateTeacher(TeacherDto request)
+    {
+        var user = await UserExists(request.UserId);
+        if (user == null)
+            return Status.Fail;
+
+        user.Role = "Teacher";
+        
+        Teacher teacher = new Teacher()
+        {
+            Title = request.Title,
+            TeacherId = request.UserId
+        };
+        _context.Teachers.Add(teacher);
+        await _context.SaveChangesAsync();
+
+        return Status.Success;
+    }
+    public async Task<Status> CreateAdmin(AdminDto request)
+    {
+        var user = await UserExists(request.UserId);
+        if (user == null)
+            return Status.Fail;
+
+        user.Role = "Admin";
+        
+        Admin admin = new Admin()
+        {
+            AdminId = request.UserId
+            
+        };
+        _context.Admins.Add(admin);
+        await _context.SaveChangesAsync();
+
+        return Status.Success;
+    }
+
+    public async Task<Status> DeleteUser(int id)
+    {
+        var user = await UserExists(id);
+        if (user == null)
+            return Status.Fail;
+
+        string role = user.Role;
+        _context.Users.Remove(user);
+        
+        return Status.Success;
     }
 }
