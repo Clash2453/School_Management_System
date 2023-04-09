@@ -4,13 +4,11 @@ using SchoolManagementSystem.Models.IntermediateTables;
 
 namespace SchoolManagementSystem.Models;
 [Table( "Teacher" )]
-public class Teacher : User
+public class Teacher
 {
-    public Teacher(TeacherDto teacherDto, User user):base(user)
-    {
-        this.Title = teacherDto.Title;
-    }
+    public int TeacherId { get; set; }
     public string Title { get; set; } = null!;
+    public virtual User User { get; set; } = null!;
     public List<TeacherSubject> Subjects { get; set; } = null!;
     public List<TeacherEvent> Events { get; set; } = null!;
 }

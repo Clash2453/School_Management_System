@@ -3,10 +3,8 @@ using SchoolManagementSystem.Models.DataTransferObjects;
 
 namespace SchoolManagementSystem.Models;
 [Table( "Admins" )]
-public class Admin : User
+public class Admin
 {
-    public Admin(AdminDto request, User user):base(user)
-    {
-        
-    }
+    public int AdminId { get; set; }
+    public virtual User User { get; set; } = null!;
 }
