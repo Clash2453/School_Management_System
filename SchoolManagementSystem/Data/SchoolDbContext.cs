@@ -30,5 +30,17 @@ public class SchoolDbContext : DbContext
         builder.Entity<User>()
             .HasIndex(u => u.Email)
             .IsUnique();
+        builder.Entity<Student>()
+            .HasOne(s => s.User)
+            .WithOne()
+            .HasForeignKey<Student>(s => s.StudentId);
+        builder.Entity<Teacher>()
+            .HasOne(t => t.User)
+            .WithOne()
+            .HasForeignKey<Teacher>(t => t.TeacherId);
+        builder.Entity<Admin>()
+            .HasOne(a => a.User)
+            .WithOne()
+            .HasForeignKey<Admin>(a => a.AdminId);
     }
 }
