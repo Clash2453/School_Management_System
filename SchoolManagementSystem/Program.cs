@@ -5,6 +5,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SchoolManagementSystem.Data;
+using SchoolManagementSystem.Interfaces;
+using SchoolManagementSystem.Services;
 using Swashbuckle.AspNetCore.Filters;
 using ConfigurationManager = System.Configuration.ConfigurationManager;
 
@@ -62,6 +64,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     }
     );
+builder.Services.AddScoped<IUserManagementService, UserManagementService>();
 builder.Services.AddControllers();
 var app = builder.Build();
 
