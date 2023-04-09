@@ -8,4 +8,7 @@ public class Subject
     public int SubjectId { get; set; }
     public string Name { get; set; } = null!;
     public string Course { get; set; } = null!;
+
+    public virtual List<Student> Students { get; set; } = null!;
+    public virtual List<Student> Teachers { get; set; } = null!;
 }
