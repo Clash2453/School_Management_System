@@ -11,16 +11,16 @@ export default {
     <h1 class="main-title">{{ state }}</h1>
     <ul class="action-list">
       <li class="action-card">
-        <button class="action-button subtitle">Overview</button>
+        <router-link to="overview" class="action-button subtitle">Overview</router-link>
       </li>
       <li class="action-card">
-        <button class="action-button subtitle">Grades</button>
+        <router-link to="grades" class="action-button subtitle">Grades</router-link>
       </li>
       <li class="action-card">
-        <button class="action-button subtitle">Absence</button>
+        <router-link to="absence" class="action-button subtitle">Absence</router-link>
       </li>
       <li class="action-card">
-        <button class="action-button subtitle">Teachers</button>
+        <router-link to="teachers" class="action-button subtitle">Teachers</router-link>
       </li>
     </ul>
   </section>
@@ -35,6 +35,7 @@ export default {
   padding: 1rem;
 
   width: 100%;
+  height: 100%;
   max-width: 15rem;
   min-height: calc(100vh - 7rem);
   background-color: #2a619b;

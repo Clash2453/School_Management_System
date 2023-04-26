@@ -1,6 +1,6 @@
 <script></script>
 <template>
-  <div class="success">
+  <div class="display">
     <div class="outer">
       <div class="inner">
         <div id="grade">5.35</div>
@@ -18,7 +18,7 @@
   </div>
 </template>
 <style scoped>
-.success {
+.display {
   width: 15rem;
   height: 12.5rem;
   position: relative;
