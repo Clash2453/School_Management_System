@@ -24,7 +24,7 @@ const props = defineProps(['mainContent', 'firstArgument', 'secondArgument'])
   border-radius: 5px;
   color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  width: 100%;
+  width: 30rem;
   height: 100%;
 }
 .stats-container {
