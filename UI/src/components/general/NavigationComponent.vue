@@ -54,7 +54,7 @@ export default {
           <router-link to="/" class="nav-link nav-list-item">About</router-link>
         </li>
         <li v-if="!toggleMobile" class="">
-          <router-link to="Login" class="nav-link nav-list-item">Login</router-link>
+          <router-link to="login" class="nav-link nav-list-item">Login</router-link>
         </li>
       </ul>
     </nav>
