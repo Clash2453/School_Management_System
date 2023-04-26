@@ -1,5 +1,6 @@
 <script>
 import axios from 'axios'
+import router from '../../router'
 export default {
   data: function () {
     return {
@@ -25,7 +26,7 @@ export default {
         email: this.loginEmail,
         password: this.loginPassword
       }
-      const token = await axios({
+      const response = await axios({
         method: 'POST',
         url: 'https://localhost:7080/api/User/login',
         data: data,
@@ -34,7 +35,8 @@ export default {
         },
         withCredentials: true
       }).catch((e) => console.log(e))
-      console.log(token)
+      console.log(response.status)
+      if (response.status == 200) router.push('dashboard')
     },
     async registerUser() {
       console.log(this.userEmail)
