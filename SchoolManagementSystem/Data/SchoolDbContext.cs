@@ -19,6 +19,7 @@ public class SchoolDbContext : DbContext
     public DbSet<Admin> Admins { get; set; } = null!;
     public DbSet<Subject> Subjects { get; set; } = null!;
     public DbSet<Event> Events { get; set; } = null!;
+    public DbSet<Grade> Grades { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -43,4 +44,5 @@ public class SchoolDbContext : DbContext
             .WithOne()
             .HasForeignKey<Admin>(a => a.AdminId);
     }
+    public DbSet<SchoolManagementSystem.Models.Grade>? Grade { get; set; }
 }

@@ -57,6 +57,30 @@ namespace SchoolManagementSystem.Migrations
                     b.UseTptMappingStrategy();
                 });
 
+            modelBuilder.Entity("SchoolManagementSystem.Models.Grade", b =>
+                {
+                    b.Property<int>("GradeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("GraderTeacherId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OwnerStudentId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Value")
+                        .HasColumnType("float");
+
+                    b.HasKey("GradeId");
+
+                    b.HasIndex("GraderTeacherId");
+
+                    b.HasIndex("OwnerStudentId");
+
+                    b.ToTable("Grade");
+                });
+
             modelBuilder.Entity("SchoolManagementSystem.Models.Student", b =>
                 {
                     b.Property<int>("StudentId")
@@ -80,7 +104,17 @@ namespace SchoolManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SubjectId1")
+                        .HasColumnType("int");
+
                     b.HasKey("StudentId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("SubjectId1");
 
                     b.ToTable("Students");
                 });
@@ -213,6 +247,25 @@ namespace SchoolManagementSystem.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("SchoolManagementSystem.Models.Grade", b =>
+                {
+                    b.HasOne("SchoolManagementSystem.Models.Teacher", "Grader")
+                        .WithMany()
+                        .HasForeignKey("GraderTeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SchoolManagementSystem.Models.Student", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerStudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Grader");
+
+                    b.Navigation("Owner");
+                });
+
             modelBuilder.Entity("SchoolManagementSystem.Models.Student", b =>
                 {
                     b.HasOne("SchoolManagementSystem.Models.User", "User")
@@ -220,6 +273,14 @@ namespace SchoolManagementSystem.Migrations
                         .HasForeignKey("SchoolManagementSystem.Models.Student", "StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("SchoolManagementSystem.Models.Subject", null)
+                        .WithMany("Students")
+                        .HasForeignKey("SubjectId");
+
+                    b.HasOne("SchoolManagementSystem.Models.Subject", null)
+                        .WithMany("Teachers")
+                        .HasForeignKey("SubjectId1");
 
                     b.Navigation("User");
                 });
@@ -292,6 +353,13 @@ namespace SchoolManagementSystem.Migrations
                     b.Navigation("Events");
 
                     b.Navigation("Subjects");
+                });
+
+            modelBuilder.Entity("SchoolManagementSystem.Models.Subject", b =>
+                {
+                    b.Navigation("Students");
+
+                    b.Navigation("Teachers");
                 });
 
             modelBuilder.Entity("SchoolManagementSystem.Models.Teacher", b =>
