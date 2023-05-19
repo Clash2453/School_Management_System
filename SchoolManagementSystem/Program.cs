@@ -66,10 +66,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     );
 builder.Services.AddScoped<IUserManagementService, UserManagementService>();
 builder.Services.AddScoped<IGradingService, GradingService>();
+builder.Services.AddScoped<IAbsenceService, AbsenceService>();
+builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddControllers();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.s
+// Configure the HTTP request pipelines
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
