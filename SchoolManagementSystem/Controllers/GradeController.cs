@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using SchoolManagementSystem.Data;
 using SchoolManagementSystem.Enums;
 using SchoolManagementSystem.Interfaces;
@@ -17,8 +18,7 @@ namespace SchoolManagementSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Teacher")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Teacher,Admin")]
     public class GradeController : ControllerBase
     {
         private readonly SchoolDbContext _context;
@@ -30,18 +30,19 @@ namespace SchoolManagementSystem.Controllers
             _gradingService = gradingService;
         }
         
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Teacher>> GetGrades(int studentId)
+        [HttpGet]
+        [Authorize(Roles="Student")]
+        public async Task<ActionResult<List<Grade>>> GetGrades(int studentId)
         {
           if (_context.Teachers == null)
           {
               return NotFound();
           }
-            var grade = await _gradingService.GetGRades(studentId);
-            if(grade == null)
-                return StatusCode(418); //¯\_(ツ)_/¯
+          var grades = await _gradingService.GetGrades(studentId);
+          if(grades == null)
+              return StatusCode(418); //¯\_(ツ)_/¯
 
-            return Ok();
+          return grades;    
         }
         [HttpPost]
         public async Task<ActionResult<Grade>> AddGrade(GradeDto request)
@@ -49,7 +50,7 @@ namespace SchoolManagementSystem.Controllers
           if (_context.Grades == null)
               return Problem("Entity set 'SchoolDbContext.Grades'  is null.");
           
-          var status = await _gradingService.AddGrade(request);
+          var status = await _gradingService.AddGrade(request); 
           
           if(status == Status.Fail)
               return StatusCode(418); //¯\_(ツ)_/¯
