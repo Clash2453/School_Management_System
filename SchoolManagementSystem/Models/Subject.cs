@@ -1,14 +1,14 @@
 using System.ComponentModel.DataAnnotations;
+using SchoolManagementSystem.Models.IntermediateTables;
 
 namespace SchoolManagementSystem.Models;
 
 public class Subject
 {
     [Key]
-    public int SubjectId { get; set; }
+    public int Id { get; set; }
     public string Name { get; set; } = null!;
-    public string Course { get; set; } = null!;
-
-    public virtual List<Student> Students { get; set; } = null!;
-    public virtual List<Student> Teachers { get; set; } = null!;
+    
+    public virtual List<StudentSubject> Student{ get; set; } = null!;
+    public virtual List<TeacherSubject> Teacher { get; set; } = null!;
 }
