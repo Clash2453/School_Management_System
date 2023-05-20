@@ -36,7 +36,7 @@ export default {
         withCredentials: true
       }).catch((e) => console.log(e))
       console.log(response.status)
-      if (response.status == 200) router.push('dashboard')
+      if (response.status == 200) router.push('dashboard/overview')
     },
     async registerUser() {
       console.log(this.userEmail)
