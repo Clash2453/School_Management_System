@@ -14,18 +14,18 @@ export default {
         <router-link to="overview" class="action-button subtitle">Overview</router-link>
       </li>
       <li class="action-card">
-        <router-link to="grades" class="action-button subtitle">Grades</router-link>
+        <router-link to="/dashboard/grades" class="action-button subtitle">Grades</router-link>
       </li>
       <li class="action-card">
-        <router-link to="absence" class="action-button subtitle">Absence</router-link>
+        <router-link to="/dashboard/absence" class="action-button subtitle">Absence</router-link>
       </li>
       <li class="action-card">
-        <router-link to="teachers" class="action-button subtitle">Teachers</router-link>
+        <router-link to="/dashboard/teachers" class="action-button subtitle">Teachers</router-link>
       </li>
     </ul>
   </section>
 </template>
-<style>
+<style scoped>
 .container {
   display: flex;
   flex-direction: column;
@@ -35,15 +35,11 @@ export default {
   padding: 1rem;
 
   width: 100%;
-  height: 100%;
+  height: 100vh;
   max-width: 15rem;
   min-height: calc(100vh - 7rem);
   background-color: #2a619b;
   color: white;
-
-  position: sticky;
-  top: 0;
-  left: 0;
 }
 .action-list {
   display: flex;
@@ -51,6 +47,9 @@ export default {
   align-items: flex-start;
   justify-content: flex-start;
   gap: 1rem;
+  position: sticky;
+  top: 6.5rem;
+  left: 0;
 }
 .action-button {
   text-align: left;
