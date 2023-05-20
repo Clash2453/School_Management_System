@@ -6,5 +6,7 @@ namespace SchoolManagementSystem.Models.IntermediateTables;
 public class StudentSubject
 {
     [Key]
-    public int Id { get; set; }
+    public int Id { get; set; } 
+    public Student Student { get; set; } = null!;
+    public Subject Subject { get; set; } = null!;
 }
