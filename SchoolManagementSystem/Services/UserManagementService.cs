@@ -35,7 +35,6 @@ public class UserManagementService : IUserManagementService
             Course = request.Course,
             Specialty = request.Specialty,
             Faculty = request.Faculty,
-            Subject = "placeholder"
         };
         _context.Students.Add(student);
         await _context.SaveChangesAsync();
