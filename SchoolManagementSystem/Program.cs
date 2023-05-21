@@ -68,6 +68,7 @@ builder.Services.AddScoped<IUserManagementService, UserManagementService>();
 builder.Services.AddScoped<IGradingService, GradingService>();
 builder.Services.AddScoped<IAbsenceService, AbsenceService>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
+builder.Services.AddScoped<IAuthenticationManager, AuthenticationManager>();
 builder.Services.AddControllers();
 var app = builder.Build();
 
