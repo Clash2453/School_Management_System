@@ -1,11 +1,13 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
+using SchoolManagementSystem.Enums;
+using SchoolManagementSystem.Interfaces;
 using SchoolManagementSystem.Models.DataTransferObjects;
 
 namespace SchoolManagementSystem.Services;
 
-public class AuthenticationManager
+public class AuthenticationManager : IAuthenticationManager
 {
     private readonly IConfiguration _config;
 
@@ -18,7 +20,6 @@ public class AuthenticationManager
         passwordSalt = BCrypt.Net.BCrypt.GenerateSalt(12);
         passwordHash = BCrypt.Net.BCrypt.HashPassword(password, passwordSalt);
     }
-
     public bool VerifyPasswordHash(string password, string passwordHash)
     {
         return BCrypt.Net.BCrypt.Verify(password, passwordHash);
