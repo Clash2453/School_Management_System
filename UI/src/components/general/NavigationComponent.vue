@@ -3,19 +3,22 @@ export default {
   data: function () {
     return {
       toggleMobile: true,
-      toggleMobileButton: false
+      toggleMobileButton: false,
+      extra: false
     }
   },
   methods: {
     mobileNavigation() {
       let width = window.innerWidth
-      if (width < 500) {
+      if (width < 600) {
         this.toggleMobile = true
         this.toggleMobileButton = true
+        this.emitter.emit('toggle-mobile', this.toggleMobile)
         return
       }
       this.toggleMobile = false
       this.toggleMobileButton = false
+      this.emitter.emit('toggle-mobile', this.toggleMobile)
     },
     triggerMenu() {
       this.toggleMobile = !this.toggleMobile
@@ -29,6 +32,9 @@ export default {
   },
   mounted() {
     this.mobileNavigation()
+    this.emitter.on('toggle-extra', (toggleExtra) => {
+      this.extra = toggleExtra
+    })
   }
 }
 </script>
@@ -36,7 +42,7 @@ export default {
 <template>
   <header id="header">
     <div class="wrapper">
-      <div class="logo-container" @click="triggerMenu">
+      <div class="logo-container">
         <router-link to="/" class="nav-link">
           <img id="logo" src=".././icons/logo-no-background.svg" alt="" />
         </router-link>
@@ -54,7 +60,21 @@ export default {
           <router-link to="/" class="nav-link nav-list-item">About</router-link>
         </li>
         <li v-if="!toggleMobile" class="">
-          <router-link to="login" class="nav-link nav-list-item">Login</router-link>
+          <router-link to="/login" class="nav-link nav-list-item">Login</router-link>
+        </li>
+        <li v-if="!toggleMobile && extra">
+          <router-link to="overview" class="nav-link nav-list-item">Overview</router-link>
+        </li>
+        <li v-if="!toggleMobile && extra">
+          <router-link to="/dashboard/grades" class="nav-link nav-list-item">Grades</router-link>
+        </li>
+        <li v-if="!toggleMobile && extra">
+          <router-link to="/dashboard/absence" class="nav-link nav-list-item">Absence</router-link>
+        </li>
+        <li v-if="!toggleMobile && extra">
+          <router-link to="/dashboard/teachers" class="nav-link nav-list-item"
+            >Teachers</router-link
+          >
         </li>
       </ul>
     </nav>
@@ -127,7 +147,7 @@ export default {
   font-size: 3rem;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 600px) {
   .link-list {
     flex-direction: column;
     align-items: flex-end;
@@ -142,6 +162,8 @@ export default {
   }
   .nav-list-item {
     font-size: 1rem;
+    padding: 0;
+    text-align: right;
   }
 
   .nav-list-item:first-child {
