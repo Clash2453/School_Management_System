@@ -11,4 +11,6 @@ public interface IUserManagementService
     public Task<Status> CreateTeacher(TeacherDto request);
     public Task<Status> CreateAdmin(AdminDto request);
     public Task<Status> DeleteUser(int id);
+    public Task<Status> CreateUser(UserDto request);
+    public Task<User?> AttemptLogin(LoginUserDto request);
 }
