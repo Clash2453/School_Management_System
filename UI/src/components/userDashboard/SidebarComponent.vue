@@ -1,13 +1,27 @@
-<script>
-export default {
-  props: ['state'],
-  data: function () {
-    return {}
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+import { inject } from 'vue'
+
+const emitter = inject('emitter')
+let hidden = ref(false)
+
+onMounted(() => {
+  emitter.on('toggle-mobile', (state) => {
+    hidden.value = state
+    console.log(state)
+  })
+})
+function toggleExtra() {
+  if (window.innerWidth < 600) {
+    hidden.value = true
+    emitter.emit('toggle-extra', hidden)
   }
 }
+toggleExtra()
+window.addEventListener('resize', toggleExtra())
 </script>
 <template>
-  <section class="container">
+  <section class="container" v-if="!hidden">
     <h1 class="main-title">{{ state }}</h1>
     <ul class="action-list">
       <li class="action-card">
