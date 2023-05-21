@@ -30,8 +30,8 @@ namespace SchoolManagementSystem.Controllers
             _gradingService = gradingService;
         }
         
-        [HttpGet]
-        [Authorize(Roles="Student")]
+        [HttpGet("{studentId}")] 
+        [Authorize(Roles="Student,Teacher,Admin")]
         public async Task<ActionResult<List<Grade>>> GetGrades(int studentId)
         {
           if (_context.Teachers == null)
@@ -39,10 +39,10 @@ namespace SchoolManagementSystem.Controllers
               return NotFound();
           }
           var grades = await _gradingService.GetGrades(studentId);
-          if(grades == null)
+          if(grades.Count == 0)
               return StatusCode(418); //¯\_(ツ)_/¯
 
-          return grades;    
+          return grades;
         }
         [HttpPost]
         public async Task<ActionResult<Grade>> AddGrade(GradeDto request)
