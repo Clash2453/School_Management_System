@@ -7,13 +7,21 @@ import OverviewView from '../views/StudentOverviewView.vue'
 import GradesView from '../views/GradesView.vue'
 import AbsenceView from '../views/AbsenceView.vue'
 import TeachersView from '../views/TeachersView.vue'
-
+import ErrorComponent from '../components/general/ErrorComponent.vue'
+import WaitingPage from '../views/WaitingApprovalView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       component: Home,
+      meta: {
+        requiresAuthentication: false
+      }
+    },
+    {
+      path: '/waiting',
+      component: WaitingPage,
       meta: {
         requiresAuthentication: false
       }
