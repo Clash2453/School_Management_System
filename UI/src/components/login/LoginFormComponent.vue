@@ -1,6 +1,8 @@
 <script>
 import axios from 'axios'
 import router from '../../router'
+import { mapStores } from 'pinia'
+import { useUserStore } from '../../stores/UserStore.js'
 export default {
   data: function () {
     return {
@@ -12,6 +14,9 @@ export default {
       registerEmail: '',
       registerPassword: ''
     }
+  },
+  computed: {
+    ...mapStores(useUserStore)
   },
   methods: {
     toggleRegister() {
@@ -37,8 +42,9 @@ export default {
       }).catch((e) => console.log(e))
       console.log(response.status)
       if (response.status == 200) {
-        router.push(`dashboard/overview`)
+        this.userStore.authenticateUser()
         this.emitter.emit('user-logged', response.data)
+        router.push(`dashboard/overview`)
         return
       }
     },
