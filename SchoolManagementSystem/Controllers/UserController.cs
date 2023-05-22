@@ -20,7 +20,7 @@ public class UserController : ControllerBase
 
     // GET: api/User/5
     [HttpPost("login")]
-    public async Task<ActionResult<LoginUserDto>> Login(LoginUserDto request)
+    public async Task<ActionResult<LoginResultDto>>Login(LoginUserDto request)
     {
         var user = await _userManagementService.AttemptLogin(request);
 
@@ -37,7 +37,12 @@ public class UserController : ControllerBase
             IsEssential = true,
             SameSite = SameSiteMode.None,
         });
-        return Ok(user.UserId);
+        var result = new LoginResultDto()
+        {
+            UserId = user.UserId,
+            UserRole = user.Role
+        };
+        return Ok(result);
     }
     // POST: api/User
     [HttpPost("register")]
