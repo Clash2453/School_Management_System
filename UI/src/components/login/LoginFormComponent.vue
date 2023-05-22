@@ -42,9 +42,24 @@ export default {
       }).catch((e) => console.log(e))
       console.log(response.status)
       if (response.status == 200) {
+        console.log(response.data.userRole)
         this.userStore.authenticateUser()
-        this.emitter.emit('user-logged', response.data)
-        router.push(`dashboard/overview`)
+        this.emitter.emit('user-logged', response.data.userId)
+
+        switch (response.data.userRole) {
+          case 'Admin':
+            router.push(`dashboard/overview`)
+            break
+          case 'Student':
+            router.push(`dashboard/overview`)
+            break
+          case 'Teacher':
+            router.push(`dashboard/overview`)
+            break
+          case 'Guest':
+            router.push(`/waiting`)
+            break
+        }
         return
       }
     },
@@ -55,7 +70,7 @@ export default {
         email: this.registerEmail,
         password: this.registerPassword
       }
-      const token = await axios({
+      const result = await axios({
         method: 'POST',
         url: 'https://localhost:7080/api/User/register',
         data: data,
@@ -63,7 +78,10 @@ export default {
           'Content-Type': 'application/json'
         }
       }).catch((e) => console.log(e))
-      console.log(token)
+      if (result.status == 201) {
+        router.push(`/waiting`)
+      }
+      console.log(result)
       console.log(data.name)
     }
   }
