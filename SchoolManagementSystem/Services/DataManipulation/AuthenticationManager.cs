@@ -1,11 +1,10 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
-using SchoolManagementSystem.Enums;
 using SchoolManagementSystem.Interfaces;
 using SchoolManagementSystem.Models.DataTransferObjects;
 
-namespace SchoolManagementSystem.Services;
+namespace SchoolManagementSystem.Services.DataManipulation;
 
 public class AuthenticationManager : IAuthenticationManager
 {
@@ -24,12 +23,14 @@ public class AuthenticationManager : IAuthenticationManager
     {
         return BCrypt.Net.BCrypt.Verify(password, passwordHash);
     }
-    public string CreateAuthenticationToken(LoginUserDto user, string role)
+
+    public string CreateAuthenticationToken(LoginUserDto user, string role, int id)
     {
         List<Claim> claims = new List<Claim>()
         {
-            new Claim(ClaimTypes.Email,user.Email),
-            new Claim(ClaimTypes.Role, role), 
+            new Claim(ClaimTypes.Email,user.Email, "email"),
+            new Claim(ClaimTypes.Role, role, "role"),
+            new Claim(ClaimTypes.NameIdentifier, id.ToString(), "userId")
         };
         var key = new SymmetricSecurityKey(
             System.Text.Encoding.UTF8.GetBytes(_config.GetSection("Authentication:Token").Value));
@@ -40,5 +41,20 @@ public class AuthenticationManager : IAuthenticationManager
             signingCredentials: credentials);
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);
         return jwt;
+    }
+    public Dictionary<string, string> ParseToken(string tokenString)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.ReadJwtToken(tokenString);
+        var claims = token.Claims;
+        var claimsArray = claims as Claim[] ?? claims.ToArray();
+        var userEmail = claimsArray.First(c => c.Type == ClaimTypes.Email).Value;
+        var userId = claimsArray.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userRole = claimsArray.First(c => c.Type == ClaimTypes.Role).Value;
+        Dictionary<string, string> result = new();
+        result.Add("id", userId);
+        result.Add("role", userRole);
+        result.Add("email", userEmail);
+        return result;
     }
 }

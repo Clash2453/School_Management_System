@@ -5,7 +5,7 @@ using SchoolManagementSystem.Interfaces;
 using SchoolManagementSystem.Models;
 using SchoolManagementSystem.Models.DataTransferObjects;
 
-namespace SchoolManagementSystem.Services;
+namespace SchoolManagementSystem.Services.DataManipulation;
 
 public class UserManagementService : IUserManagementService
 {
@@ -17,10 +17,15 @@ public class UserManagementService : IUserManagementService
         _context = context;
         _authManager = authManager;
     }
-
-    public async Task<User?> UserExists(int id)
+    
+    public async Task<User?> FetchUser(int id)
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+    }
+
+    public async Task<Student?> FetchStudent(int id)
+    {
+        return await _context.Students.FirstOrDefaultAsync(s => s.StudentId == id);
     }
 
     public async Task<User?> AttemptLogin(LoginUserDto request)
@@ -31,7 +36,7 @@ public class UserManagementService : IUserManagementService
         if (!_authManager.VerifyPasswordHash(request.Password, user.Password))
             return null;
         
-        var encryptedToken = _authManager.CreateAuthenticationToken(request, user.Role);
+        var encryptedToken = _authManager.CreateAuthenticationToken(request, user.Role, user.UserId);
 
         return user;
     }
@@ -52,7 +57,7 @@ public class UserManagementService : IUserManagementService
     }
     public async Task<Status> CreateStudent(StudentDto request)
     {
-        var user = await UserExists(request.UserId);
+        var user = await FetchUser(request.UserId);
         if (user == null)
             return Status.Fail;
 
@@ -74,7 +79,7 @@ public class UserManagementService : IUserManagementService
     }
     public async Task<Status> CreateTeacher(TeacherDto request)
     {
-        var user = await UserExists(request.UserId);
+        var user = await FetchUser(request.UserId);
         if (user == null)
             return Status.Fail;
 
@@ -92,7 +97,7 @@ public class UserManagementService : IUserManagementService
     }
     public async Task<Status> CreateAdmin(AdminDto request)
     {
-        var user = await UserExists(request.UserId);
+        var user = await FetchUser(request.UserId);
         if (user == null)
             return Status.Fail;
 
@@ -111,7 +116,7 @@ public class UserManagementService : IUserManagementService
 
     public async Task<Status> DeleteUser(int id)
     {
-        var user = await UserExists(id);
+        var user = await FetchUser(id);
         if (user == null)
             return Status.Fail;
 

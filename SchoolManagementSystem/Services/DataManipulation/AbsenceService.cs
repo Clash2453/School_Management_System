@@ -5,7 +5,7 @@ using SchoolManagementSystem.Interfaces;
 using SchoolManagementSystem.Models;
 using SchoolManagementSystem.Models.DataTransferObjects;
 
-namespace SchoolManagementSystem.Services;
+namespace SchoolManagementSystem.Services.DataManipulation;
 
 public class AbsenceService : IAbsenceService
 {

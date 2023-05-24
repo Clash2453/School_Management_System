@@ -5,7 +5,7 @@ using SchoolManagementSystem.Models;
 using SchoolManagementSystem.Models.DataTransferObjects;
 using SchoolManagementSystem.Models.IntermediateTables;
 
-namespace SchoolManagementSystem.Services;
+namespace SchoolManagementSystem.Services.DataManipulation;
 
 public class SubjectService : ISubjectService
 {
