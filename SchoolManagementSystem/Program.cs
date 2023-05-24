@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -7,8 +8,9 @@ using Microsoft.OpenApi.Models;
 using SchoolManagementSystem.Data;
 using SchoolManagementSystem.Interfaces;
 using SchoolManagementSystem.Services;
+using SchoolManagementSystem.Services.DataManipulation;
+using SchoolManagementSystem.Services.DataOrganization;
 using Swashbuckle.AspNetCore.Filters;
-using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +43,7 @@ builder.Services.AddCors(c =>
         .AllowAnyHeader()
     );
 });
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddCookie(x=> x.Cookie.Name = "token")
     .AddJwtBearer(
@@ -64,11 +67,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     }
     );
+//data manipulation services
 builder.Services.AddScoped<IUserManagementService, UserManagementService>();
 builder.Services.AddScoped<IGradingService, GradingService>();
 builder.Services.AddScoped<IAbsenceService, AbsenceService>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IAuthenticationManager, AuthenticationManager>();
+
+//data organization services
+builder.Services.AddScoped<IDataBundlingService, DataBundlingService>();
+
 builder.Services.AddControllers();
 var app = builder.Build();
 
