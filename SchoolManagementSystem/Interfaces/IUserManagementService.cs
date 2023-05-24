@@ -6,7 +6,8 @@ namespace SchoolManagementSystem.Interfaces;
 
 public interface IUserManagementService
 {
-    public Task<User?> UserExists(int id);
+    public Task<User?> FetchUser(int id);
+    public Task<Student?> FetchStudent(int id);
     public Task<Status> CreateStudent(StudentDto request);
     public Task<Status> CreateTeacher(TeacherDto request);
     public Task<Status> CreateAdmin(AdminDto request);
