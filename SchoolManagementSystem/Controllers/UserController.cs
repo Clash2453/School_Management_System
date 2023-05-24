@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagementSystem.Enums;
 using SchoolManagementSystem.Interfaces;
 using SchoolManagementSystem.Models;
 using SchoolManagementSystem.Models.DataTransferObjects;
+using SchoolManagementSystem.Models.QuerryResultDtos;
 
 namespace SchoolManagementSystem.Controllers;
 
@@ -12,10 +14,15 @@ public class UserController : ControllerBase
 {
     private readonly IUserManagementService _userManagementService;
     private readonly IAuthenticationManager _authManager;
-    public UserController(IUserManagementService userManagementService, IAuthenticationManager authManager)
+    private readonly IDataBundlingService _dataBundler;
+    public UserController(IUserManagementService userManagementService,
+        IAuthenticationManager authManager,
+        IDataBundlingService dataBundler
+        )
     {
         _userManagementService = userManagementService;
         _authManager = authManager;
+        _dataBundler = dataBundler;
     }
 
     // GET: api/User/5
@@ -27,7 +34,7 @@ public class UserController : ControllerBase
         if (user == null)
             return NotFound();
         
-        var encryptedToken = _authManager.CreateAuthenticationToken(request, user.Role);
+        var encryptedToken = _authManager.CreateAuthenticationToken(request, user.Role, user.UserId);
         HttpContext.Response.Cookies.Append("token", encryptedToken, new CookieOptions
         {
             Expires = DateTime.UtcNow.AddHours(2),
@@ -55,5 +62,17 @@ public class UserController : ControllerBase
             return StatusCode(502);
         
         return CreatedAtAction("Register", "Registered user");
+    }
+
+    [Authorize("Student,Admin,Teacher")]
+    [HttpGet("Student")]
+    public async Task<ActionResult<StudentDataDto>> GetStudentData()
+    {
+        var userCredentials = _authManager.ParseToken(HttpContext.Request.Cookies["token"]);
+        if (userCredentials == null)
+            return StatusCode(502);
+        int studentId = int.Parse(userCredentials["userId"]);
+        var result = await _dataBundler.OrganizeStudentData(studentId);
+        return Ok(result);
     }
 }
