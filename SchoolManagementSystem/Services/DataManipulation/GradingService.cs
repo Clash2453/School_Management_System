@@ -18,7 +18,8 @@ public class GradingService : IGradingService
     {
         var student = await _context.Students.FindAsync(request.StudentId);
         var teacher = await _context.Teachers.FindAsync(request.TeacherId);
-        if (student == null || teacher == null)
+        var subject = await _context.Subjects.FindAsync(request.SubjectId);
+        if (student == null || teacher == null || subject == null)
             return Status.Fail;
         var grade = new Grade()
         {
@@ -26,6 +27,7 @@ public class GradingService : IGradingService
             Grader = teacher,
             Owner = student,
             Date = DateTime.Now,
+            Subject = subject
         };
         _context.Grades.Add(grade);
         await _context.SaveChangesAsync();
