@@ -1,5 +1,7 @@
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagementSystem.Interfaces;
+using SchoolManagementSystem.Models;
 using SchoolManagementSystem.Models.DataTransferObjects;
 using SchoolManagementSystem.Models.QuerryResultDtos;
 
@@ -32,13 +34,27 @@ public class DataBundlingService : IDataBundlingService
             return null;
         
         var grades = await _gradingService.GetGrades(userData.UserId);
-        var gradeValues = grades.Where(g => g.Owner.StudentId == id)
-            .Select(g => g.Value).ToList();
-        var average = gradeValues.Average();
-        
-        var min = gradeValues.Min();
-        var max = gradeValues.Max();
-        var absences = await _absenceService.GetAbsenceByStudent(userData.UserId);
+
+        var gradeValues = grades.Select(g => new { Subject = g.Subject.Name, Value = g.Value }).ToList();
+        var average = gradeValues.Select(g => g.Value).Average();
+
+        var groupedGrades = gradeValues
+            .GroupBy(grade => grade.Subject)
+            .Select(group =>
+            {
+                var averageGrade = group.Average(g => g.Value);
+                return new
+                {
+                    Subject = group.Key,
+                    AverageGrade = averageGrade
+                };
+
+            })
+            .OrderBy(g => g.AverageGrade).ToList();
+
+        var min = groupedGrades.First();
+        var max = groupedGrades.Last();
+        // var absences = await _absenceService.GetAbsenceByStudent(userData.UserId);
         
         var response = new StudentDataDto
         {
@@ -49,7 +65,10 @@ public class DataBundlingService : IDataBundlingService
             Specialty = studentData.Specialty,
             Group = studentData.Group,
             AvgGrade = average,
-
+            HighestAvgSubject = max.Subject,
+            HighestAvg = max.AverageGrade,
+            LowestAvgSubject = min.Subject,
+            LowestAvg = min.AverageGrade
         };
         return response;
         
