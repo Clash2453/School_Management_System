@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using SchoolManagementSystem.Data;
 using SchoolManagementSystem.Enums;
 using SchoolManagementSystem.Interfaces;
@@ -74,7 +76,10 @@ public class SubjectService : ISubjectService
 
     public async Task<List<Subject>> GetSubjectsByStudent(int studentId)
     {
-        throw new NotImplementedException();
+        return await _context.StudentSubjects
+            .Where(s => s.Student.StudentId == studentId)
+            .Select(studentSubject => studentSubject.Subject)
+            .ToListAsync();
     }
 
     public async Task<List<Subject>> GetSubjectsByTeacher(int teacherId)
