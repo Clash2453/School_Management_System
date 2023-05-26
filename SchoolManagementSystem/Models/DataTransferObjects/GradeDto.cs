@@ -6,4 +6,5 @@ public class GradeDto
     public DateTime Date = DateTime.Now;
     public int StudentId { get; set; }
     public int TeacherId { get; set; }
+    public int SubjectId { get; set; }
 }
