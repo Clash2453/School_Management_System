@@ -48,7 +48,6 @@ public class UserController : ControllerBase
             {
                 UserId = user.UserId, 
                 UserRole = user.Role,
-                
             }
         );
     }
@@ -64,14 +63,14 @@ public class UserController : ControllerBase
         return CreatedAtAction("Register", "Registered user");
     }
 
-    [Authorize("Student,Admin,Teacher")]
-    [HttpGet("Student")]
+    [Authorize(Roles="Student,Admin,Teacher")]
+    [HttpGet("/student")]
     public async Task<ActionResult<StudentDataDto>> GetStudentData()
     {
         var userCredentials = _authManager.ParseToken(HttpContext.Request.Cookies["token"]);
         if (userCredentials == null)
             return StatusCode(502);
-        int studentId = int.Parse(userCredentials["userId"]);
+        int studentId = int.Parse(userCredentials["id"]);
         var result = await _dataBundler.OrganizeStudentData(studentId);
         return Ok(result);
     }
