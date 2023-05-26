@@ -11,8 +11,8 @@ public class StudentDataDto
     public int Group { get; set; }
     public float AvgGrade { get; set; }
     public string HighestAvgSubject { get; set; } = string.Empty;
-    public int HighestAvg { get; set; }
+    public float HighestAvg { get; set; }
     public string LowestAvgSubject { get; set; } = string.Empty;
-    public int LowestAvg { get; set; }
-    public int TotalAbsence { get; set; }
+    public float LowestAvg { get; set; }
+    public float TotalAbsence { get; set; }
 }
