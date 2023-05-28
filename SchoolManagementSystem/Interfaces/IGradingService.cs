@@ -11,5 +11,7 @@ public interface IGradingService
     public Task<Status> DeleteGrade(int gradeId);
 
     public Task<Status> UpdateGrade(int gradeId, GradeDto request);
-    public Task<List<Grade>> GetGrades(int requestId);
+    public Task<Grade?> GetGrade(int requestId);
+    public Task<List<Grade>> GetGradesByStudentId(int studentId);
+    public Task<List<Grade>> GetGradesByTeacherId(int teacherId);
 }

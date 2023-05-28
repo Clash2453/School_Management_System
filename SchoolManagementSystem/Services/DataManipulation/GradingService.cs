@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Data;
 using SchoolManagementSystem.Enums;
@@ -53,8 +54,26 @@ public class GradingService : IGradingService
         return Status.Success;
     }
 
-    public async Task<List<Grade>> GetGrades(int requestedId)
+    public async Task<Grade?> GetGrade(int requestedId)
     {
-        return await _context.Grades.Where(g => g.Owner.StudentId == requestedId).ToListAsync();
+        return await _context.Grades.FindAsync(requestedId);
+    }
+
+    public async Task<List<Grade>> GetGradesByStudentId(int studentId)
+    {
+        var result = await _context.Grades
+            .Include(g => g.Subject)
+            .Include(g=> g.Grader)
+            .ThenInclude(grader => grader.User)
+            .Where(g => g.Owner.StudentId == studentId).ToListAsync();
+        Debug.WriteLine(result);    
+
+        return result;
+    }
+
+    public async Task<List<Grade>> GetGradesByTeacherId(int teacherId)
+    {
+        return await _context.Grades.Where(g => g.Grader.TeacherId == teacherId).ToListAsync();
+
     }
 }
