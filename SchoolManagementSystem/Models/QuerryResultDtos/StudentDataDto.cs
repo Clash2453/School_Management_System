@@ -15,4 +15,6 @@ public class StudentDataDto
     public string LowestAvgSubject { get; set; } = string.Empty;
     public float LowestAvg { get; set; }
     public float TotalAbsence { get; set; }
+    public float ExcusedAbsence { get; set; }
+    public float UnExcusedAbsence { get; set; }
 }
