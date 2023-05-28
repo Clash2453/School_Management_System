@@ -20,7 +20,11 @@ public class AbsenceService : IAbsenceService
 
     public async Task<List<Absence>> GetAbsenceByStudent(int studentId)
     {
-        return await _context.Absences.Where(a => a.Student.StudentId == studentId).ToListAsync();
+        return await  _context.Absences
+            .Include(absence => absence.Teacher)
+            .Include(absence => absence.Subject)
+            .Include(absence =>  absence.Student)
+            .Where(a => a.Student.StudentId == studentId).ToListAsync();
     }
 
     public async Task<List<Absence>> GetAbsenceByTeacher(int teacherId)
