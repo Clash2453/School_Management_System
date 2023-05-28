@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using SchoolManagementSystem.Data;
 using SchoolManagementSystem.Enums;
 using SchoolManagementSystem.Interfaces;
@@ -65,7 +64,7 @@ public class SubjectService : ISubjectService
 
     public async Task<Status> RemoveSubject(int id)
     {
-        var subject = _context.Subjects.Find(id);
+        var subject = await _context.Subjects.FindAsync(id);
         if (subject == null)
             return Status.Fail;
         
@@ -84,7 +83,10 @@ public class SubjectService : ISubjectService
 
     public async Task<List<Subject>> GetSubjectsByTeacher(int teacherId)
     {
-        throw new NotImplementedException();
+        return await _context.TeacherSubjects
+            .Where(s => s.Teacher.TeacherId == teacherId)
+            .Select(teacherSubject => teacherSubject.Subject)
+            .ToListAsync();
     }
 
     public async Task<Subject> GetSubjectById(int subjectId)
