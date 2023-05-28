@@ -1,19 +1,33 @@
-<script></script>
+<script setup>
+import { onMounted, ref, watch } from 'vue'
+
+const props = defineProps(['startingColor', 'endingColor', 'value'])
+let offset = ref(0)
+watch(
+  () => props.value,
+  (newValue) => {
+    offset.value = 439.6 - (439.6 * (newValue / 6) * 100) / 100
+  }
+)
+onMounted(() => {
+  offset.value = 439.6 - (439.6 * (props.value / 6) * 100) / 100
+})
+</script>
 <template>
   <div class="display">
     <div class="outer">
       <div class="inner">
-        <div id="grade">5.35</div>
+        <div id="grade">{{ props.value }}</div>
       </div>
     </div>
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="160px" height="160px">
       <defs>
         <linearGradient id="GradientColor">
-          <stop offset="0%" stop-color="#ceff8f" />
-          <stop offset="100%" stop-color="#0eff00" />
+          <stop offset="0%" :stop-color="props.startingColor" />
+          <stop offset="100%" :stop-color="props.endingColor" />
         </linearGradient>
       </defs>
-      <circle cx="80" cy="80" r="70" stroke-linecap="round" />
+      <circle class="circle" cx="80" cy="80" r="70" stroke-linecap="round" />
     </svg>
   </div>
 </template>
@@ -22,6 +36,7 @@
   width: 15rem;
   height: 12.5rem;
   position: relative;
+  top: 1rem;
 }
 .outer {
   width: 10rem;
@@ -37,9 +52,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* box-shadow: inset 4px 4px 6px 1px rgba(0, 0, 0, 0.2), inset -4px -4px 6px -1px rgba(0, 0, 0, 0.2),
-    -0.5px -0.5px 0px rgba(0, 0, 0, 1), 0.5px 0.5px 0px rgba(0, 0, 0, 0.15),
-    0px 12px 10px -10px rgba(0, 0, 0, 0.05); */
 }
 #grade {
   font-weight: 600;
@@ -47,7 +59,7 @@
   font-family: 'Roboto', sans-serif;
   font-size: 1.5rem;
 }
-circle {
+.circle {
   fill: none;
   stroke: url(#GradientColor);
   stroke-width: 1.25rem;
@@ -57,7 +69,7 @@ circle {
 }
 @keyframes fill {
   100% {
-    stroke-dashoffset: 156;
+    stroke-dashoffset: v-bind(offset);
   }
 }
 svg {
