@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,54 +20,64 @@ namespace SchoolManagementSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Teacher,Admin")]
+    // [Authorize(Roles = "Teacher,Admin")]
     public class GradeController : ControllerBase
     {
-        private readonly SchoolDbContext _context;
         private readonly IGradingService _gradingService;
-
-        public GradeController(SchoolDbContext context, IGradingService gradingService)
+        private readonly IAuthenticationManager _authManager;
+        private readonly IDataBundlingService _bundlingService;
+        public GradeController(IGradingService gradingService, IAuthenticationManager authManager, IDataBundlingService dataBundlingService)
         {
-            _context = context;
             _gradingService = gradingService;
+            _authManager = authManager;
+            _bundlingService = dataBundlingService;
         }
         
-        [HttpGet("{studentId}")] 
-        [Authorize(Roles="Student,Teacher,Admin")]
-        public async Task<ActionResult<List<Grade>>> GetGrades(int studentId)
+        [HttpGet("student")] 
+        [Authorize(Roles="Student,Admin")]
+        public async Task<ActionResult<GradeDto>> GetStudentGrades()
         {
-          if (_context.Teachers == null)
-          {
-              return NotFound();
-          }
-          var grades = await _gradingService.GetGrades(studentId);
-          if(grades.Count == 0)
-              return StatusCode(418); //¯\_(ツ)_/¯
+            var userCredentials = _authManager.ParseToken(HttpContext.Request.Cookies["token"]);
+            if (userCredentials == null)
+                return StatusCode(502);
+            int studentId = int.Parse(userCredentials["id"]);
 
-          return grades;
+            var grades = await _bundlingService.OrganizeStudentGradeData(studentId);
+          if(grades == null)
+              return StatusCode(418); //¯\_(ツ)_/¯   
+
+          return Ok(grades);
+        }
+        [HttpGet("teacher")] 
+        [Authorize(Roles="Teacher,Admin")]
+        public async Task<ActionResult<GradeDto>> GetTeacherGrades()
+        {
+            var userCredentials = _authManager.ParseToken(HttpContext.Request.Cookies["token"]);
+            if (userCredentials == null)
+                return StatusCode(502);
+            int teacherId = int.Parse(userCredentials["id"]);
+
+            var grades = await _bundlingService.OrganizeTeacherGradeData(teacherId);
+            if(grades == null)
+                return StatusCode(418); //¯\_(ツ)_/¯
+
+            return Ok(grades);
         }
         [HttpPost]
         public async Task<ActionResult<Grade>> AddGrade(GradeDto request)
-        {
-          if (_context.Grades == null)
-              return Problem("Entity set 'SchoolDbContext.Grades'  is null.");
-          
-          var status = await _gradingService.AddGrade(request); 
-          
-          if(status == Status.Fail)
+        { 
+            var status = await _gradingService.AddGrade(request); 
+            
+            if(status == Status.Fail)
               return StatusCode(418); //¯\_(ツ)_/¯
-
-          return Ok("Grade added successfully");
+            
+            return Ok("Grade added successfully");
         }
 
         // DELETE: api/Teacher/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGrade(int id)
         {
-            if (_context.Teachers == null)
-            {
-                return NotFound();
-            }
             var status = await _gradingService.DeleteGrade(id);
             if(status == Status.Fail)
                 return StatusCode(418); //¯\_(ツ)_/¯
