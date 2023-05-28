@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagementSystem.Interfaces;
@@ -33,7 +34,7 @@ public class DataBundlingService : IDataBundlingService
         if (userData == null || studentData == null)
             return null;
         
-        var grades = await _gradingService.GetGrades(userData.UserId);
+        var grades = await _gradingService.GetGradesByStudentId(userData.UserId);
 
         var gradeValues = grades.Select(g => new { Subject = g.Subject.Name, Value = g.Value }).ToList();
         var average = gradeValues.Select(g => g.Value).Average();
@@ -54,8 +55,11 @@ public class DataBundlingService : IDataBundlingService
 
         var min = groupedGrades.First();
         var max = groupedGrades.Last();
-        // var absences = await _absenceService.GetAbsenceByStudent(userData.UserId);
         
+        var absences = await _absenceService.GetAbsenceByStudent(userData.UserId);
+        var totalAbsence = absences.Count;
+        var excusedAbsence = absences.Count(s => s.Excused);
+        var unExcusedAbsence = absences.Count - excusedAbsence;
         var response = new StudentDataDto
         {
             StudentId = studentData.StudentId,
@@ -68,9 +72,44 @@ public class DataBundlingService : IDataBundlingService
             HighestAvgSubject = max.Subject,
             HighestAvg = max.AverageGrade,
             LowestAvgSubject = min.Subject,
-            LowestAvg = min.AverageGrade
+            LowestAvg = min.AverageGrade,
+            TotalAbsence = totalAbsence,
+            ExcusedAbsence = excusedAbsence,
+            UnExcusedAbsence = unExcusedAbsence
         };
         return response;
+    }
+
+    public async Task<GradeDataDto?> OrganizeStudentGradeData(int id)
+    {
+        var userData = await _userService.FetchUser(id);
+        var studentData = await _userService.FetchStudent(id);
+        if (userData == null || studentData == null)
+            return null;
+        var grades = await _gradingService.GetGradesByStudentId(userData.UserId);
         
+        if (grades.Count == 0)
+            return null;
+        
+        var gradeValues = grades.Select(g => 
+            new GradeResultDto()
+            {
+                Subject = g.Subject.Name,
+                Value = g.Value,
+                Grader = g.Grader.User.Name,
+                Date = g.Date
+
+            })
+            .ToList();
+        
+        return new GradeDataDto
+        {
+            Grades = gradeValues
+        };
+    }
+
+    public async Task<GradeDataDto?> OrganizeTeacherGradeData(int id)
+    {
+        throw new NotImplementedException();
     }
 }
