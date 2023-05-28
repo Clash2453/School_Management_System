@@ -10,6 +10,9 @@ import Sidebar from '../components/userDashboard/SidebarComponent.vue'
 <style>
 .flex {
   flex: 1;
+  /* background-color: #0b2239; */
+  background: url('../public/images/dashboard-background.svg') no-repeat;
+  background-size: cover;
 }
 #table-section {
   display: flex;
