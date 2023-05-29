@@ -1,14 +1,6 @@
 <script setup>
 import RoundLoader from './RoundLoaderComponent.vue'
-const props = defineProps([
-  'mainContent',
-  'firstArgument',
-  'secondArgument',
-  'backColor',
-  'displayedValue',
-  'loaderNeeded',
-  'cardTitle'
-])
+const props = defineProps(['cardData'])
 const startColor = '#ceff8f'
 const endColor = '#0eff00'
 
@@ -17,16 +9,18 @@ console.log(props.mainContent)
 <template>
   <section class="overview">
     <RoundLoader
-      v-if="props.loaderNeeded"
+      v-if="props.cardData.loaderNeeded"
       :starting-color="startColor"
       :ending-color="endColor"
-      :value="parseFloat(props.displayedValue)"
+      :value="parseFloat(props.cardData.displayedValue)"
     ></RoundLoader>
     <div class="stats-container">
-      <h2 class="subtitle card-title">{{ props.cardTitle }}</h2>
-      <h3 class="average subtitle">{{ props.mainContent }}</h3>
-      <h4 class="discipline">{{ firstArgument }}</h4>
-      <h4 class="discipline">{{ secondArgument }}</h4>
+      <h2 class="subtitle card-title">
+        <strong>{{ props.cardData.cardTitle }}</strong>
+      </h2>
+      <h3 class="average subtitle">{{ props.cardData.mainContent }}</h3>
+      <h4 class="discipline">{{ props.cardData.firstArgument }}</h4>
+      <h4 class="discipline">{{ props.cardData.secondArgument }}</h4>
     </div>
   </section>
 </template>
@@ -37,7 +31,7 @@ console.log(props.mainContent)
   align-items: center;
   padding: 1rem;
   gap: 1rem;
-  background-color: v-bind('$props.backColor');
+  background-color: v-bind('$props.cardData.backColor');
   border-radius: 5px;
   color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -58,7 +52,7 @@ console.log(props.mainContent)
 .card-title {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  font-weight: 900;
+  font-weight: bold;
 }
 .discipline {
   font-family: 'Lato', sans-serif;
