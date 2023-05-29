@@ -1,69 +1,79 @@
 <script setup>
 import OverviewCardComponent from '../components/userDashboard/OverviewCardComponent.vue'
 import LineChart from '../components/userDashboard/LineChartComponent.vue'
-import GlobalStats from '../components/userDashboard/GlobalStatsCardComponent.vue'
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
-
-let studentData = {}
-let gradeData = {}
-let chartData = {}
-let gradesFetched = false
-let averageGrade = ref('')
-let lowestAvgGrade = ref('')
-let highestAvgGrade = ref('')
-let gradeValue = ref(-1)
-let yourAbsence = ref()
-let excusedAbsence = ref('')
-let unexcusedAbsence = ref('')
-let gradeCardColor = '#33b864'
-let absenceCardColor = '#b63e36'
+let chartDataObjects = []
+let gradeCardData = ref({})
+let absenceCardData = ref({})
+let welcomeCardData = ref({})
+let gradeDataFetched = ref(false)
+const colors = [
+  'rgba(255, 99, 132, 1)',
+  'rgba(255, 159, 64, 1)',
+  'rgba(255, 205, 86, 1)',
+  'rgba(75, 192, 192, 1)',
+  'rgba(54, 162, 235, 1)',
+  'rgba(153, 102, 255, 1)'
+]
 
 onMounted(async () => {
-  studentData = await getStudentData()
-
-  gradeData = await getGradeData()
+  const studentData = await getStudentData()
+  const gradeData = await getGradeData()
   console.log(gradeData)
-  averageGrade.value = `Average Grade: ${studentData.avgGrade}`
 
-  lowestAvgGrade.value = `Lowest Average: ${studentData.lowestAvgSubject}, ${studentData.lowestAvg}`
-
-  highestAvgGrade.value = `Highest Average: ${studentData.highestAvgSubject}, ${studentData.highestAvg}`
-
-  gradeValue.value = studentData.avgGrade
-
-  yourAbsence.value = studentData.totalAbsence
-
-  excusedAbsence.value = `Excused absence: ${studentData.excusedAbsence}`
-
-  unexcusedAbsence.value = `Unexcused absence ${studentData.unExcusedAbsence}`
-
+  absenceCardData.value = {
+    mainContent: `Your absence: ${studentData.totalAbsence}`,
+    firstArgument: `Excused absence: ${studentData.excusedAbsence}`,
+    secondArgument: `Unexcused absence ${studentData.unExcusedAbsence}`,
+    displayedValue: studentData.totalAbsence,
+    backColor: '#b63e36',
+    loaderNeeded: false,
+    cardTitle: 'Absence'
+  }
+  welcomeCardData.value = {
+    mainContent: `Average Grade: ${studentData.avgGrade}`,
+    firstArgument: `Your student ID number is: ${studentData.studentId}`,
+    secondArgument: `Your group number is ${studentData.group}`,
+    displayedValue: studentData.avgGrade,
+    backColor: '#33b864',
+    loaderNeeded: false,
+    cardTitle: `Welcome ${studentData.name}`
+  }
+  gradeCardData.value = {
+    mainContent: `Average Grade: ${studentData.avgGrade}`,
+    firstArgument: `Your weakest subject is ${studentData.lowestAvgSubject}: ${studentData.lowestAvg}`,
+    secondArgument: `Your strongest subject is ${studentData.highestAvgSubject}: ${studentData.highestAvg}`,
+    displayedValue: studentData.avgGrade,
+    backColor: '#33b864',
+    loaderNeeded: true,
+    cardTitle: 'Your Grades:'
+  }
   console.log(studentData)
 
-  const gradeValues = gradeData.grades.map((g) => {
-    return g.value
-  })
-  const gradeDates = gradeData.grades.map((g) => {
-    const dateObject = new Date(g.date)
-
-    const day = dateObject.getDate()
-    const month = dateObject.getMonth() + 1
-    const year = dateObject.getFullYear()
-
-    return new Date(year, month - 1, day)
-  })
-  const subjects = [
-    ...new Set(
-      gradeData.grades.map((g) => {
-        return g.subject
-      })
-    )
-  ]
-  chartData = {
-    labels: subjects,
-    datasets: [{ data: gradeValues }]
+  for (let i = 0; i < gradeData.length; i++) {
+    const row = gradeData[i]
+    const subject = row[0].subject
+    const gradeValues = row.map((g) => {
+      return g.value
+    })
+    const gradeDates = row.map((g) => {
+      return g.date.split('T')[0]
+    })
+    console.log(gradeValues)
+    chartDataObjects.push({
+      labels: gradeDates,
+      datasets: [
+        {
+          label: subject,
+          data: gradeValues,
+          borderColor: colors[Math.floor(Math.random() * colors.length)]
+        }
+      ]
+    })
   }
-  gradesFetched = true
+  gradeDataFetched.value = true
+  console.log(chartDataObjects)
 })
 
 async function getStudentData() {
@@ -77,6 +87,7 @@ async function getStudentData() {
   }).catch((e) => console.log(e))
   return response.data
 }
+
 async function getGradeData() {
   try {
     const response = await axios({
@@ -87,7 +98,7 @@ async function getGradeData() {
       },
       withCredentials: true
     })
-    return response.data
+    return response.data.grades
   } catch (e) {
     console.log(e)
   }
@@ -97,27 +108,28 @@ async function getGradeData() {
   <div class="flex-container">
     <section id="stats">
       <OverviewCardComponent
-        :mainContent="averageGrade"
-        :firstArgument="lowestAvgGrade"
-        :secondArgument="highestAvgGrade"
-        :displayedValue="gradeValue"
-        :backColor="gradeCardColor"
-        :loaderNeeded="true"
-        :cardTitle="'Your Grades:'"
+        :card-data="gradeCardData"
+        v-if="gradeDataFetched"
       ></OverviewCardComponent>
-      <GlobalStats></GlobalStats>
       <OverviewCardComponent
-        :mainContent="`Your absence: ${yourAbsence}`"
-        :firstArgument="excusedAbsence"
-        :secondArgument="unexcusedAbsence"
-        :displayedValue="yourAbsence"
-        :backColor="absenceCardColor"
-        :loaderNeeded="false"
-        :cardTitle="'Absence'"
+        :card-data="welcomeCardData"
+        v-if="gradeDataFetched"
+      ></OverviewCardComponent>
+      <OverviewCardComponent
+        :card-data="absenceCardData"
+        v-if="gradeDataFetched"
       ></OverviewCardComponent>
     </section>
-    <section id="chart-section">
-      <LineChart v-if="gradesFetched" :chartData="chartData"></LineChart>
+    <section id="chart-section" v-if="gradeDataFetched">
+      <h1 class="main-title">
+        <strong> Your Subjects </strong>
+      </h1>
+      <LineChart
+        class="chart"
+        v-for="chartDataObject in chartDataObjects"
+        :chartData="chartDataObject"
+        :key="chartDataObject.datasets[0].label"
+      ></LineChart>
     </section>
   </div>
 </template>
@@ -125,18 +137,32 @@ async function getGradeData() {
 .flex-container {
   min-height: fit-content;
   width: 100%;
+  height: 100%;
+  flex-grow: 1;
 }
 #stats,
 #chart-section {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 #stats {
   width: 100%;
   gap: 2rem;
   padding: 1rem;
+  justify-content: center;
+}
+#chart-section {
+  flex-wrap: wrap;
+  height: 100%;
+  margin-bottom: 0 auto;
+  padding: 1rem;
+  /* background-color: #0b2239; */
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  color: white;
+  text-align: center;
 }
 @media (max-width: 1200px) {
   #stats {
