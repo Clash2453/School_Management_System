@@ -24,17 +24,23 @@ window.addEventListener('resize', toggleExtra())
   <section class="container" v-if="!hidden">
     <h1 class="main-title">{{ state }}</h1>
     <ul class="action-list">
-      <li class="action-card">
-        <router-link to="overview" class="action-button subtitle">Overview</router-link>
+      <li class="action-button">
+        <router-link to="overview" class="action-button action-card subtitle">Overview</router-link>
       </li>
-      <li class="action-card">
-        <router-link to="/dashboard/grades" class="action-button subtitle">Grades</router-link>
+      <li class="action-button">
+        <router-link to="/dashboard/grades" class="action-card action-button subtitle"
+          >Grades</router-link
+        >
       </li>
-      <li class="action-card">
-        <router-link to="/dashboard/absence" class="action-button subtitle">Absence</router-link>
+      <li class="action-button">
+        <router-link to="/dashboard/absence" class="action-card action-button subtitle"
+          >Absence</router-link
+        >
       </li>
-      <li class="action-card">
-        <router-link to="/dashboard/teachers" class="action-button subtitle">Teachers</router-link>
+      <li class="action-button">
+        <router-link to="/dashboard/teachers" class="action-card action-button subtitle"
+          >Teachers</router-link
+        >
       </li>
     </ul>
   </section>
@@ -46,13 +52,10 @@ window.addEventListener('resize', toggleExtra())
   align-items: flex-start;
   justify-content: flex-start;
   gap: 1rem;
-  padding: 1rem;
-
-  width: 100%;
-  height: 100vh;
-  max-width: 15rem;
+  min-width: 15rem;
+  flex-grow: 1;
   min-height: calc(100vh - 7rem);
-  background-color: #2a619b;
+  background-color: #062d55;
   color: white;
 }
 .action-list {
@@ -61,11 +64,17 @@ window.addEventListener('resize', toggleExtra())
   align-items: flex-start;
   justify-content: flex-start;
   gap: 1rem;
+  width: 100%;
   position: sticky;
   top: 6.5rem;
   left: 0;
 }
+.action-button:hover {
+  background-color: #0a4988;
+}
 .action-button {
   text-align: left;
+  width: 100%;
+  padding: 0.5rem;
 }
 </style>
