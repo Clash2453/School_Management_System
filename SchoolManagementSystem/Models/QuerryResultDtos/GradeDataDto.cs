@@ -2,6 +2,6 @@ namespace SchoolManagementSystem.Models.QuerryResultDtos;
 
 public class GradeDataDto
 {
-    public List<GradeResultDto> Grades { get; set; } = new();
+    public List<List<GradeResultDto>> Grades { get; set; } = new();
 
 }
