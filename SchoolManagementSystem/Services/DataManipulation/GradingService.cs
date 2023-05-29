@@ -66,7 +66,6 @@ public class GradingService : IGradingService
             .Include(g=> g.Grader)
             .ThenInclude(grader => grader.User)
             .Where(g => g.Owner.StudentId == studentId).ToListAsync();
-        Debug.WriteLine(result);    
 
         return result;
     }
