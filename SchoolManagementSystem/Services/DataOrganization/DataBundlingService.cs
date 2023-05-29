@@ -1,9 +1,4 @@
-using System.Text.RegularExpressions;
-using Google.Protobuf.WellKnownTypes;
-using Microsoft.AspNetCore.Mvc;
 using SchoolManagementSystem.Interfaces;
-using SchoolManagementSystem.Models;
-using SchoolManagementSystem.Models.DataTransferObjects;
 using SchoolManagementSystem.Models.QuerryResultDtos;
 
 namespace SchoolManagementSystem.Services.DataOrganization;
@@ -96,10 +91,11 @@ public class DataBundlingService : IDataBundlingService
             {
                 Subject = g.Subject.Name,
                 Value = g.Value,
-                Grader = g.Grader.User.Name,
-                Date = g.Date
+                Date = new DateTime(g.Date.Year, g.Date.Month, g.Date.Day)
 
             })
+            .GroupBy(g=> g.Subject)
+            .Select(g => g.ToList())
             .ToList();
         
         return new GradeDataDto
