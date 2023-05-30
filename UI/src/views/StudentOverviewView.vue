@@ -32,9 +32,9 @@ onMounted(async () => {
     cardTitle: 'Absence'
   }
   welcomeCardData.value = {
-    mainContent: `Average Grade: ${studentData.avgGrade}`,
-    firstArgument: `Your student ID number is: ${studentData.studentId}`,
-    secondArgument: `Your group number is ${studentData.group}`,
+    mainContent: `Your student ID number is: ${studentData.studentId}`,
+    firstArgument: `Your group number is ${studentData.group}`,
+    secondArgument: ``,
     displayedValue: studentData.avgGrade,
     backColor: '#33b864',
     loaderNeeded: false,
