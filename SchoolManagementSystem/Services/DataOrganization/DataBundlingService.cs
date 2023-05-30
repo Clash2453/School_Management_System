@@ -1,4 +1,5 @@
 using SchoolManagementSystem.Interfaces;
+using SchoolManagementSystem.Models;
 using SchoolManagementSystem.Models.QuerryResultDtos;
 
 namespace SchoolManagementSystem.Services.DataOrganization;
@@ -55,7 +56,7 @@ public class DataBundlingService : IDataBundlingService
         var totalAbsence = absences.Count;
         var excusedAbsence = absences.Count(s => s.Excused);
         var unExcusedAbsence = absences.Count - excusedAbsence;
-        var response = new StudentDataDto
+        var response = new StudentDataDto 
         {
             StudentId = studentData.StudentId,
             Name = userData.Name,
@@ -74,7 +75,6 @@ public class DataBundlingService : IDataBundlingService
         };
         return response;
     }
-
     public async Task<GradeDataDto?> OrganizeStudentGradeData(int id)
     {
         var userData = await _userService.FetchUser(id);
@@ -108,4 +108,34 @@ public class DataBundlingService : IDataBundlingService
     {
         throw new NotImplementedException();
     }
+
+    public async Task<Dictionary<string, List<GradeResultDto>>?> OrganizeGradesPerSubjects(int id)
+    {
+        var subjects = await _subjectService.GetSubjectsByStudent(id);
+        var grades = await _gradingService.GetGradesByStudentId(id);
+        
+        if (grades.Count == 0)
+            return null;
+        
+        var gradeValues = grades.Select(g => 
+                new GradeResultDto()
+                {
+                    Subject = g.Subject.Name,
+                    Value = g.Value,
+                    Date = new DateTime(g.Date.Year, g.Date.Month, g.Date.Day)
+
+                })
+            .GroupBy(g=> g.Subject)
+            .Select(g => g.ToList())
+            .ToList();
+        Dictionary<string, List<GradeResultDto>> result = new();
+        for (int i = 0; i < subjects.Count; i++)
+        {
+            var subject = subjects[i].Name;
+            result.Add(subject, gradeValues.FirstOrDefault(value => value[0].Subject == subject) ?? new List<GradeResultDto>());
+        }
+
+        return result;
+    }
+    
 }
