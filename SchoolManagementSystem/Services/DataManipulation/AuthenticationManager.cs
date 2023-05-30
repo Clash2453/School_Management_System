@@ -42,7 +42,7 @@ public class AuthenticationManager : IAuthenticationManager
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);
         return jwt;
     }
-    public Dictionary<string, string> ParseToken(string tokenString)
+    public Dictionary<string, string> ParseToken(string? tokenString)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.ReadJwtToken(tokenString);
