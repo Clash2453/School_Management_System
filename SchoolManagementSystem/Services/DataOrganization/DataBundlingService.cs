@@ -56,7 +56,7 @@ public class DataBundlingService : IDataBundlingService
         var totalAbsence = absences.Count;
         var excusedAbsence = absences.Count(s => s.Excused);
         var unExcusedAbsence = absences.Count - excusedAbsence;
-        var response = new StudentDataDto 
+        var response = new StudentDataDto   
         {
             StudentId = studentData.StudentId,
             Name = userData.Name,
@@ -75,6 +75,25 @@ public class DataBundlingService : IDataBundlingService
         };
         return response;
     }
+
+    public async Task<StudentDataDto?> OrganizeTeacherData(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<AdminDto?> OrganizeAdminData(int id)
+    {
+        var userData = await _userService.FetchUser(id);
+        var studentData = await _userService.FetchAdmin(id);
+        if (userData == null || studentData == null)
+            return null;
+        return new AdminDto()
+        {
+            Name = userData.Name,
+            Id = userData.UserId
+        };
+    }
+
     public async Task<GradeDataDto?> OrganizeStudentGradeData(int id)
     {
         var userData = await _userService.FetchUser(id);
@@ -86,21 +105,69 @@ public class DataBundlingService : IDataBundlingService
         if (grades.Count == 0)
             return null;
         
-        var gradeValues = grades.Select(g => 
-            new GradeResultDto()
-            {
-                Subject = g.Subject.Name,
-                Value = g.Value,
-                Date = new DateTime(g.Date.Year, g.Date.Month, g.Date.Day)
+        var regularGradeValues = grades
+                .Where(g=> g is { IsTermGrade: false, IsYearlyGrade: false })
+                .Select(g => 
+                new GradeResultDto()
+                {
+                    Subject = g.Subject.Name,
+                    Value = g.Value,
+                    Course = g.StudentYear,
+                    Term = g.Term,
+                    Date = new DateTime(g.Date.Year, g.Date.Month, g.Date.Day)
 
-            })
-            .GroupBy(g=> g.Subject)
+                })
+                .GroupBy(g=> g.Subject)
+                .Select(g => g.ToList())
+                .ToList();
+        
+        // var groupedGrades = grades.GroupBy(g => g.IsTermGrade?0:g.IsYearlyGrade?)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        var termGradeValues = grades.Where(g => g.IsTermGrade)
+            .Select(g =>
+                new GradeResultDto()
+                {
+                    Subject = g.Subject.Name,
+                    Value = g.Value,
+                    Course = g.StudentYear,
+                    Term = g.Term,
+                    Date = new DateTime(g.Date.Year, g.Date.Month, g.Date.Day),
+                })
+            .GroupBy(g => g.Course)
             .Select(g => g.ToList())
             .ToList();
-        
+
+        var yearlyGradeValues = grades
+            .Where(g => g.IsYearlyGrade)
+            .Select(g =>
+                new GradeResultDto()
+                {
+                    Subject = g.Subject.Name,
+                    Value = g.Value,
+                    Course = g.StudentYear,
+                    Date = new DateTime(g.Date.Year, g.Date.Month, g.Date.Day),
+                })
+            .GroupBy(g => g.Course)
+            .Select(g => g.ToList())
+            .ToList();
         return new GradeDataDto
         {
-            Grades = gradeValues
+            Grades = regularGradeValues,
+            TermGrades = termGradeValues,
+            YearlyGrades = yearlyGradeValues
         };
     }
 
