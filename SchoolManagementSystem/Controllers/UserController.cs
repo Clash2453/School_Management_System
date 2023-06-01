@@ -74,4 +74,26 @@ public class UserController : ControllerBase
         var result = await _dataBundler.OrganizeStudentData(studentId);
         return Ok(result);
     }
+    [Authorize(Roles="Admin,Teacher")]
+    [HttpGet("/student")]
+    public async Task<ActionResult<StudentDataDto>> GetTeacherData()
+    {
+        var userCredentials = _authManager.ParseToken(HttpContext.Request.Cookies["token"]);
+        if (userCredentials == null)
+            return StatusCode(502);
+        int studentId = int.Parse(userCredentials["id"]);
+        var result = await _dataBundler.OrganizeTeacherData(studentId);
+            return Ok(result);
+    }
+    [Authorize(Roles="Admin")]
+    [HttpGet("/student")]
+    public async Task<ActionResult<StudentDataDto>> GetAdminData()
+    {
+        var userCredentials = _authManager.ParseToken(HttpContext.Request.Cookies["token"]);
+        if (userCredentials == null)
+            return StatusCode(502);
+        int studentId = int.Parse(userCredentials["id"]);
+        var result = await _dataBundler.OrganizeStudentData(studentId);
+        return Ok(result);
+    }
 }
