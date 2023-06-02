@@ -3,8 +3,6 @@ import RoundLoader from './RoundLoaderComponent.vue'
 const props = defineProps(['cardData'])
 const startColor = '#ceff8f'
 const endColor = '#0eff00'
-
-console.log(props.mainContent)
 </script>
 <template>
   <section class="overview">
@@ -58,7 +56,7 @@ console.log(props.mainContent)
   font-family: 'Lato', sans-serif;
   font-size: 1.125rem;
 }
-@media (max-width: 1350px) {
+@media (max-width: 1575px) {
   .overview {
     /* flex-direction: column; */
     width: 30rem;
