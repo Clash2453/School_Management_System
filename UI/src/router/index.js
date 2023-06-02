@@ -7,6 +7,7 @@ import OverviewView from '../views/StudentOverviewView.vue'
 import GradesView from '../views/GradesView.vue'
 import AbsenceView from '../views/AbsenceView.vue'
 import TeachersView from '../views/TeachersView.vue'
+import AdminView from '../views/AdminView.vue'
 import ErrorComponent from '../components/general/ErrorComponent.vue'
 import WaitingPage from '../views/WaitingApprovalView.vue'
 const router = createRouter({
@@ -27,13 +28,6 @@ const router = createRouter({
       }
     },
     {
-      path: `/dashboard`,
-      component: Dashboard,
-      meta: {
-        requiresAuthentication: false
-      }
-    },
-    {
       path: '/login',
       component: Login,
       meta: {
@@ -41,35 +35,65 @@ const router = createRouter({
       }
     },
     {
-      path: '/dashboard/',
+      path: '/dashboard',
       component: Dashboard,
       meta: {
         requiresAuthentication: true
       },
       children: [
         {
-          path: 'overview',
-          component: OverviewView,
+          path: 'student', // Remove the leading slash (/)
           meta: {
             requiresAuthentication: true
-          }
+          },
+          children: [
+            {
+              path: 'overview', // Remove the leading slash (/)
+              component: OverviewView,
+              meta: {
+                requiresAuthentication: true
+              }
+            },
+            {
+              path: 'grades', // Remove the leading slash (/)
+              component: GradesView,
+              meta: {
+                requiresAuthentication: true
+              }
+            }
+          ]
         },
         {
-          path: 'grades',
-          component: GradesView,
-          meta: {
-            requiresAuthentication: true
-          }
+          path: 'teacher', // Remove the leading slash (/)
+          meta: { requiresAuthentication: true },
+          children: [
+            {
+              path: 'overview', // Remove the leading slash (/)
+              component: TeachersView,
+              meta: { requiresAuthentication: true }
+            }
+          ]
         },
         {
-          path: 'absence',
+          path: 'admin', // Remove the leading slash (/)
+          meta: { requiresAuthentication: true },
+          children: [
+            {
+              path: 'overview', // Remove the leading slash (/)
+              component: AdminView,
+              meta: { requiresAuthentication: true }
+            }
+          ]
+        },
+        {
+          path: 'absence', // Remove the leading slash (/)
           component: AbsenceView,
           meta: {
             requiresAuthentication: true
           }
         },
         {
-          path: 'teachers',
+          path: 'teachers', // Remove the leading slash (/)
           component: TeachersView,
           meta: {
             requiresAuthentication: true
