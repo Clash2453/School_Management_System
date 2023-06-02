@@ -75,7 +75,7 @@ public class UserController : ControllerBase
         return Ok(result);
     }
     [Authorize(Roles="Admin,Teacher")]
-    [HttpGet("/student")]
+    [HttpGet("/teachers")]
     public async Task<ActionResult<StudentDataDto>> GetTeacherData()
     {
         var userCredentials = _authManager.ParseToken(HttpContext.Request.Cookies["token"]);
@@ -86,7 +86,7 @@ public class UserController : ControllerBase
             return Ok(result);
     }
     [Authorize(Roles="Admin")]
-    [HttpGet("/student")]
+    [HttpGet("/admins")]
     public async Task<ActionResult<StudentDataDto>> GetAdminData()
     {
         var userCredentials = _authManager.ParseToken(HttpContext.Request.Cookies["token"]);
