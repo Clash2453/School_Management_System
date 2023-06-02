@@ -1,4 +1,13 @@
-<script></script>
+<script setup>
+import router from '../../router'
+function goToLogin() {
+  router.push('/login')
+}
+
+function goToAbout() {
+  router.push('/about')
+}
+</script>
 
 <template>
   <section id="hero">
@@ -9,8 +18,8 @@
         event scheduler
       </h2>
       <div class="button-wrapper">
-        <button class="main-button">Try it out</button>
-        <button class="secondary-button">Learn more</button>
+        <button class="main-button" @click="goToLogin">Try it out</button>
+        <button class="secondary-button" @click="goToAbout">Learn more</button>
       </div>
     </div>
     <v-icon name="md-school-outlined" class="hero-image" fill="white"></v-icon>
