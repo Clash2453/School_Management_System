@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Models;
 using Microsoft.Extensions.Configuration;
+using SchoolManagementSystem.Enums;
 using SchoolManagementSystem.Models.IntermediateTables;
 
 
@@ -49,6 +50,13 @@ public class SchoolDbContext : DbContext
             .HasOne(a => a.User)
             .WithOne()
             .HasForeignKey<Admin>(a => a.AdminId);
+
+        builder
+            .Entity<Grade>()
+            .Property(g => g.TypeOfGrade)
+            .HasConversion(
+                v => v.ToString(),
+            v => (GradeType)Enum.Parse(typeof(GradeType), v));
     }
     public DbSet<SchoolManagementSystem.Models.Grade>? Grade { get; set; }
 }
