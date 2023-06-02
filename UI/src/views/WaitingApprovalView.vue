@@ -54,13 +54,13 @@
   gap: 4rem;
 }
 @media (max-width: 650px) {
-  .main-container{
+  .main-container {
     flex-direction: column;
   }
-  .image-wrapper{
+  .image-wrapper {
     min-height: fit-content;
   }
-  .message-container{
+  .message-container {
     padding: 1rem 0 1rem 0;
   }
 }
