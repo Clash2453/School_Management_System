@@ -20,7 +20,7 @@ const colors = [
 onMounted(async () => {
   const studentData = await getStudentData()
   const gradeData = await getGradeData()
-  console.log(gradeData)
+  // console.log(gradeData)
 
   absenceCardData.value = {
     mainContent: `Your absence: ${studentData.totalAbsence}`,
@@ -50,9 +50,9 @@ onMounted(async () => {
     cardTitle: 'Your Grades:'
   }
   console.log(studentData)
-
-  for (let i = 0; i < gradeData.length; i++) {
-    const row = gradeData[i]
+  const subjects = Object.keys(gradeData)
+  for (let i = 0; i < subjects.length; i++) {
+    const row = gradeData[subjects[i]]
     const subject = row[0].subject
     const gradeValues = row.map((g) => {
       return g.value
@@ -73,7 +73,7 @@ onMounted(async () => {
     })
   }
   gradeDataFetched.value = true
-  console.log(chartDataObjects)
+  // console.log(chartDataObjects)
 })
 
 async function getStudentData() {
@@ -98,7 +98,17 @@ async function getGradeData() {
       },
       withCredentials: true
     })
-    return response.data.grades
+    // console.log(response.data.grades)
+    const grades = response.data.grades[0]
+
+    const groups = grades.reduce((groups, item) => {
+      const group = groups[item.subject] || []
+      group.push(item)
+      groups[item.subject] = group
+      return groups
+    }, {})
+
+    return groups
   } catch (e) {
     console.log(e)
   }
@@ -108,11 +118,11 @@ async function getGradeData() {
   <div class="flex-container">
     <section id="stats">
       <OverviewCardComponent
-        :card-data="gradeCardData"
+        :card-data="welcomeCardData"
         v-if="gradeDataFetched"
       ></OverviewCardComponent>
       <OverviewCardComponent
-        :card-data="welcomeCardData"
+        :card-data="gradeCardData"
         v-if="gradeDataFetched"
       ></OverviewCardComponent>
       <OverviewCardComponent
