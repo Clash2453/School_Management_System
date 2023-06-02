@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using SchoolManagementSystem.Models.IntermediateTables;
 
 namespace SchoolManagementSystem.Models;
-[Table( "Teacher" )]
 public class Teacher
 {
     public int TeacherId { get; set; }
