@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { inject } from 'vue'
 
 const emitter = inject('emitter')
@@ -75,6 +75,7 @@ window.addEventListener('resize', toggleExtra())
 .action-button {
   text-align: left;
   width: 100%;
+  display: block;
   padding: 0.5rem;
 }
 </style>
