@@ -48,13 +48,13 @@ export default {
 
         switch (response.data.userRole) {
           case 'Admin':
-            router.push(`dashboard/overview`)
+            router.push(`dashboard/admin/overview`)
             break
           case 'Student':
-            router.push(`dashboard/overview`)
+            router.push(`dashboard/student/overview`)
             break
           case 'Teacher':
-            router.push(`dashboard/overview`)
+            router.push(`dashboard/teachers`)
             break
           case 'Guest':
             router.push(`/waiting`)
