@@ -1,14 +1,13 @@
+using SchoolManagementSystem.Enums;
+
 namespace SchoolManagementSystem.Models.QuerryResultDtos;
 
-public class GradeResultDto
+public sealed class GradeResultDto
 {
     public float Value { get; set; }
-    private DateTime _date {get; set; }
-    public DateTime Date
-    {
-        get => _date;
-        set => _date = new DateTime(value.Year, value.Month, value.Day);
-    }
-
-    public virtual string Subject { get; set; } = string.Empty;
+    public int Term { get; set; }
+    public int Course { get; set; }
+    public DateTime Date { get; set; }
+    public String Type { get; set; } = String.Empty;
+    public string Subject { get; init; } = string.Empty;
 }
