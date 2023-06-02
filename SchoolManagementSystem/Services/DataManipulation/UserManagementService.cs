@@ -4,6 +4,8 @@ using SchoolManagementSystem.Enums;
 using SchoolManagementSystem.Interfaces;
 using SchoolManagementSystem.Models;
 using SchoolManagementSystem.Models.DataTransferObjects;
+using SchoolManagementSystem.Models.QuerryResultDtos;
+using AdminDto = SchoolManagementSystem.Models.DataTransferObjects.AdminDto;
 
 namespace SchoolManagementSystem.Services.DataManipulation;
 
@@ -26,6 +28,23 @@ public class UserManagementService : IUserManagementService
     public async Task<Student?> FetchStudent(int id)
     {
         return await _context.Students.FirstOrDefaultAsync(s => s.StudentId == id);
+    }
+    public async Task<Teacher?> FetchTeacher(int id)
+    {
+        return await _context.Teachers.FirstOrDefaultAsync(s => s.TeacherId == id);
+    }
+    public async Task<Admin?> FetchAdmin(int id)
+    {
+        return await _context.Admins.FirstOrDefaultAsync(s => s.AdminId == id);
+    }
+    public async Task<List<UserResultDto>> FetchGuests()
+    {
+        return await _context.Users.Where(u => u.Role == "guest").Select(u => new UserResultDto()
+        {
+            Id = u.UserId,
+            Name = u.Name,
+            Email = u.Email,
+        }).ToListAsync();
     }
 
     public async Task<User?> AttemptLogin(LoginUserDto request)

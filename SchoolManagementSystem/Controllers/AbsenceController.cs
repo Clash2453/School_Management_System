@@ -21,9 +21,8 @@ namespace SchoolManagementSystem.Controllers
         {
             var absence = await _absenceService.GetAbsenceById(id);
             if (absence == null)
-            {
                 return NotFound();
-            }
+            
             return Ok(absence);
         }
         
