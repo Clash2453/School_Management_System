@@ -20,21 +20,26 @@ public class GradingService : IGradingService
         var student = await _context.Students.FindAsync(request.StudentId);
         var teacher = await _context.Teachers.FindAsync(request.TeacherId);
         var subject = await _context.Subjects.FindAsync(request.SubjectId);
+        
         if (student == null || teacher == null || subject == null)
             return Status.Fail;
+        
         var grade = new Grade()
         {
             Value = request.Value,
             Grader = teacher,
             Owner = student,
             Date = DateTime.Now,
-            Subject = subject
+            Subject = subject,
+            TypeOfGrade = request.GradeType
         };
+        
+
         _context.Grades.Add(grade);
         await _context.SaveChangesAsync();
         return Status.Success;
     }
-    
+
     public async Task<Status> DeleteGrade(int gradeId)
     {
         var grade = await _context.Grades.FindAsync(gradeId);
