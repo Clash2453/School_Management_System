@@ -76,7 +76,7 @@ builder.Services.AddScoped<IAuthenticationManager, AuthenticationManager>();
 
 //data organization services
 builder.Services.AddScoped<IDataBundlingService, DataBundlingService>();
-
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddControllers();
 var app = builder.Build();
 
