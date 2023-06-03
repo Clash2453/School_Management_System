@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import WaitListItemComponent from './WaitListItemComponent.vue'
+
 let guests = ref([])
 onMounted(async () => {
   guests.value = await fetchWaitList()
@@ -54,45 +56,29 @@ async function approveTeacher() {
     console.log(e)
   }
 }
-function expandCard(){
-
-}
-async function declineUser(){
-  try {
-    const result = await axios({
-      method: 'GET',
-      url: `https://localhost:7080/api/Admin/guests`,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true
-    })
-    console.log(result.data)
-    return result.data
-  } catch (e) {
-    console.log(e)
-  }
-}
 </script>
 <template>
   <div class="list-container">
-    <h1 class="main-title">Applications waiting approval</h1>
+    <h1 class="main-title align-c">Applications waiting approval</h1>
     <ul class="list">
       <li class="list-item" v-for="(guest, index) in guests" :key="index">
-        <div class="card-container">
-          <div class="user-info">
-            <h2 class="card-heading">{{ guest.name }}</h2>
-            <h3 class="card-subtitle">{{ guest.email }}</h3>
-            <h3 class="card-subtitle">{{ guest.id }}</h3>
+        <WaitListItemComponent :data="guest"></WaitListItemComponent>
+        <!-- <div class="student-form">
+          <div class="input-wrapper">
+            <label for="faculty" class="subtitle">Faculty:</label>
+            <input type="text" name="title" id="title-input" class="input-field" />
           </div>
-          <div class="button-wrapper">
-            <button class="add-button" @click="expandCard">Add</button>
-            <button class="decline-button" @click="declineUser">Reject</button>
+          <div class="input-wrapper">
+            <label for="specialty" class="subtitle">Specialty:</label>
+            <input type="text" name="title" id="title-input" class="input-field" />
           </div>
-        </div>
-        <div class="expanded-card">
-          <input type="text" name="" id="">
-        </div>
+          <div class="input-wrapper">
+            <label for="group" class="subtitle">Group:</label>
+            <input type="text" name="title" id="title-input" class="input-field" />
+          </div> -->
+
+          <!-- <button class="add-button">Add</button>
+        </div> -->
       </li>
     </ul>
   </div>
@@ -108,58 +94,43 @@ async function declineUser(){
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
 
   color: white;
   font-family: 'Roboto', sans-serif;
 
-  width: 100%;
+  width: 23.4375rem;
+  border-radius: 15px;
   min-width: 18rem;
   height: 100%;
-  padding: 1rem;
+  max-height: calc(100vh - 10rem);
+  /* overflow-y: auto; */
+  /* padding: 1rem; */
 }
 .list {
+  width: 100%;
+  height: 80%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 1rem;
-}
-.card-container {
-  width: 100%;
+  /* margin-top: 3rem; */
+  padding: 1rem 0;
   min-height: fit-content;
-  min-width: 17.25rem;
-  min-height: 7.5rem;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 30px;
-  background: url('/images/card-background.svg') center no-repeat;
-  background-size: cover;
+  overflow-y: auto;
 }
-.user-info {
-  width: 100%;
+.main-title {
+  height: 20%;
+  min-height: fit-content;
+  margin-top: 1rem;
+  font-size: 1.5rem;
+}
+.input-wrapper {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
 }
-.button-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-.add-button,
-.decline-button {
-  width: 3rem;
-  border-radius: 5px;
-}
-.add-button {
-  background-color: #4ca0e7;
-}
-.decline-button {
-  background-color: #f26c82;
+.input-field {
+  background-color: rgba(11, 53, 89, 0.4);
 }
 </style>
