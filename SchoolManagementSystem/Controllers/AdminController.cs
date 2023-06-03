@@ -12,10 +12,12 @@ namespace SchoolManagementSystem.Controllers;
 public class AdminController : ControllerBase
 {
     private readonly IUserManagementService _userManagementService;
+    private readonly IEmailService _emailService;
 
-    public AdminController(IUserManagementService userManagementService)
+    public AdminController(IUserManagementService userManagementService, IEmailService emailService)
     {
         _userManagementService = userManagementService;
+        _emailService = emailService;
     }
     
     [Authorize(Roles = "Admin")]
@@ -53,6 +55,14 @@ public class AdminController : ControllerBase
             return StatusCode(500);
 
         return Ok("Admin added successfully");
+    }
+    [HttpPost("email")]
+    public IActionResult SendEmail(EmailDto request)
+    {
+        var status = _emailService.SendMail(request);
+        if (status == Status.Fail)
+            return StatusCode(500);
+        return Ok("Email sent successfully");
     }
  
     [HttpDelete("admin/delete-user")]
