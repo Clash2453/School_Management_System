@@ -11,8 +11,8 @@ namespace SchoolManagementSystem.Services.DataManipulation;
 
 public class UserManagementService : IUserManagementService
 {
-    private SchoolDbContext _context;
-    private static IAuthenticationManager _authManager;
+    private readonly SchoolDbContext _context;
+    private readonly IAuthenticationManager _authManager;
 
     public UserManagementService(SchoolDbContext context, IAuthenticationManager authManager)
     {
@@ -88,8 +88,8 @@ public class UserManagementService : IUserManagementService
             StudentId = user.UserId,
             Group = request.Group,
             Course = request.Course,
-            Specialty = request.Specialty,
-            Faculty = request.Faculty,
+            SpecialtyId = request.Specialty,
+            FacultyId = request.Faculty,
         };
         _context.Students.Add(student);
         await _context.SaveChangesAsync();
