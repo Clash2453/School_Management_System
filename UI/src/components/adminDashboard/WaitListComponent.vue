@@ -126,11 +126,4 @@ async function approveTeacher() {
   margin-top: 1rem;
   font-size: 1.5rem;
 }
-.input-wrapper {
-  display: flex;
-  flex-direction: column;
-}
-.input-field {
-  background-color: rgba(11, 53, 89, 0.4);
-}
 </style>
