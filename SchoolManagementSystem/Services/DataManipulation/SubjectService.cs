@@ -21,21 +21,8 @@ public class SubjectService : ISubjectService
         {
             Name = request.Name,
         };
-        List<StudentSubject> studentSubjects = new List<StudentSubject>();
         List<TeacherSubject> teacherSubjects = new List<TeacherSubject>();
         
-        foreach (var studentId in request.StudentIds)
-        {
-            StudentSubject intermid = new StudentSubject()
-            {
-                Subject = subject,
-                Student = new Student()
-                {
-                    StudentId = studentId
-                }
-            };
-            studentSubjects.Add(intermid);
-        }
 
         foreach (int teacherId in request.TeacherIds)
         {
@@ -49,10 +36,19 @@ public class SubjectService : ISubjectService
             };
             teacherSubjects.Add(intermid);
         }
-        _context.StudentSubjects.AttachRange(studentSubjects);
         _context.TeacherSubjects.AttachRange(teacherSubjects);
         _context.Subjects.Add(subject);
 
+        await _context.SaveChangesAsync();
+        return Status.Success;
+    }
+
+    public async Task<Status> RemoveFaculty(int facultyId)
+    {
+        var faculty = await _context.Faculties.FindAsync(facultyId);
+        if (faculty == null)
+            return Status.Fail;
+        _context.Faculties.Remove(faculty);
         await _context.SaveChangesAsync();
         return Status.Success;
     }
@@ -73,10 +69,10 @@ public class SubjectService : ISubjectService
         return Status.Success;
     }
 
-    public async Task<List<Subject>> GetSubjectsByStudent(int studentId)
+    public async Task<List<Subject>> GetSubjectsByStudent(int specialtyId)
     {
-        return await _context.StudentSubjects
-            .Where(s => s.Student.StudentId == studentId)
+        return await _context.SubjectSpecialties
+            .Where(s => s.Specialty.SpecialtyId == specialtyId)
             .Select(studentSubject => studentSubject.Subject)
             .ToListAsync();
     }
@@ -88,8 +84,90 @@ public class SubjectService : ISubjectService
             .Select(teacherSubject => teacherSubject.Subject)
             .ToListAsync();
     }
+    
+    public async Task<Status> AddFaculty(FacultyDto request)
+    {
+        try
+        {
+            var faculty = new Faculty()
+            {
+                Name = request.Name
+            };
+            var specialties = new List<Specialty>();
+            foreach (var specialty in request.SpecialtyIds)
+            {
+                var newSpecialty = new Specialty()
+                {
+                    SpecialtyId = specialty
+                };
+                specialties.Add(newSpecialty);
+            }
 
-    public async Task<Subject> GetSubjectById(int subjectId)
+            faculty.Specialties = specialties;
+            _context.Add(faculty);
+            await _context.SaveChangesAsync();
+        }   
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;  
+        }
+
+        return Status.Success;
+    }
+
+    public async Task<Status> RemoveSpecialty(int specialtyId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<Faculty?> GetFaculty(int facultyId)
+    {
+        return await _context.Faculties
+            .FirstOrDefaultAsync(f => f.FacultyId == facultyId);
+    }
+
+    public async Task<Status> AddSpecialty(SpecialtyDto request)
+    {
+        try
+        {
+            var specialty = new Specialty
+            {
+                Name = request.Name,
+                Faculty = new Faculty(){FacultyId = request.FacultyId}
+            };
+            _context.Specialties.Add(specialty);
+            await _context.SaveChangesAsync();
+
+            var subjects = new List<SubjectSpecialty>();
+            foreach (int id in request.SubjectIds)
+            {
+                var subjectSpecialty = new SubjectSpecialty()
+                {
+                    Specialty = specialty,
+                    Subject = new Subject(){Id = id}
+                };
+                subjects.Add(subjectSpecialty);
+            }
+            await _context.SubjectSpecialties.AddRangeAsync(subjects);
+            await _context.SaveChangesAsync();
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
+        return Status.Success;
+    }
+
+    public async Task<Subject?> GetSubjectById(int subjectId)
+    {
+        return await _context.Subjects.FindAsync(subjectId);
+    }
+
+    public async Task<Status> GetSpecialty(SpecialtyDto request)
     {
         throw new NotImplementedException();
     }

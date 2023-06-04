@@ -8,10 +8,16 @@ public interface ISubjectService
 {
     //CRUD
     public Task<Status> CreateSubject(SubjectDto request);
+    public Task<Status> AddSpecialty(SpecialtyDto request);
+    public Task<Faculty?> GetFaculty(int facultyId);
+    public Task<Status> AddFaculty(FacultyDto request);
+    public Task<Status> RemoveSpecialty(int specialtyId);
+    public Task<Status> RemoveFaculty(int facultyId);
     public Task<Status> UpdateSubject(SubjectDto request);
     public Task<Status> RemoveSubject(int id);
     //retrieval functions
     public Task<List<Subject>> GetSubjectsByStudent(int studentId);
     public Task<List<Subject>> GetSubjectsByTeacher(int teacherId);
-    public Task<Subject> GetSubjectById(int subjectId);
+    public Task<Subject?> GetSubjectById(int subjectId);
+    Task<Status> GetSpecialty(SpecialtyDto request);
 }

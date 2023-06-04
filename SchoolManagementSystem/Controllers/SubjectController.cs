@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Data;
+using SchoolManagementSystem.Enums;
 using SchoolManagementSystem.Interfaces;
 using SchoolManagementSystem.Models;
 using SchoolManagementSystem.Models.DataTransferObjects;
@@ -56,6 +57,39 @@ namespace SchoolManagementSystem.Controllers
         public async Task<IActionResult> DeleteSubject(int id)
         {
             return Ok(await _subjectService.RemoveSubject(id));
+        }
+        [HttpPost("add-faculty")]
+        public async Task<IActionResult> AddFaculty(FacultyDto request)
+        {
+            var result = await _subjectService.AddFaculty(request);
+            if (result == Status.Fail)
+                return StatusCode(500);
+            return Ok();
+        }
+
+        [HttpPost("add-specialty")]
+        public async Task<IActionResult> AddSpecialty(SpecialtyDto request)
+        {
+            var result = await _subjectService.AddSpecialty(request);
+            if (result == Status.Fail)
+                return StatusCode(500);
+            return Ok();
+        }
+        [HttpGet("get-specialty")]
+        public async Task<IActionResult> GetSpecialty(SpecialtyDto request)
+        {
+            var result = await _subjectService.GetSpecialty(request);
+            if (result == Status.Fail)
+                return StatusCode(500);
+            return Ok();
+        }
+        [HttpGet("get-faculty")]
+        public async Task<IActionResult> GetFaculty(int facultyId)
+        {
+            var result = await _subjectService.GetFaculty(facultyId);
+            if (result == null)
+                return StatusCode(500);
+            return Ok(result.Specialties);
         }
     }
 }
