@@ -23,7 +23,9 @@ public class SchoolDbContext : DbContext
     public DbSet<Event> Events { get; set; } = null!;
     public DbSet<Grade> Grades { get; set; } = null!;
     public DbSet<Absence> Absences { get; set; } = null!;
-    public DbSet<StudentSubject> StudentSubjects { get; set; } = null!;
+    public DbSet<Faculty> Faculties { get; set; } = null!;
+    public DbSet<Specialty> Specialties { get; set; } = null!;
+    public DbSet<SubjectSpecialty> SubjectSpecialties { get; set; } = null!;
     public DbSet<TeacherSubject> TeacherSubjects { get; set; } = null!;
     public DbSet<StudentEvent> StudentEvents { get; set; } = null!;
     public DbSet<TeacherEvent> TeacherEvents { get; set; } = null!;
@@ -58,5 +60,4 @@ public class SchoolDbContext : DbContext
                 v => v.ToString(),
             v => (GradeType)Enum.Parse(typeof(GradeType), v));
     }
-    public DbSet<SchoolManagementSystem.Models.Grade>? Grade { get; set; }
 }
