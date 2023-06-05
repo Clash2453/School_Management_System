@@ -26,7 +26,12 @@ public class AdminController : ControllerBase
     {
         return Ok(await _userManagementService.FetchGuests());
     }
-
+    [Authorize(Roles = "Admin")]
+    [HttpGet("fetch/teachers")]
+    public async Task<IActionResult> FetchTeachers()  
+    {
+        return Ok(await _userManagementService.FetchTeachers());
+    }
     [HttpPost("approve/student")]
     public async Task<IActionResult> AssignStudent(StudentDto request)
     {
@@ -74,4 +79,5 @@ public class AdminController : ControllerBase
 
         return Ok("Admin added successfully");
     }
+
 }

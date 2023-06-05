@@ -59,6 +59,17 @@ public class UserManagementService : IUserManagementService
 
         return user;
     }
+
+    public async Task<List<UserResultDto>> FetchTeachers()
+    {
+        return await _context.Teachers.Include(t => t.User ).Select( t => new UserResultDto()
+        {
+            Name = t.User.Name,
+            Email = t.User.Email,
+            Id = t.TeacherId
+        }).ToListAsync();
+    }
+
     public async Task<Status> CreateUser(UserDto request)
     {
         _authManager.CreatePasswordHash(request.Password, out string passwordHash, out string passwordSalt);
