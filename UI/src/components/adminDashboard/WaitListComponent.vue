@@ -2,29 +2,12 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import WaitListItemComponent from './WaitListItemComponent.vue'
-
 let guests = ref([])
 onMounted(async () => {
   guests.value = await fetchWaitList()
   console.log(guests)
 })
 async function fetchWaitList() {
-  try {
-    const result = await axios({
-      method: 'GET',
-      url: `https://localhost:7080/api/Admin/guests`,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true
-    })
-    console.log(result.data)
-    return result.data
-  } catch (e) {
-    console.log(e)
-  }
-}
-async function approveStudent() {
   try {
     const result = await axios({
       method: 'GET',
@@ -63,22 +46,6 @@ async function approveTeacher() {
     <ul class="list">
       <li class="list-item" v-for="(guest, index) in guests" :key="index">
         <WaitListItemComponent :data="guest"></WaitListItemComponent>
-        <!-- <div class="student-form">
-          <div class="input-wrapper">
-            <label for="faculty" class="subtitle">Faculty:</label>
-            <input type="text" name="title" id="title-input" class="input-field" />
-          </div>
-          <div class="input-wrapper">
-            <label for="specialty" class="subtitle">Specialty:</label>
-            <input type="text" name="title" id="title-input" class="input-field" />
-          </div>
-          <div class="input-wrapper">
-            <label for="group" class="subtitle">Group:</label>
-            <input type="text" name="title" id="title-input" class="input-field" />
-          </div> -->
-
-          <!-- <button class="add-button">Add</button>
-        </div> -->
       </li>
     </ul>
   </div>
@@ -121,9 +88,7 @@ async function approveTeacher() {
   overflow-y: auto;
 }
 .main-title {
-  height: 20%;
   min-height: fit-content;
-  margin-top: 1rem;
   font-size: 1.5rem;
 }
 </style>
