@@ -26,7 +26,6 @@ public class DataBundlingService : IDataBundlingService
     {
         var userData = await _userService.FetchUser(id);
         var studentData = await _userService.FetchStudent(id);
-        var subjectData = await _subjectService.GetSubjectsByStudent(id);
         if (userData == null || studentData == null)
             return null;
         
@@ -60,9 +59,9 @@ public class DataBundlingService : IDataBundlingService
         {
             StudentId = studentData.StudentId,
             Name = userData.Name,
-            Faculty = studentData.Faculty,
+            Faculty = studentData.Faculty.Name,
             Course = studentData.Course,
-            Specialty = studentData.Specialty,
+            Specialty = studentData.Specialty.Name,
             Group = studentData.Group,
             AvgGrade = average,
             HighestAvgSubject = max.Subject,
@@ -159,5 +158,9 @@ public class DataBundlingService : IDataBundlingService
 
         return result;
     }
-    
+
+    public async Task<AcademicDataDto> OrganizeAcademicData()
+    {
+        throw new NotImplementedException();
+    }
 }
