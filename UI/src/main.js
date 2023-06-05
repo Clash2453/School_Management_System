@@ -4,6 +4,8 @@ import router from './router'
 import mitt from 'mitt'
 import { createPinia } from 'pinia'
 import './assets/main.css'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css'
 
 import { OhVueIcon, addIcons } from 'oh-vue-icons'
 import {
@@ -39,6 +41,7 @@ const emitter = mitt()
 app.config.globalProperties.emitter = emitter
 app.provide('emitter', emitter)
 app.component('v-icon', OhVueIcon)
+app.component('v-select', vSelect)
 app.use(pinia)
 app.use(router)
 
