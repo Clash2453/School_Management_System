@@ -1,17 +1,46 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 const props = defineProps(['data'])
 let adding = ref(false)
+import { inject } from 'vue'
+
+const emitter = inject('emitter')
+
+onMounted(() => {
+  emitter.on('onlyOne', (user) => {
+    if (adding.value === true) adding.value = false
+  })
+})
 
 function expandCard() {
+  emitter.emit('onlyOne', () => {
+    if (adding.value === true) adding.value = false
+  })
   adding.value = true
 }
 async function declineUser() {
   adding.value = false
+  emitter.emit('adding', {
+    id: '',
+    name: '',
+    email: '',
+    role: ''
+  })
+}
+
+function addRole(role) {
+
+
+  emitter.emit('adding', {
+    id: props.data.id,
+    name: props.data.name,
+    email: props.data.email,
+    role: role
+  })
 }
 </script>
 <template>
-  <div class="card-container" :class="{ 'expand-main': adding }">
+  <div class="card-container" :class="{ 'expand-main': adding, selected: adding }">
     <div class="main-wrapper" :class="{ expanded: adding }">
       <div class="user-info">
         <h2 class="card-heading no-flicker">Name: {{ props.data.name }}</h2>
@@ -24,8 +53,8 @@ async function declineUser() {
       </div>
     </div>
     <div class="role-buttons" :class="{ 'expand-transition': adding }" v-if="adding">
-      <button class="add-button no-flicker">Student</button>
-      <button class="add-button no-flicker">Teacher</button>
+      <button class="add-button no-flicker" @click="addRole('student')">Student</button>
+      <button class="add-button no-flicker" @click="addRole('teacher')">Teacher</button>
     </div>
   </div>
 </template>
@@ -36,7 +65,6 @@ async function declineUser() {
   max-height: 7rem;
   min-height: fit-content;
   min-width: 17.25rem;
-  /* min-height: 7.5rem; */
   padding: 0.5rem;
   gap: 0.5rem;
   display: flex;
@@ -44,8 +72,6 @@ async function declineUser() {
   align-items: center;
   justify-content: flex-start;
   border-radius: 25px;
-  /* background: url('/images/card-background.svg') center no-repeat;
-  background-size: cover; */
   background-color: #0b2239;
   will-change: height;
   transform-origin: top center;
@@ -98,6 +124,9 @@ async function declineUser() {
 .expand-transition {
   animation: growAnimation 0.6s;
   backface-visibility: hidden;
+}
+.selected {
+  background-color: #0e2e4e;
 }
 @keyframes growAnimation {
   0% {
