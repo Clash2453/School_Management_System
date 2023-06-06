@@ -1,5 +1,20 @@
 @import url(base.css);
+:root {
+  --vs-controls-color: #664cc3;
+  --vs-border-color: #664cc3;
 
+  --vs-dropdown-bg: #282c34;
+  --vs-dropdown-color: #cc99cd;
+  --vs-dropdown-option-color: #cc99cd;
+
+  --vs-selected-bg: #664cc3;
+  --vs-selected-color: #eeeeee;
+
+  --vs-search-input-color: #eeeeee;
+
+  --vs-dropdown-option--active-bg: #664cc3;
+  --vs-dropdown-option--active-color: #eeeeee;
+}
 .wh-p {
     color: white;
     font-size: 1rem;
@@ -105,3 +120,84 @@ tdf {
     background-color: #27598f;
     box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
   }
+  .add-button {
+    background-color: #4ca0e7;
+  }
+  .decline-button {
+    background-color: #f26c82;
+  }
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+}.input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.option-card {
+  all: unset;
+  background-color: #4ca0e7;
+}
+.form-container {
+  height: 100%;
+  width: 100%;
+  z-index: 999;
+  max-width: 25rem;
+  max-height: 40rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1rem;
+  background: url('/images/form-background.svg') no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 15px;
+  font-family: 'Robot', sans-serif;
+}
+.form {
+  width: 100%;
+  height: 80%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  padding: 1rem;
+  color: white;
+}
+.input-field {
+  background-color: rgba(0, 45, 83, 1);
+  font-size: 1rem;
+  min-height: 2.5rem;
+  padding: 0.5rem;
+  border-radius: 5px;
+  color: inherit;
+}
+.submit-button {
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+.submit-button:hover {
+  background-color: #0068bd;
+}
+.select-wrapper {
+  background-color: rgb(0, 45, 83);
+  --vs-dropdown-bg: rgb(0, 78, 146);
+  --vs-dropdown-option-bg: white;
+  --vs-dropdown-option--active-bg: rgb(0, 102, 190);
+  --vs-dropdown-option--active-color: #fff;
+  --vs-search-input-color: #fff;
+  --vs-dropdown-color: white;
+  --vs-controls-color: white;
+  --vs-dropdown-option-color: var(--vs-dropdown-color);
+  --vs-dropdown-option-padding: 3px 20px;
+  --vs-selected-color: white;
+  --vs-selected-border-color: var(--vs-border-color);
+  --vs-selected-bg: rgb(3, 59, 105);
+  /* --vs-selected-color: rgb(0, 45, 83); */
+  color: white;
+  border-radius: 5px;
+  width: 15.31rem;
+}
