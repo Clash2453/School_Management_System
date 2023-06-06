@@ -1,11 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SchoolManagementSystem.Data;
 using SchoolManagementSystem.Enums;
 using SchoolManagementSystem.Interfaces;
 using SchoolManagementSystem.Models;
@@ -23,29 +16,6 @@ namespace SchoolManagementSystem.Controllers
         {
             _subjectService = subjectService;
         }
-
-        // GET: api/Subject
-        // [HttpGet]
-        // public async Task<ActionResult<IEnumerable<Subject>>> GetSubjects()
-        // {
-        // }
-
-        // GET: api/Subject/5
-        // [HttpGet("{id}")]
-        // public async Task<ActionResult<Subject>> GetSubject(int id)
-        // {
-        // }
-
-        // PUT: api/Subject/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        // [HttpPut]
-        // public async Task<IActionResult> PutSubject(int id, Subject subject)
-        // {
-        //     
-        // }
-
-        // POST: api/Subject
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Subject>> PostSubject(SubjectDto request)
         {
@@ -66,7 +36,6 @@ namespace SchoolManagementSystem.Controllers
                 return StatusCode(500);
             return Ok();
         }
-
         [HttpPost("add-specialty")]
         public async Task<IActionResult> AddSpecialty(SpecialtyDto request)
         {
@@ -76,7 +45,7 @@ namespace SchoolManagementSystem.Controllers
             return Ok();
         }
         [HttpGet("get-specialty")]
-        public async Task<IActionResult> GetSpecialty(SpecialtyDto request)
+        public async Task<IActionResult> GetSpecialties(SpecialtyDto request)
         {
             var result = await _subjectService.GetSpecialty(request);
             if (result == Status.Fail)
@@ -84,12 +53,37 @@ namespace SchoolManagementSystem.Controllers
             return Ok();
         }
         [HttpGet("get-faculty")]
-        public async Task<IActionResult> GetFaculty(int facultyId)
-        {
+        public async Task<IActionResult> GetFaculties(int facultyId)
+        {   
             var result = await _subjectService.GetFaculty(facultyId);
             if (result == null)
                 return StatusCode(500);
             return Ok(result.Specialties);
+        }
+
+        [HttpGet("get-subjects")]
+        public async Task<IActionResult> GetSubjects()
+        {
+            var result = await _subjectService.GetAllSubjects();
+            if (result == null || result.Count == 0  )
+                return StatusCode(500);
+            return Ok(result);
+        }
+        [HttpGet("get-specialties")]
+        public async Task<IActionResult> GetSpecialties()
+        {
+            var result = await _subjectService.GetAllSpecialties();
+            if (result == null || result.Count == 0  )
+                return StatusCode(500);
+            return Ok(result);
+        }
+        [HttpGet("get-faculties")]
+        public async Task<IActionResult> GetFaculties()
+        {
+            var result = await _subjectService.GetAllFaculties();
+            if (result == null || result.Count == 0  )
+                return StatusCode(500);
+            return Ok(result);
         }
     }
 }
