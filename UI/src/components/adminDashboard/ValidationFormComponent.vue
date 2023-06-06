@@ -5,18 +5,40 @@ const isTeacher = ref(false)
 const data = ['Pomosht', ' Vasko']
 const emitter = inject('emitter')
 const user = ref({})
+const userRole = ref('student')
 let title = ref('')
 onMounted(() => {
   emitter.on('adding', (userInfo) => {
-    if (userInfo.role === 'student') isTeacher.value = false
-    else isTeacher.value = true
+    if (userInfo.role === 'student') {
+      isTeacher.value = false
+      userRole.value = student
+    } else {
+      isTeacher.value = true
+      userRole.value = 'teacher'
+    }
 
     user.value = userInfo
   })
 })
-
-async function addStudent() {}
-async function addTeacher() {
+async function addUser() {
+  if (!isTeacher.value) {
+    try {
+      console.log(title.value)
+      const result = await axios({
+        method: 'POST',
+        data: { title: title.value, userId: user.value.id },
+        url: `https://localhost:7080/api/Admin/approve/student`,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      })
+      console.log(result.data)
+      return result.data
+    } catch (e) {
+      console.log(e)
+    }
+  }
   try {
     console.log(title.value)
     const result = await axios({
@@ -38,7 +60,7 @@ async function addTeacher() {
 <template>
   <div class="form-container">
     <form action="" id="student-form" class="form" v-on:submit.prevent="onSubmit">
-      <h2 class="subtitle">Add Teacher:</h2>
+      <h2 class="subtitle">Add {{ usrRole }}:</h2>
       <div class="input-wrapper">
         <h3 class="subtitle">Name:</h3>
         <input type="text" name="name" id="name-input" class="input-field" :value="user.name" />
@@ -83,7 +105,7 @@ async function addTeacher() {
           <v-select class="style-chooser" :options="data" v-model="selectedSpecialty"></v-select>
         </div>
       </div>
-      <button class="submit-button add-button" @click="addTeacher">Approve</button>
+      <button class="submit-button add-button" @click="addUser">Approve</button>
     </form>
   </div>
 </template>
