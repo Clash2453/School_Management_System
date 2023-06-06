@@ -1,6 +1,7 @@
 using SchoolManagementSystem.Enums;
 using SchoolManagementSystem.Models;
 using SchoolManagementSystem.Models.DataTransferObjects;
+using SchoolManagementSystem.Models.QuerryResultDtos;
 
 namespace SchoolManagementSystem.Interfaces;
 
@@ -11,6 +12,9 @@ public interface ISubjectService
     public Task<Status> AddSpecialty(SpecialtyDto request);
     public Task<Faculty?> GetFaculty(int facultyId);
     public Task<Status> AddFaculty(FacultyDto request);
+    public Task<List<SubjectDto>?> GetAllSubjects();
+    public Task<List<SpecialtyQueryResult>?> GetAllSpecialties();
+    public Task<List<FacultyQueryResult>?> GetAllFaculties();
     public Task<Status> RemoveSpecialty(int specialtyId);
     public Task<Status> RemoveFaculty(int facultyId);
     public Task<Status> UpdateSubject(SubjectDto request);
