@@ -1,7 +1,12 @@
 <script setup>
-import { ref, onMounted, defineAsyncComponent } from 'vue'
+import { ref, onMounted, defineAsyncComponent, inject } from 'vue'
 import ErrorComponent from '../components/general/ErrorComponent.vue'
 import LoadingComponent from '../components/general/LoadingComponent.vue'
+import ValidationFormComponent from '../components/adminDashboard/ValidationFormComponent.vue'
+import SubjectFormComponent from '../components/adminDashboard/SubjectFormComponent.vue'
+import axios from 'axios'
+
+const emitter = inject('emitter')
 const WaitList = defineAsyncComponent({
   // the loader function
   loader: () => import('../components/adminDashboard/WaitListComponent.vue'),
@@ -17,16 +22,114 @@ const WaitList = defineAsyncComponent({
   // provided and exceeded. Default: Infinity.
   timeout: 3000
 })
+const teachers = ref([])
+const subjects = ref([])
+const specialties = ref([])
+const faculties = ref([])
+onMounted(async () => {
+  teachers.value = await fetchTeachers()
+  subjects.value = await fetchSubjects()
+  faculties.value = await fetchFaculties()
+  specialties.value = await fetchSpecialties()
+
+  emitter.on('renewSubjects', async () => {
+    subjects.value = await fetchSubjects()
+  })
+  emitter.on('renewSpecialties', async () => {
+    specialties.value = await fetchSpecialties()
+  })
+  emitter.on('renewFaculties', async () => {
+    faculties.value = await fetchFaculties()
+  })
+})
+
+async function fetchTeachers() {
+  try {
+    const result = await axios({
+      method: 'GET',
+      url: `https://localhost:7080/api/Admin/fetch/teachers`,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      withCredentials: true
+    })
+    console.log(result.data)
+    return result.data
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+async function fetchSpecialties() {
+  try {
+    const result = await axios({
+      method: 'GET',
+      url: `https://localhost:7080/api/Subject/get-specialties`,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      withCredentials: true
+    })
+    console.log(result.data)
+    return result.data
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+async function fetchFaculties() {
+  try {
+    const result = await axios({
+      method: 'GET',
+      url: `https://localhost:7080/api/Subject/get-faculties`,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      withCredentials: true
+    })
+    console.log(result.data)
+    return result.data
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+async function fetchSubjects() {
+  try {
+    const result = await axios({
+      method: 'GET',
+      url: `https://localhost:7080/api/Subject/get-subjects`,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      withCredentials: true
+    })
+    console.log(result.data)
+    return result.data
+  } catch (e) {
+    console.log(e)
+  }
+}
 </script>
 <template>
   <section class="container">
     <WaitList></WaitList>
+    <ValidationFormComponent />
+    <SubjectFormComponent
+      :subjects="subjects"
+      :faculties="faculties"
+      :teachers="teachers"
+      :specialties="specialties"
+    />
   </section>
 </template>
 <style scoped>
 .container {
   display: flex;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
+  padding: 1rem;
+  gap: 1rem;
+  overflow: hidden;
 }
 </style>
