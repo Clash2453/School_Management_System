@@ -27,7 +27,7 @@ public class UserManagementService : IUserManagementService
 
     public async Task<Student?> FetchStudent(int id)
     {
-        return await _context.Students.FirstOrDefaultAsync(s => s.StudentId == id);
+        return await _context.Students.Include(student => student.Specialty).Include(student => student.Faculty).FirstOrDefaultAsync(s => s.StudentId == id);
     }
     public async Task<Teacher?> FetchTeacher(int id)
     {
@@ -68,6 +68,11 @@ public class UserManagementService : IUserManagementService
             Email = t.User.Email,
             Id = t.TeacherId
         }).ToListAsync();
+    }
+    public async Task<List<Student>> FetchStudentsBySubject(int subjectId)
+    {
+        var specialties = await  _context.SubjectSpecialties.Where(specialty => specialty.Subject.Id == subjectId).Select(subSpecialty => subSpecialty.Specialty).ToListAsync();
+        return await _context.Students.Include(student=> student.User).Where(student => specialties.Contains(student.Specialty)).ToListAsync();
     }
 
     public async Task<Status> CreateUser(UserDto request)
