@@ -1,3 +1,16 @@
+<template>
+  <section class="container">
+    <WaitList></WaitList>
+    <ValidationFormComponent :faculties="faculties" :groups="groups" :specialties="specialties" />
+    <SubjectFormComponent
+      :subjects="subjects"
+      :faculties="faculties"
+      :teachers="teachers"
+      :specialties="specialties"
+    />
+  </section>
+</template>
+
 <script setup>
 import { ref, onMounted, defineAsyncComponent, inject } from 'vue'
 import ErrorComponent from '../components/general/ErrorComponent.vue'
@@ -7,6 +20,7 @@ import SubjectFormComponent from '../components/adminDashboard/SubjectFormCompon
 import axios from 'axios'
 
 const emitter = inject('emitter')
+
 const WaitList = defineAsyncComponent({
   // the loader function
   loader: () => import('../components/adminDashboard/WaitListComponent.vue'),
@@ -26,6 +40,7 @@ const teachers = ref([])
 const subjects = ref([])
 const specialties = ref([])
 const faculties = ref([])
+const groups = ref([76, 77])
 onMounted(async () => {
   teachers.value = await fetchTeachers()
   subjects.value = await fetchSubjects()
@@ -111,18 +126,7 @@ async function fetchSubjects() {
   }
 }
 </script>
-<template>
-  <section class="container">
-    <WaitList></WaitList>
-    <ValidationFormComponent />
-    <SubjectFormComponent
-      :subjects="subjects"
-      :faculties="faculties"
-      :teachers="teachers"
-      :specialties="specialties"
-    />
-  </section>
-</template>
+
 <style scoped>
 .container {
   display: flex;
