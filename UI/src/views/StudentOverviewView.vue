@@ -32,7 +32,7 @@ onMounted(async () => {
     cardTitle: 'Absence'
   }
   welcomeCardData.value = {
-    mainContent: `Your student ID number is: ${studentData.studentId}`,
+    mainContent: `Your student ID is: ${studentData.studentId}`,
     firstArgument: `Your group number is ${studentData.group}`,
     secondArgument: ``,
     displayedValue: studentData.avgGrade,
@@ -100,7 +100,7 @@ async function getGradeData() {
     })
     // console.log(response.data.grades)
     const grades = response.data.grades[0]
-
+    if (grades === undefined) return {}
     const groups = grades.reduce((groups, item) => {
       const group = groups[item.subject] || []
       group.push(item)
