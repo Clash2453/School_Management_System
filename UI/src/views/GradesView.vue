@@ -6,13 +6,14 @@ let grades = ref({})
 let dataFetched = ref(false)
 onMounted(async () => {
   const data = await getGradesPerSubject()
+  if (data === undefined) return
   console.log(data)
   grades.value = {
     headers: ['Subjects', 'First Term', 'Term Grade', 'Second Term', 'Term Grade', 'Year Grade'],
     subjects: Object.keys(data),
     grades: data
   }
-  console.log(grades.value)
+  // console.log(grades.value)
   dataFetched.value = true
 })
 async function getGradesPerSubject() {
@@ -26,6 +27,7 @@ async function getGradesPerSubject() {
       withCredentials: true
     })
     console.log(response.data)
+    if (response === undefined) return {}
     return response.data
   } catch (e) {
     console.log(e)
