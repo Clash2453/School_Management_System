@@ -28,7 +28,7 @@ window.addEventListener('resize', toggleExtra())
         <router-link to="overview" class="action-button action-card subtitle">Overview</router-link>
       </li>
       <li class="action-button">
-        <router-link to="/dashboard/grades" class="action-card action-button subtitle"
+        <router-link to="/dashboard/student/grades" class="action-card action-button subtitle"
           >Grades</router-link
         >
       </li>
