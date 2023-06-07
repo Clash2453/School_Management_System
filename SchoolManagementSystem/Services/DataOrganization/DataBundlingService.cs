@@ -1,6 +1,8 @@
 using SchoolManagementSystem.Interfaces;
 using SchoolManagementSystem.Models;
+using SchoolManagementSystem.Models.DataTransferObjects;
 using SchoolManagementSystem.Models.QuerryResultDtos;
+using AdminDto = SchoolManagementSystem.Models.QuerryResultDtos.AdminDto;
 
 namespace SchoolManagementSystem.Services.DataOrganization;
 
@@ -30,7 +32,27 @@ public class DataBundlingService : IDataBundlingService
             return null;
         
         var grades = await _gradingService.GetGradesByStudentId(userData.UserId);
-
+        if (grades.Count == 0)
+        {
+            var subjects = await _subjectService.GetSubjectsByStudent(studentData.Specialty.SpecialtyId);
+            return new StudentDataDto   
+            {
+                StudentId = studentData.StudentId,
+                Name = userData.Name,
+                Faculty = studentData.Faculty.Name,
+                Course = studentData.Course,
+                Specialty = studentData.Specialty.Name,
+                Group = studentData.Group,
+                AvgGrade = 6,
+                HighestAvgSubject = subjects[0].Name,
+                HighestAvg = 6,
+                LowestAvgSubject = subjects[0].Name,
+                LowestAvg = 6,
+                TotalAbsence = 0,
+                ExcusedAbsence = 0,
+                UnExcusedAbsence = 0
+            };;
+        }
         var gradeValues = grades.Select(g => new { Subject = g.Subject.Name, Value = g.Value }).ToList();
         var average = gradeValues.Select(g => g.Value).Average();
 
@@ -75,9 +97,34 @@ public class DataBundlingService : IDataBundlingService
         return response;
     }
 
-    public async Task<StudentDataDto?> OrganizeTeacherData(int id)
+    public async Task<TeacherDataDto> OrganizeTeacherData(int id)
     {
-        throw new NotImplementedException();
+        var userData = await _userService.FetchUser(id);
+        var teacherData = await _userService.FetchTeacher(id);
+
+        if (userData == null || teacherData == null)
+            return null;
+
+        var subjects = await _subjectService.GetSubjectsByTeacher(id);
+        var students = new Dictionary<string, List<StudentDataDto>>();
+        foreach (Subject subject in subjects)
+        {
+            var studentsBySubject = await _userService.FetchStudentsBySubject(subject.Id);
+            var formattedStudents = studentsBySubject.Select(student => new StudentDataDto()
+            {
+                Name = student.User.Name,
+                Specialty = student.Specialty.Name
+            }).ToList();
+            students.Add(subject.Name, formattedStudents);
+        }
+
+        var result = new TeacherDataDto()
+        {
+            Name = userData.Name,
+            Id = teacherData.TeacherId,
+            Students = students
+        };
+        return result;
     }
 
     public async Task<AdminDto?> OrganizeAdminData(int id)
@@ -100,9 +147,9 @@ public class DataBundlingService : IDataBundlingService
         if (userData == null || studentData == null)
             return null;
         var grades = await _gradingService.GetGradesByStudentId(userData.UserId);
-        
+
         if (grades.Count == 0)
-            return null;
+            return new GradeDataDto();
         var groupedGrades = grades.Select(g =>
                 new GradeResultDto()
                 {
@@ -125,9 +172,34 @@ public class DataBundlingService : IDataBundlingService
         };
     }
 
-    public async Task<GradeDataDto?> OrganizeTeacherGradeData(int id)
+    public async Task<TeacherDataDto> OrganizeTeacherGradeData(int id)
     {
-        throw new NotImplementedException();
+        var userData = await _userService.FetchUser(id);
+        var teacherData = await _userService.FetchTeacher(id);
+
+        if (userData == null || teacherData == null)
+            return null;
+
+        var subjects = await _subjectService.GetSubjectsByTeacher(id);
+        var students = new Dictionary<string, List<StudentDataDto>>();
+        foreach (Subject subject in subjects)
+        {
+            var studentsBySubject = await _userService.FetchStudentsBySubject(subject.Id);
+            var formattedStudents = studentsBySubject.Select(student => new StudentDataDto()
+            {
+                Name = student.User.Name,
+                Specialty = student.Specialty.Name
+            }).ToList();
+            students.Add(subject.Name, formattedStudents);
+        }
+
+        var result = new TeacherDataDto()
+        {
+            Name = userData.Name,
+            Id = teacherData.TeacherId,
+            Students = students
+        };
+        return result;
     }
 
     public async Task<Dictionary<string, List<GradeResultDto>>?> OrganizeGradesPerSubjects(int id)
@@ -136,7 +208,7 @@ public class DataBundlingService : IDataBundlingService
         var grades = await _gradingService.GetGradesByStudentId(id);
         
         if (grades.Count == 0)
-            return null;
+            return new Dictionary<string, List<GradeResultDto>>();
         
         var gradeValues = grades.Select(g => 
                 new GradeResultDto()
@@ -157,10 +229,5 @@ public class DataBundlingService : IDataBundlingService
         }
 
         return result;
-    }
-
-    public async Task<AcademicDataDto> OrganizeAcademicData()
-    {
-        throw new NotImplementedException();
     }
 }
