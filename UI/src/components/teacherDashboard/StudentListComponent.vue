@@ -1,12 +1,23 @@
 <template>
   <div class="list-container">
-    <h1 class="main-title align-c">Applications waiting approval</h1>
+    <h1 class="main-title align-c">Your students</h1>
     <ul class="list">
-      <li class="list-item" v-for="(guest, index) in guests" :key="index"></li>
+      <li class="list-item" v-for="(subject, index) in subjects" :key="index">
+        <SpecialtyStudentComponent :students="students" :subject="subject" />
+      </li>
     </ul>
   </div>
 </template>
-<script setup></script>
+<script setup>
+import SpecialtyStudentComponent from './SpecialtyStudentComponent.vue';
+
+const props = defineProps(['subjects', 'students'])
+
+console.log(props.subjects)
+console.log(props.students.value)
+</script>
 <style scoped>
-/* .list-container; */
+.list-item {
+  width: 100%;
+}
 </style>
