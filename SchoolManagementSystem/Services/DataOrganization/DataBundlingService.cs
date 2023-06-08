@@ -51,7 +51,7 @@ public class DataBundlingService : IDataBundlingService
                 TotalAbsence = 0,
                 ExcusedAbsence = 0,
                 UnExcusedAbsence = 0
-            };;
+            };  
         }
         var gradeValues = grades.Select(g => new { Subject = g.Subject.Name, Value = g.Value }).ToList();
         var average = gradeValues.Select(g => g.Value).Average();
@@ -113,6 +113,7 @@ public class DataBundlingService : IDataBundlingService
             var formattedStudents = studentsBySubject.Select(student => new StudentDataDto()
             {
                 Name = student.User.Name,
+                StudentId = student.StudentId,
                 Specialty = student.Specialty.Name
             }).ToList();
             students.Add(subject.Name, formattedStudents);
@@ -204,7 +205,12 @@ public class DataBundlingService : IDataBundlingService
 
     public async Task<Dictionary<string, List<GradeResultDto>>?> OrganizeGradesPerSubjects(int id)
     {
-        var subjects = await _subjectService.GetSubjectsByStudent(id);
+        var user = await _userService.FetchStudent(id);
+        
+        if(user == null)
+            return new Dictionary<string, List<GradeResultDto>>();
+        
+        var subjects = await _subjectService.GetSubjectsByStudent(user.Specialty.SpecialtyId);
         var grades = await _gradingService.GetGradesByStudentId(id);
         
         if (grades.Count == 0)
@@ -220,7 +226,7 @@ public class DataBundlingService : IDataBundlingService
                 })
             .GroupBy(g=> g.Subject)
             .Select(g => g.ToList())
-            .ToList();
+            .ToList();  
         Dictionary<string, List<GradeResultDto>> result = new();
         for (int i = 0; i < subjects.Count; i++)
         {
