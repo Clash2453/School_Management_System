@@ -41,10 +41,14 @@ onMounted(async () => {
     cardTitle: `Welcome ${studentData.name}`
   }
   gradeCardData.value = {
-    mainContent: `Average Grade: ${studentData.avgGrade}`,
-    firstArgument: `Your weakest subject is ${studentData.lowestAvgSubject}: ${studentData.lowestAvg}`,
-    secondArgument: `Your strongest subject is ${studentData.highestAvgSubject}: ${studentData.highestAvg}`,
-    displayedValue: studentData.avgGrade,
+    mainContent: `Average Grade: ${studentData.avgGrade.toFixed(2)}`,
+    firstArgument: `Your weakest subject is ${
+      studentData.lowestAvgSubject
+    }: ${studentData.lowestAvg.toFixed(2)}`,
+    secondArgument: `Your strongest subject is ${
+      studentData.highestAvgSubject
+    }: ${studentData.highestAvg.toFixed(2)}`,
+    displayedValue: studentData.avgGrade.toFixed(2),
     backColor: '#33b864',
     loaderNeeded: true,
     cardTitle: 'Your Grades:'
