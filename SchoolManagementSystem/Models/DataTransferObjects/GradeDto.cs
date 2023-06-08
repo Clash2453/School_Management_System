@@ -7,7 +7,6 @@ public class GradeDto
     public float Value { get; set; }
     public DateTime Date = DateTime.Now;    
     public int StudentId { get; set; }
-    public int TeacherId { get; set; }
-    public int SubjectId { get; set; }
-    public GradeType GradeType { get; set; }
+    public string Subject { get; set; } = null!;
+    public string GradeType { get; set; } = null!;
 }
