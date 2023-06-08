@@ -34,8 +34,9 @@ const endColor = '#0eff00'
   color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   width: clamp(20rem, 30%, 40rem);
-  height: 100%;
-  min-height: 14.5rem;
+  /* height: 100%; */
+  height: 14.5rem;
+  min-height: fit-content;
 }
 .stats-container {
   width: 100%;
