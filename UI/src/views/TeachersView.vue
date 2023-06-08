@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import OverviewCardComponent from '../components/userDashboard/OverviewCardComponent.vue'
 import StudentList from '../components/teacherDashboard/StudentListComponent.vue'
 import axios from 'axios'
+import SpecialtyStudent from '../components/teacherDashboard/SpecialtyStudentComponent.vue'
 const options = ref({
   mainContent: `Your teacher ID is: `,
   firstArgument: ``,
@@ -12,10 +13,15 @@ const options = ref({
   loaderNeeded: false,
   cardTitle: `Welcome `
 })
+const students = ref({})
+const subjects = ref([])
 onMounted(async () => {
   const teacherData = await fetchTeacherData()
   options.value.mainContent = `Your teacher ID is: ${teacherData.id}`
   options.value.cardTitle = `Welcome ${teacherData.name}`
+  students.value = teacherData.students
+  subjects.value = Object.keys(students.value)
+  console.log(subjects.value)
 })
 async function fetchTeacherData() {
   try {
@@ -37,13 +43,13 @@ async function fetchTeacherData() {
 <template>
   <section class="section-container">
     <OverviewCardComponent :card-data="options" />
-    <StudentList />
+    <StudentList :students="students" :subjects="subjects" />
   </section>
 </template>
 <style scoped>
 .section-container {
   width: 100%;
-  height: 100%;
+  
 
   display: flex;
   padding: 1rem;
