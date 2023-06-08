@@ -82,7 +82,11 @@ namespace SchoolManagementSystem.Controllers
         [HttpPost]
         public async Task<ActionResult<Grade>> AddGrade(GradeDto request)
         {
-            var status = await _gradingService.AddGrade(request); 
+            var userCredentials = _authManager.ParseToken(HttpContext.Request.Cookies["token"]);
+            if (userCredentials == null)
+                return StatusCode(502);
+            int teacherId = int.Parse(userCredentials["id"]);
+            var status = await _gradingService.AddGrade(request, teacherId); 
             
             if(status == Status.Fail)
               return StatusCode(418); //¯\_(ツ)_/¯
