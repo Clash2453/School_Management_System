@@ -130,10 +130,18 @@ async function fetchSubjects() {
 <style scoped>
 .container {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
   width: 100%;
   min-height: 100%;
   padding: 1rem;
   gap: 1rem;
   overflow: hidden;
+}
+@media (max-width: 1550px) {
+  .container {
+    flex-direction: column;
+  }
 }
 </style>
