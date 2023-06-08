@@ -15,11 +15,11 @@ public class GradingService : IGradingService
     {
         _context = context;
     }
-    public async Task<Status> AddGrade(GradeDto request)
+    public async Task<Status> AddGrade(GradeDto request, int teacherId)
     {
         var student = await _context.Students.FindAsync(request.StudentId);
-        var teacher = await _context.Teachers.FindAsync(request.TeacherId);
-        var subject = await _context.Subjects.FindAsync(request.SubjectId);
+        var teacher = await _context.Teachers.FindAsync(teacherId);
+        var subject = await _context.Subjects.FirstOrDefaultAsync(subject => subject.Name == request.Subject);
         
         if (student == null || teacher == null || subject == null)
             return Status.Fail;
@@ -31,9 +31,10 @@ public class GradingService : IGradingService
             Owner = student,
             Date = DateTime.Now,
             Subject = subject,
-            TypeOfGrade = request.GradeType
-        };
-        
+            StudentYear = student.Course
+        };      
+        if (request.GradeType == "regular")
+            grade.TypeOfGrade = GradeType.Regular;
 
         _context.Grades.Add(grade);
         await _context.SaveChangesAsync();
