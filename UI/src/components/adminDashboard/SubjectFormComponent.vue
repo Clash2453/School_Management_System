@@ -173,7 +173,7 @@ async function addSubject() {
   try {
     const result = await axios({
       method: 'POST',
-      data: specialty.value,
+      data: subject.value,
       url: `https://localhost:7080/api/Subject`,
       headers: {
         'Content-Type': 'application/json'
