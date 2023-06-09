@@ -54,6 +54,7 @@ async function addUser() {
     try {
       // console.log({
       //   userId: user.value.id,
+      //   email: user.value.email,
       //   specialty: selectedSpecialty.value,
       //   faculty: selectedFaculty.value,
       //   group: selectedGroup.value,
@@ -63,6 +64,7 @@ async function addUser() {
         method: 'POST',
         data: {
           userId: user.value.id,
+          email: user.value.email,
           specialty: selectedSpecialty.value,
           faculty: selectedFaculty.value,
           group: selectedGroup.value,
