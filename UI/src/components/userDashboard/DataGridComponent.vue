@@ -131,6 +131,7 @@ console.log(props.options)
 }
 .table-cell {
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
   justify-content: flex-start;
   margin-bottom: auto;

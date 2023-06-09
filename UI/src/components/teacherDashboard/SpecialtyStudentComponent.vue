@@ -8,13 +8,12 @@
       :class="{ expanded: adding }"
     >
       <div class="info-wrapper">
-        <h3 class="student-name">
+        <h3 class="student-name subtitle">
           {{ student.name }}
         </h3>
-        <button class="add-button" @click="expand">Add Grade</button>
       </div>
 
-      <div class="selection-wrapper" v-if="adding">
+      <div class="selection-wrapper" >
         <div
           class="grade"
           id="grade-weak"
@@ -56,10 +55,9 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref} from 'vue'
 import axios from 'axios'
 
-const adding = ref(false)
 const props = defineProps(['students', 'subject'])
 const grade = ref({
   value: 6,
@@ -67,14 +65,12 @@ const grade = ref({
   subject: props.subject,
   gradeType: 'regular'
 })
+
 // "value": 0,
 //   "studentId": 0,
 //   "subject": "string",
 //   "gradeType": 0
 console.log(props.students)
-async function expand() {
-  adding.value = !adding.value
-}
 function setGradeValue(value, name, id) {
   grade.value.value = value
   grade.value.studentName = name
