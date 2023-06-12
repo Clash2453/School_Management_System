@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Asn1.Ocsp;
 using SchoolManagementSystem.Enums;
 using SchoolManagementSystem.Interfaces;
 using SchoolManagementSystem.Models.DataTransferObjects;
@@ -36,7 +37,14 @@ public class AdminController : ControllerBase
     public async Task<IActionResult> AssignStudent(StudentDto request)
     {
         var status = await _userManagementService.CreateStudent(request);
-        if (status == Status.Fail)
+        _emailService.SendMail(new EmailDto()
+        {    
+            Receiver = request.Email,
+            Body = "Your application has been approved by an administrator. You have access to the system.",
+            Subject = "Application approval"
+
+        });
+        if (status == Status.Fail )
             return StatusCode(500);
 
         return Ok("Student added successfully");
@@ -70,14 +78,14 @@ public class AdminController : ControllerBase
         return Ok("Email sent successfully");
     }
  
-    [HttpDelete("admin/delete-user")]
+    [HttpDelete("delete-user")]
     public async Task<IActionResult> DeleteUser(int id)
     {
         var status = await _userManagementService.DeleteUser(id);
         if (status == Status.Fail)
             return StatusCode(500);
 
-        return Ok("Admin added successfully");
+        return Ok("User deleted successfully");
     }
 
 }
