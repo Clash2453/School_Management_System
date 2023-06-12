@@ -154,10 +154,9 @@ public class UserManagementService : IUserManagementService
         var user = await FetchUser(id);
         if (user == null)
             return Status.Fail;
-
-        string role = user.Role;
-        _context.Users.Remove(user);
         
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
         return Status.Success;
     }
 }
