@@ -8,22 +8,24 @@
       :teachers="teachers"
       :specialties="specialties"
     />
+    <LargeList />
   </section>
 </template>
 
 <script setup>
 import { ref, onMounted, defineAsyncComponent, inject } from 'vue'
-import ErrorComponent from '../components/general/ErrorComponent.vue'
-import LoadingComponent from '../components/general/LoadingComponent.vue'
-import ValidationFormComponent from '../components/adminDashboard/ValidationFormComponent.vue'
-import SubjectFormComponent from '../components/adminDashboard/SubjectFormComponent.vue'
+import ErrorComponent from '../../components/general/ErrorComponent.vue'
+import LoadingComponent from '../../components/general/LoadingComponent.vue'
+import ValidationFormComponent from '../../components/adminDashboard/ValidationFormComponent.vue'
+import SubjectFormComponent from '../../components/adminDashboard/SubjectFormComponent.vue'
 import axios from 'axios'
+import LargeList from '../../components/userDashboard/LargeListComponent.vue'
 
 const emitter = inject('emitter')
 
 const WaitList = defineAsyncComponent({
   // the loader function
-  loader: () => import('../components/adminDashboard/WaitListComponent.vue'),
+  loader: () => import('../../components/adminDashboard/WaitListComponent.vue'),
 
   // A component to use while the async component is loading
   loadingComponent: LoadingComponent,
@@ -130,7 +132,7 @@ async function fetchSubjects() {
 <style scoped>
 .container {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: space-evenly;
   align-items: center;
   width: 100%;

@@ -1,6 +1,6 @@
 <script setup>
-import OverviewCardComponent from '../components/userDashboard/OverviewCardComponent.vue'
-import LineChart from '../components/userDashboard/LineChartComponent.vue'
+import OverviewCardComponent from '../../components/userDashboard/OverviewCardComponent.vue'
+import LineChart from '../../components/userDashboard/LineChartComponent.vue'
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
 let chartDataObjects = []
