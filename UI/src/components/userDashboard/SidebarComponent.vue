@@ -25,19 +25,33 @@ window.addEventListener('resize', toggleExtra())
     <h1 class="main-title">{{ state }}</h1>
     <ul class="action-list">
       <li class="action-button">
-        <router-link to="overview" class="action-button action-card subtitle">Overview</router-link>
-      </li>
-      <li class="action-button">
-        <router-link to="grades" class="action-card action-button subtitle">Grades</router-link>
-      </li>
-      <li class="action-button">
-        <router-link to="/dashboard/absence" class="action-card action-button subtitle"
-          >Absence</router-link
+        <router-link to="overview" class="action-button action-card subtitle">
+          <v-icon :name="'hi-solid-chart-pie'" scale="1.5" fill="white"></v-icon>
+          Overview</router-link
         >
       </li>
       <li class="action-button">
-        <router-link to="/dashboard/teachers" class="action-card action-button subtitle"
-          >Teachers</router-link
+        <router-link to="grades" class="action-card action-button subtitle">
+          <v-icon :name="'bi-table'" scale="1.5" fill="white"></v-icon>
+          Grades</router-link
+        >
+      </li>
+      <li class="action-button">
+        <router-link to="/dashboard/absence" class="action-card action-button subtitle">
+          <v-icon :name="'md-stickynote2-outlined'" scale="1.5" fill="white"></v-icon>
+          Absence</router-link
+        >
+      </li>
+      <li class="action-button">
+        <router-link to="/dashboard/teachers" class="action-card action-button subtitle">
+          <v-icon :name="'fa-chalkboard-teacher'" scale="1.5" fill="white"></v-icon>
+          Teachers</router-link
+        >
+      </li>
+      <li class="action-button">
+        <router-link to="subjects" class="action-card action-button subtitle">
+          <v-icon :name="'bi-calendar2-week'" scale="1.5" fill="white"></v-icon
+          > Subjects</router-link
         >
       </li>
     </ul>
