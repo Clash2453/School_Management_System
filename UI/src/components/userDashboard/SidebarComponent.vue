@@ -1,22 +1,68 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { inject } from 'vue'
+import { useUserStore } from '../../stores/UserStore.js'
 
 const emitter = inject('emitter')
-let hidden = ref(false)
-
+const hidden = ref(false)
+const store = useUserStore()
+const dynamicLinks = {
+  Admin: [
+    {
+      path: 'overview',
+      icon: 'hi-solid-chart-pie',
+      text: 'Overview'
+    },
+    {
+      path: 'subjects',
+      icon: 'bi-calendar2-week',
+      text: 'Subjects'
+    }
+  ],
+  Teacher: [
+    {
+      path: 'overview',
+      icon: 'hi-solid-chart-pie',
+      text: 'Overview'
+    },
+    {
+      path: 'absence',
+      icon: 'md-stickynote2-outlined',
+      text: 'Absence'
+    }
+  ],
+  Student: [
+    {
+      path: 'overview',
+      icon: 'hi-solid-chart-pie',
+      text: 'Overview'
+    },
+    {
+      path: 'grades',
+      icon: 'bi-table',
+      text: 'Grades'
+    },
+    {
+      path: 'teachers ',
+      icon: 'fa-chalkboard-teacher',
+      text: 'Teachers'
+    }
+  ]
+}
 onMounted(() => {
   emitter.on('toggle-mobile', (state) => {
     hidden.value = state
     console.log(state)
   })
 })
+
 function toggleExtra() {
   if (window.innerWidth < 600) {
     hidden.value = true
     emitter.emit('toggle-extra', hidden)
   }
 }
+
 toggleExtra()
 window.addEventListener('resize', toggleExtra())
 </script>
@@ -24,34 +70,14 @@ window.addEventListener('resize', toggleExtra())
   <section class="container" v-if="!hidden">
     <h1 class="main-title">{{ state }}</h1>
     <ul class="action-list">
-      <li class="action-button">
-        <router-link to="overview" class="action-button action-card subtitle">
-          <v-icon :name="'hi-solid-chart-pie'" scale="1.5" fill="white"></v-icon>
-          Overview</router-link
-        >
-      </li>
-      <li class="action-button">
-        <router-link to="grades" class="action-card action-button subtitle">
-          <v-icon :name="'bi-table'" scale="1.5" fill="white"></v-icon>
-          Grades</router-link
-        >
-      </li>
-      <li class="action-button">
-        <router-link to="/dashboard/absence" class="action-card action-button subtitle">
-          <v-icon :name="'md-stickynote2-outlined'" scale="1.5" fill="white"></v-icon>
-          Absence</router-link
-        >
-      </li>
-      <li class="action-button">
-        <router-link to="/dashboard/teachers" class="action-card action-button subtitle">
-          <v-icon :name="'fa-chalkboard-teacher'" scale="1.5" fill="white"></v-icon>
-          Teachers</router-link
-        >
-      </li>
-      <li class="action-button">
-        <router-link to="subjects" class="action-card action-button subtitle">
-          <v-icon :name="'bi-calendar2-week'" scale="1.5" fill="white"></v-icon
-          > Subjects</router-link
+      <li
+        v-for="(navLink, index) in dynamicLinks[store.getRole]"
+        :key="index"
+        class="action-button"
+      >
+        <router-link :to="navLink.path" class="action-button action-card subtitle">
+          <v-icon :name="navLink.icon" scale="1.5" fill="white"></v-icon>
+          {{ navLink.text }}</router-link
         >
       </li>
     </ul>
