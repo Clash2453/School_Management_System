@@ -88,6 +88,7 @@ function addRole(role) {
   background-color: #0b2239;
   will-change: height;
   transform-origin: top center;
+  cursor: pointer;
 }
 .main-wrapper {
   width: 100%;
