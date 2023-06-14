@@ -3,13 +3,14 @@ import { useUserStore } from '../stores/UserStore.js'
 import Home from '../views/HomeView.vue'
 import Login from '../views/LoginView.vue'
 import Dashboard from '../views/DashboardView.vue'
-import OverviewView from '../views/StudentOverviewView.vue'
-import GradesView from '../views/GradesView.vue'
-import AbsenceView from '../views/AbsenceView.vue'
-import TeachersView from '../views/TeachersView.vue'
-import AdminView from '../views/AdminView.vue'
-import ErrorComponent from '../components/general/ErrorComponent.vue'
-import WaitingPage from '../views/WaitingApprovalView.vue'
+import OverviewView from '../views/StudentViews/StudentOverviewView.vue'
+import GradesView from '../views/StudentViews/GradesView.vue'
+import AbsenceView from '../views/StudentViews/AbsenceView.vue'
+import TeachersView from '../views/TeacherViews/TeachersView.vue'
+import SubjectsView from '../views/AdminViews/SubjectsView.vue'
+import AdminView from '../views/AdminViews/AdminView.vue'
+// import ErrorComponent from '../components/general/ErrorComponent.vue'
+import WaitingPage from '../views/AdminViews/WaitingApprovalView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -81,6 +82,11 @@ const router = createRouter({
             {
               path: 'overview', // Remove the leading slash (/)
               component: AdminView,
+              meta: { requiresAuthentication: true }
+            },
+            {
+              path: 'subjects',
+              component: SubjectsView,
               meta: { requiresAuthentication: true }
             }
           ]
