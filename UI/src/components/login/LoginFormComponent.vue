@@ -44,6 +44,7 @@ export default {
       if (response.status == 200) {
         console.log(response.data.userRole)
         this.userStore.authenticateUser()
+        this.userStore.setRole(response.data.userRole)
         this.emitter.emit('user-logged', response.data.userId)
 
         switch (response.data.userRole) {
