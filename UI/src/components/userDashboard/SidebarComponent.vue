@@ -93,7 +93,7 @@ window.addEventListener('resize', toggleExtra())
   min-width: 15rem;
   flex-grow: 1;
   min-height: calc(100vh - 7rem);
-  background-color: #062d55;
+  background-color: var(--dashboard-background-light-blue);
   color: white;
 }
 .action-list {

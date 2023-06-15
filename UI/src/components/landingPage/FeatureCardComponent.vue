@@ -28,7 +28,7 @@ export default {
 
   border-radius: 5px;
   padding: 2rem;
-  background-color: #151e27;
+  background-color: var(--dashboard-background-light-blue);
 }
 .text-wrapper {
   color: white;

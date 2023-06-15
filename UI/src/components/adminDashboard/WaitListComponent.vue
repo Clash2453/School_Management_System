@@ -29,7 +29,7 @@ async function fetchWaitList() {
 }
 </script>
 <template>
-  <div class="list-container">
+  <div class="list-container shadow">
     <h1 class="main-title align-c">Applications waiting approval</h1>
     <ul class="list">
       <li

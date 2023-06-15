@@ -49,7 +49,7 @@ function addRole(role) {
 </script>
 <template>
   <div
-    class="card-container"
+    class="card-container shadow"
     :class="{ 'expand-main': adding, selected: adding }"
     v-if="waitingUser"
     @click="expandCard"
@@ -85,7 +85,7 @@ function addRole(role) {
   align-items: center;
   justify-content: flex-start;
   border-radius: 25px;
-  background-color: #0b2239;
+  background-color: rgb(57, 72, 103);
   will-change: height;
   transform-origin: top center;
   cursor: pointer;
@@ -140,7 +140,7 @@ function addRole(role) {
   backface-visibility: hidden;
 }
 .selected {
-  background-color: #0e2e4e;
+  background-color: rgb(38, 48, 68);
 }
 @keyframes growAnimation {
   0% {

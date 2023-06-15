@@ -56,7 +56,7 @@ export default {
   font-size: 3.5rem;
 }
 .solid-color {
-  background-color: #0e2a47;
+  background-color: var(--dashboard-background-blue);
   display: flex;
   justify-content: flex-start;
   align-items: center;

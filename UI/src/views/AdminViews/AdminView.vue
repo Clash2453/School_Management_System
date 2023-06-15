@@ -2,12 +2,12 @@
   <section class="container">
     <WaitList></WaitList>
     <ValidationFormComponent :faculties="faculties" :groups="groups" :specialties="specialties" />
-    <SubjectFormComponent
+    <!-- <SubjectFormComponent
       :subjects="subjects"
       :faculties="faculties"
       :teachers="teachers"
       :specialties="specialties"
-    />
+    /> -->
     <LargeList />
   </section>
 </template>

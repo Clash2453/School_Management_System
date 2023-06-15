@@ -71,7 +71,7 @@ async function addUser() {
 }
 </script>
 <template>
-  <div class="form-container">
+  <div class="form-container shadow">
     <form action="" id="student-form" class="form" v-on:submit.prevent="onSubmit">
       <h2 class="subtitle">Add {{ userRole }}:</h2>
       <div class="input-wrapper">

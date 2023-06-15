@@ -1,5 +1,5 @@
 <template>
-  <ul class="list">
+  <ul class="list shadow">
     <LargeListItemComponent :options="data" />
     <LargeListItemComponent :options="data" />
     <LargeListItemComponent :options="data" />
@@ -22,10 +22,13 @@ const data = {
   gap: 1rem;
   padding: 1rem;
   background-color: #00499b;
-  background: url('/images/form-background.svg') no-repeat;
+  /* background: url('/images/form-background.svg') no-repeat; */
+  background-color: var(--component-dark-blue);
   background-size: cover;
   background-position: center;
   border-radius: 15px;
   max-width: 50rem;
+  max-height: 40rem;
+  overflow-y: auto;
 }
 </style>
