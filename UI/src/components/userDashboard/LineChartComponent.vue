@@ -1,5 +1,5 @@
 <template>
-  <div class="chart">
+  <div class="chart shadow">
     <Line :options="chartOptions" :data="props.chartData" />
   </div>
 </template>
@@ -51,11 +51,12 @@ const chartOptions = {
 .chart {
   width: 31rem;
   height: 20rem;
-  background-color: #2a619b;
+  background-color: var(--component-dark-blue);
   border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
+
 }
 </style>

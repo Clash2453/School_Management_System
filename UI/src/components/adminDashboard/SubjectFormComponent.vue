@@ -1,5 +1,5 @@
 <template>
-  <div class="form-container">
+  <div class="form-container shadow">
     <div class="tab-container">
       <button
         class="subtitle tab-button"

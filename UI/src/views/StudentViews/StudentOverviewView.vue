@@ -36,7 +36,7 @@ onMounted(async () => {
     firstArgument: `Your group number is ${studentData.group}`,
     secondArgument: ``,
     displayedValue: studentData.avgGrade,
-    backColor: '#33b864',
+    backColor: '#42a0ef',
     loaderNeeded: false,
     cardTitle: `Welcome ${studentData.name}`
   }
@@ -138,12 +138,14 @@ async function getGradeData() {
       <h1 class="main-title">
         <strong> Your Subjects </strong>
       </h1>
-      <LineChart
-        class="chart"
-        v-for="chartDataObject in chartDataObjects"
-        :chartData="chartDataObject"
-        :key="chartDataObject.datasets[0].label"
-      ></LineChart>
+      <div class="subjects-section">
+        <LineChart
+          class="chart"
+          v-for="chartDataObject in chartDataObjects"
+          :chartData="chartDataObject"
+          :key="chartDataObject.datasets[0].label"
+        ></LineChart>
+      </div>
     </section>
   </div>
 </template>
@@ -151,7 +153,9 @@ async function getGradeData() {
 .flex-container {
   min-height: fit-content;
   width: 100%;
-  height: 100%;
+  padding: 1rem;
+  /* height: 100%; */
+  min-height: 100%;
   flex-grow: 1;
 }
 #stats,
@@ -164,23 +168,39 @@ async function getGradeData() {
   width: 100%;
   gap: 2rem;
   padding: 1rem;
-  justify-content: center;
+  justify-content: space-between;
 }
 #chart-section {
   flex-wrap: wrap;
-  height: 100%;
-  margin-bottom: 0 auto;
+  /* height: calc(100% - 1rem); */
+  /* margin-bottom: 0 auto; */
   padding: 1rem;
+  width: 100%;
   /* background-color: #0b2239; */
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   gap: 2rem;
   color: white;
   text-align: center;
+
 }
-@media (max-width: 1200px) {
+@media (max-width: 1500px) {
   #stats {
     flex-direction: column;
   }
+}
+.subjects-section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  /* height: 100%; */
+  /* padding: 1rem 3rem; */
+  /* background-color: var(--component-light-blue); */
+}
+.main-title {
+  text-align: left;
+  font-size: 2rem;
 }
 </style>

@@ -108,7 +108,7 @@ window.addEventListener('resize', toggleExtra())
   left: 0;
 }
 .action-button:hover {
-  background-color: #0a4988;
+  background-color: var(--component-selected-blue);
 }
 .action-button {
   text-align: left;

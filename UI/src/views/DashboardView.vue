@@ -7,7 +7,7 @@ import Sidebar from '../components/userDashboard/SidebarComponent.vue'
     <router-view></router-view>
   </main>
 </template>
-<style>
+<style scoped>
 .flex {
   flex: 1;
   /* background-color: #0b2239; */
