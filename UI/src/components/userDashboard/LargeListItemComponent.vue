@@ -3,17 +3,36 @@
     <div class="header-section">
       <div class="wrapper">
         <h2 class="subtitle">{{ options.firstContent }}</h2>
-        <p class="text">{{ options.firstSubContent }}</p>
       </div>
       <div class="wrapper">
         <h2 class="subtitle">{{ options.secondContent }}</h2>
-        <p class="text">{{ options.secondSubContent }}</p>
       </div>
       <div class="wrapper">
-        <button class="expand-button add-button" @click="expandTrigger = !expandTrigger">Expand</button>
+        <v-icon
+          name="bi-arrow-down-circle"
+          scale="2"
+          fill="white"
+          class="icon-button"
+          @click="expandTrigger = !expandTrigger"
+        ></v-icon>
       </div>
     </div>
-    <div class="expanded-section" v-if="expandTrigger"></div>
+    <div class="expanded-section" v-if="expandTrigger">
+      <div class="wrapper">
+        <h2 class="subtitle">
+          <v-icon name="hi-solid-mail-open" scale="1.45" fill="white"></v-icon>
+          {{ options.firstField }}
+        </h2>
+      </div>
+      <div class="wrapper">
+        <v-icon name="fa-university" scale="1.45" fill="white"></v-icon>
+        <h2 class="subtitle">{{ options.secondField }}</h2>
+      </div>
+      <div class="wrapper" v-if="!(options.thirdField === '')">
+        <v-icon name="fa-user-graduate" scale="1.45" fill="white"></v-icon>
+        <h2 class="subtitle">{{ options.thirdField }}</h2>
+      </div>
+    </div>
   </li>
 </template>
 <script setup>
@@ -27,7 +46,7 @@ const expandTrigger = ref(false)
   background-color: var(--component-selected-blue);
 
   width: 100%;
-  height: 10em;
+  height: 5;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -45,27 +64,55 @@ const expandTrigger = ref(false)
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  padding: 0 0.5rem;
 }
 .expanded {
-  min-height: 15rem;
+  min-height: 10rem;
   align-items: flex-start;
 }
 .wrapper {
   height: 100%;
+  width: 100%;
+  /* max-width: 5rem; */
   min-height: 3.25rem;
-  flex-direction: column;
+  min-width: fit-content;
+  gap: 0.5rem;
   display: flex;
   align-items: center;
-  justify-content: center; 
-}
-.expand-button {
-  padding: 0.35rem;
-  border-radius: 5px;
-  font-family: 'Roboto', sans-serif;
+  justify-content: center;
+  text-align: left;
+
 }
 .text {
   font-family: 'Lato', sans-serif;
   text-align: left;
   width: 100%;
+}
+.subtitle {
+  width: 100%;
+  text-overflow: ellipsis;
+}
+.expanded-section {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  background-color: var(--component-light-blue);
+  border-radius: 5px;
+  padding: 0 0.5rem;
+  animation: fade-in 0.5s;
+  overflow-x: auto;
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
+.icon-button {
+  cursor: pointer;
 }
 </style>
