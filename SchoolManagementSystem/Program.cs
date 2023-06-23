@@ -37,10 +37,10 @@ builder.Services.AddCors(c =>
 {
     c.AddPolicy("AllowOrigin",
         options => options.WithOrigins("http://localhost:5173",
-                "https://localhost:5173")
+                "https://localhost:5173", "http://localhost:5173/login")
             .AllowCredentials()
         .AllowAnyMethod()
-        .AllowAnyHeader()
+            .AllowAnyHeader()
     );
 });
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -77,6 +77,7 @@ builder.Services.AddScoped<IAuthenticationManager, AuthenticationManager>();
 //data organization services
 builder.Services.AddScoped<IDataBundlingService, DataBundlingService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IAdminDataBundler, AdminDataBundler>();
 builder.Services.AddControllers();
 var app = builder.Build();
 
