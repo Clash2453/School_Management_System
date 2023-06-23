@@ -108,7 +108,7 @@ async function addGrade() {
   gap: 0.5rem;
 }
 .subject-name {
-  background-color: #0b2239;
+  background-color: var(--component-light-blue);
   width: 100%;
   border-radius: 5px;
   font-weight: 600;
@@ -122,21 +122,22 @@ async function addGrade() {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background-color: #0f355c;
+  background-color: var(--component-darker-blue);
   border-radius: 5px;
 }
 .info-wrapper {
   width: 100%;
-  background-color: #0f355c;
+  background-color: var(--component-dark-blue);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-radius: 5px;
 }
 .selection-wrapper {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  background-color: #091d31;
+  background-color: var(--component-dark-blue);
   padding: 0.5rem;
   border-radius: 5px;
   gap: 0.5rem;
@@ -161,6 +162,21 @@ async function addGrade() {
 #grade-excellent {
   background-color: #4ca0e7;
 }
+#grade-weak:hover {
+  background-color: #c93f56;
+}
+#grade-average:hover {
+  background-color: #e9841f;
+}
+#grade-good:hover {
+  background-color: #e9b02a;
+}
+#grade-very-good:hover {
+  background-color: #3ac8ca;
+}
+#grade-excellent:hover {
+  background-color: #1294ff;
+}
 .add-button {
   padding: 0.3rem;
   border-radius: 5px;
@@ -169,7 +185,7 @@ async function addGrade() {
   padding: 0.5rem;
 }
 .expanded {
-  min-height: 5rem;
+  min-height: 5rem; 
 }
 .grade:focus {
   border: 2px solid blue;

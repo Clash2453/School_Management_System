@@ -1,5 +1,5 @@
 <template>
-  <div class="chart shadow">
+   <div class="chart shadow">
     <Line :options="chartOptions" :data="props.chartData" />
   </div>
 </template>
