@@ -35,7 +35,7 @@ export default {
   bottom: 0;
   right: 0;
 
-  background-color: #2a619b;
+  background-color: var(--dashboard-background-light-blue);
 }
 .icon-row {
   gap: 1rem;

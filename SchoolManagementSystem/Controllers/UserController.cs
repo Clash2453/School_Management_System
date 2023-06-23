@@ -15,6 +15,7 @@ public class UserController : ControllerBase
     private readonly IUserManagementService _userManagementService;
     private readonly IAuthenticationManager _authManager;
     private readonly IDataBundlingService _dataBundler;
+    
     public UserController(IUserManagementService userManagementService,
         IAuthenticationManager authManager,
         IDataBundlingService dataBundler
@@ -74,9 +75,10 @@ public class UserController : ControllerBase
         var result = await _dataBundler.OrganizeStudentData(studentId);
         return Ok(result);
     }
+    
     [Authorize(Roles="Admin,Teacher")]
     [HttpGet("/teachers")]
-    public async Task<ActionResult<StudentDataDto>> GetTeacherData()
+    public async Task<ActionResult<TeacherDataDto>> GetTeacherData()
     {
         var userCredentials = _authManager.ParseToken(HttpContext.Request.Cookies["token"]);
         if (userCredentials == null)
@@ -85,15 +87,16 @@ public class UserController : ControllerBase
         var result = await _dataBundler.OrganizeTeacherData(studentId);
             return Ok(result);
     }
+    
     [Authorize(Roles="Admin")]
     [HttpGet("/admins")]
-    public async Task<ActionResult<StudentDataDto>> GetAdminData()
+    public async Task<ActionResult<AdminResultDto >> GetAdminData()
     {
         var userCredentials = _authManager.ParseToken(HttpContext.Request.Cookies["token"]);
         if (userCredentials == null)
             return StatusCode(502);
         int studentId = int.Parse(userCredentials["id"]);
-        var result = await _dataBundler.OrganizeStudentData(studentId);
+        var result = await _dataBundler.OrganizeAdminData(studentId);
         return Ok(result);
     }
 }

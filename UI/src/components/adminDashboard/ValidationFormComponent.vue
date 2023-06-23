@@ -26,12 +26,6 @@ onMounted(() => {
     user.value = userInfo
   })
 })
-// Schema
-
-// {
-//   "userId": 0,
-
-// }
 async function addUser() {
   if (isTeacher.value) {
     try {
@@ -52,14 +46,6 @@ async function addUser() {
     }
   } else {
     try {
-      // console.log({
-      //   userId: user.value.id,
-      //   email: user.value.email,
-      //   specialty: selectedSpecialty.value,
-      //   faculty: selectedFaculty.value,
-      //   group: selectedGroup.value,
-      //   course: 1
-      // })
       const result = await axios({
         method: 'POST',
         data: {
@@ -82,10 +68,11 @@ async function addUser() {
       console.log(e)
     }
   }
+  emitter.emit('renewUser', true)
 }
 </script>
 <template>
-  <div class="form-container">
+  <div class="form-container shadow">
     <form action="" id="student-form" class="form" v-on:submit.prevent="onSubmit">
       <h2 class="subtitle">Add {{ userRole }}:</h2>
       <div class="input-wrapper">

@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios'
-import DataGrid from '../components/userDashboard/DataGridComponent.vue'
+import DataGrid from '../../components/userDashboard/DataGridComponent.vue'
 import { onMounted, ref } from 'vue'
 let grades = ref({})
 let dataFetched = ref(false)
@@ -13,7 +13,7 @@ onMounted(async () => {
     subjects: Object.keys(data),
     grades: data
   }
-  // console.log(grades.value)
+  console.log(grades.value)
   dataFetched.value = true
 })
 async function getGradesPerSubject() {

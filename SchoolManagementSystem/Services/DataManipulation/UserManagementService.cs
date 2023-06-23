@@ -37,6 +37,29 @@ public class UserManagementService : IUserManagementService
     {
         return await _context.Admins.FirstOrDefaultAsync(s => s.AdminId == id);
     }
+
+    #region ToBeChanged
+
+    public async Task<List<Admin>> FetchAllAdmins()
+    {
+        return await _context.Admins.Include(admin => admin.User).ToListAsync();
+    }
+
+    public async Task<List<Student>> FetchAllStudents()
+    {
+        var result = await _context.Students
+            .Include(student => student.User)
+            .Include(student => student.Faculty )
+            .Include(student => student.Specialty)
+            .ToListAsync();
+        return result; 
+    }
+
+    public async Task<List<Teacher>> FetchAllTeachers()
+    {
+        return await _context.Teachers.Include(teacher=> teacher.User).ToListAsync();
+    }
+    #endregion
     public async Task<List<UserResultDto>> FetchGuests()
     {
         return await _context.Users.Where(u => u.Role == "guest").Select(u => new UserResultDto()
@@ -154,10 +177,9 @@ public class UserManagementService : IUserManagementService
         var user = await FetchUser(id);
         if (user == null)
             return Status.Fail;
-
-        string role = user.Role;
-        _context.Users.Remove(user);
         
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
         return Status.Success;
     }
 }

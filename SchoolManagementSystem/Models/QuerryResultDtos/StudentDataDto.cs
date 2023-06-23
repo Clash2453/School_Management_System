@@ -4,6 +4,7 @@ public class StudentDataDto
 {
     
     public int StudentId { get; set; }
+    public string Email { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Faculty { get; set; } = string.Empty;
     public int Course { get; set; }

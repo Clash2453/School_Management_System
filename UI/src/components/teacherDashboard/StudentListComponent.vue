@@ -1,5 +1,5 @@
 <template>
-  <div class="list-container">
+  <div class="list-container shadow">
     <h1 class="main-title align-c">Your students</h1>
     <ul class="list">
       <li class="list-item" v-for="(subject, index) in subjects" :key="index">

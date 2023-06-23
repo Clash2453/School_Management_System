@@ -1,9 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { inject } from 'vue'
+import axios from 'axios'
 const props = defineProps(['data'])
 let adding = ref(false)
-import { inject } from 'vue'
-
+const waitingUser = ref(true)
 const emitter = inject('emitter')
 
 onMounted(() => {
@@ -19,18 +20,25 @@ function expandCard() {
   adding.value = true
 }
 async function declineUser() {
-  adding.value = false
-  emitter.emit('adding', {
-    id: '',
-    name: '',
-    email: '',
-    role: ''
-  })
+  try {
+    const result = await axios({
+      method: 'DELETE',
+      url: `https://localhost:7080/api/Admin/delete-user?id=${props.data.id}`,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      withCredentials: true
+    })
+    console.log(result.data)
+    if (result.status === 200) {
+      emitter.emit('refreshList', true)
+    }
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 function addRole(role) {
-
-
   emitter.emit('adding', {
     id: props.data.id,
     name: props.data.name,
@@ -40,7 +48,12 @@ function addRole(role) {
 }
 </script>
 <template>
-  <div class="card-container" :class="{ 'expand-main': adding, selected: adding }">
+  <div
+    class="card-container shadow"
+    :class="{ 'expand-main': adding, selected: adding }"
+    v-if="waitingUser"
+    @click="expandCard"
+  >
     <div class="main-wrapper" :class="{ expanded: adding }">
       <div class="user-info">
         <h2 class="card-heading no-flicker">Name: {{ props.data.name }}</h2>
@@ -72,9 +85,10 @@ function addRole(role) {
   align-items: center;
   justify-content: flex-start;
   border-radius: 25px;
-  background-color: #0b2239;
+  background-color: rgb(57, 72, 103);
   will-change: height;
   transform-origin: top center;
+  cursor: pointer;
 }
 .main-wrapper {
   width: 100%;
@@ -126,7 +140,7 @@ function addRole(role) {
   backface-visibility: hidden;
 }
 .selected {
-  background-color: #0e2e4e;
+  background-color: rgb(38, 48, 68);
 }
 @keyframes growAnimation {
   0% {

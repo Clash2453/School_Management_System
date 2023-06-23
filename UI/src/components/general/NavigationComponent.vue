@@ -97,7 +97,7 @@ export default {
   top: 0;
   left: 0;
   min-height: 6rem;
-  background-color: #2a619b;
+  background-color: var(--dashboard-background-light-blue);
   padding: 0.5rem;
   box-sizing: border-box;
   z-index: 999;

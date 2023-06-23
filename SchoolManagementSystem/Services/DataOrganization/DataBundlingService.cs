@@ -2,7 +2,6 @@ using SchoolManagementSystem.Interfaces;
 using SchoolManagementSystem.Models;
 using SchoolManagementSystem.Models.DataTransferObjects;
 using SchoolManagementSystem.Models.QuerryResultDtos;
-using AdminDto = SchoolManagementSystem.Models.QuerryResultDtos.AdminDto;
 
 namespace SchoolManagementSystem.Services.DataOrganization;
 
@@ -128,13 +127,13 @@ public class DataBundlingService : IDataBundlingService
         return result;
     }
 
-    public async Task<AdminDto?> OrganizeAdminData(int id)
+    public async Task<AdminResultDto?> OrganizeAdminData(int id)
     {
         var userData = await _userService.FetchUser(id);
         var studentData = await _userService.FetchAdmin(id);
         if (userData == null || studentData == null)
             return null;
-        return new AdminDto()
+        return new AdminResultDto()
         {
             Name = userData.Name,
             Id = userData.UserId

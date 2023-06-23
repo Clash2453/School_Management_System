@@ -12,6 +12,9 @@ public interface IUserManagementService
     public Task<Student?> FetchStudent(int id);
     public Task<Teacher?> FetchTeacher(int id);
     public Task<Admin?> FetchAdmin(int id);
+    public Task<List<Admin>> FetchAllAdmins();
+    public Task<List<Student>> FetchAllStudents();
+    public Task<List<Teacher>> FetchAllTeachers();
     public Task<List<UserResultDto>> FetchGuests();
     public Task<Status> CreateStudent(StudentDto request);
     public Task<Status> CreateTeacher(TeacherDto request);

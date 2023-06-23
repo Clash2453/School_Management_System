@@ -44,6 +44,7 @@ export default {
       if (response.status == 200) {
         console.log(response.data.userRole)
         this.userStore.authenticateUser()
+        this.userStore.setRole(response.data.userRole)
         this.emitter.emit('user-logged', response.data.userId)
 
         switch (response.data.userRole) {
@@ -200,9 +201,9 @@ export default {
   object-fit: fill;
 
   flex: auto;
-  background-color: #0e2a47;
+  background-color: var(--dashboard-background-blue);
   padding: 2rem;
-  background-image: url('../../components/icons/login-background.svg');
+  background-image: url('/images/login/login-background.svg');
 }
 .main-title {
   text-align: left;
@@ -221,23 +222,23 @@ export default {
 
   gap: 1rem;
   padding: 2rem;
-  background-color: #113255;
-  color: white;
+  background-color: var(--component-darker-blue);
+  color: var(--component-font-white);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
 .form-input {
-  background-color: #e5eef5;
+  background-color: var(--component-selected-blue);
   border-radius: 5px;
   font-size: 1.125rem;
   font-family: 'Montserrat', sans-serif;
   padding: 0.25rem;
   width: 100%;
   max-width: 20rem;
-  color: #0e2a47;
+  color: var(--component-font-white);
 }
 .form-input:focus {
-  outline: 3px solid #3c88da;
+  outline: 2px solid var(--component-light-blue);
 }
 .input-label {
   font-family: 'Roboto', sans-serif;
@@ -245,7 +246,7 @@ export default {
   text-align: left;
   width: 100%;
   max-width: 20rem;
-  color: white;
+  color: var(--component-font-white);
 }
 .password-link {
   text-decoration: underline;
@@ -272,7 +273,7 @@ export default {
 .active,
 .inactive {
   width: 100%;
-  color: white;
+  color: var(--component-font-white);
   font-size: 1.25rem;
   font-family: 'Roboto', sans-serif;
   padding: 1rem;
@@ -292,10 +293,10 @@ export default {
   border-top-right-radius: 5px;
 }
 .active {
-  background-color: #2a619b;
+  background-color: var(--component-light-blue);
 }
 .inactive {
-  background-color: #204872;
+  background-color: var(--component-selected-blue);
 }
 @media (max-width: 1250px) {
   #form-section {

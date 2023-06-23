@@ -1,9 +1,9 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import OverviewCardComponent from '../components/userDashboard/OverviewCardComponent.vue'
-import StudentList from '../components/teacherDashboard/StudentListComponent.vue'
+import OverviewCardComponent from '../../components/userDashboard/OverviewCardComponent.vue'
+import StudentList from '../../components/teacherDashboard/StudentListComponent.vue'
 import axios from 'axios'
-import SpecialtyStudent from '../components/teacherDashboard/SpecialtyStudentComponent.vue'
+import SpecialtyStudent from '../../components/teacherDashboard/SpecialtyStudentComponent.vue'
 const options = ref({
   mainContent: `Your teacher ID is: `,
   firstArgument: ``,
@@ -49,7 +49,6 @@ async function fetchTeacherData() {
 <style scoped>
 .section-container {
   width: 100%;
-  
 
   display: flex;
   padding: 1rem;

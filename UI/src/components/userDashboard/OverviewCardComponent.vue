@@ -5,7 +5,7 @@ const startColor = '#ceff8f'
 const endColor = '#0eff00'
 </script>
 <template>
-  <section class="overview">
+  <section class="overview shadow">
     <RoundLoader
       v-if="props.cardData.loaderNeeded"
       :starting-color="startColor"
@@ -32,8 +32,9 @@ const endColor = '#0eff00'
   background-color: v-bind('$props.cardData.backColor');
   border-radius: 5px;
   color: white;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  width: clamp(20rem, 30%, 40rem);
+  /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+  width: clamp(25rem, 33%, 45rem);
+  /* min-width: fit-content; */
   /* height: 100%; */
   height: 14.5rem;
   min-height: fit-content;
@@ -57,10 +58,10 @@ const endColor = '#0eff00'
   font-family: 'Lato', sans-serif;
   font-size: 1.125rem;
 }
-@media (max-width: 1575px) {
+@media (max-width: 1625px) {
   .overview {
     /* flex-direction: column; */
-    width: 30rem;
+    width: 35rem;
   }
   .discipline {
     font-size: 1rem;

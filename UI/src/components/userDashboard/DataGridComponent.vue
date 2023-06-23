@@ -72,7 +72,7 @@ console.log(props.options)
   padding: 1rem;
 }
 #grades-table {
-  color: white;
+  color: var(--component-font-white);
   width: 100%;
   height: 100%;
   min-width: 62.5rem;
@@ -83,7 +83,7 @@ console.log(props.options)
   width: fit-content;
   padding: 0.5rem;
   min-width: 10rem;
-  background-color: #2a619b;
+  background-color: var(--component-dark-blue);
   white-space: nowrap;
 }
 .main-title {
@@ -94,10 +94,10 @@ console.log(props.options)
   padding: 1rem 0.5rem;
 }
 .light {
-  background-color: #2a619b;
+  background-color: var(--component-light-blue);
 }
 .dark {
-  background-color: #062d55;
+  background-color: var(--component-dark-blue);
 }
 .table-component {
   color: white;
@@ -115,7 +115,7 @@ console.log(props.options)
   background-color: #f6a14c;
 }
 .yellow {
-  background-color: #facc62;
+  background-color: #eebc48;
 }
 .blue {
   background-color: #4ca0e7;
