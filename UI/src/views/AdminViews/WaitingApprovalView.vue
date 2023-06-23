@@ -25,7 +25,7 @@
   width: 100%;
   max-height: 100%;
   min-height: calc(100vh - 13rem);
-  background: url('/images/waiting-page-background.svg') no-repeat;
+  background: url('/images/hero-background.svg') no-repeat;
   background-position: center;
   background-size: cover;
 }

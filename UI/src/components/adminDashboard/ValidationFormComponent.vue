@@ -68,6 +68,7 @@ async function addUser() {
       console.log(e)
     }
   }
+  emitter.emit('renewUser', true)
 }
 </script>
 <template>
