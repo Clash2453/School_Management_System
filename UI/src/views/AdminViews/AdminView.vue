@@ -2,12 +2,12 @@
   <section class="container">
     <WaitList></WaitList>
     <ValidationFormComponent :faculties="faculties" :groups="groups" :specialties="specialties" />
-    <!-- <SubjectFormComponent
+    <SubjectFormComponent
       :subjects="subjects"
       :faculties="faculties"
       :teachers="teachers"
       :specialties="specialties"
-    /> -->
+    />
     <LargeList :options="sortedUsers" v-if="dataFetched" />
   </section>
 </template>
@@ -17,9 +17,11 @@ import { ref, onMounted, defineAsyncComponent, inject } from 'vue'
 import ErrorComponent from '../../components/general/ErrorComponent.vue'
 import LoadingComponent from '../../components/general/LoadingComponent.vue'
 import ValidationFormComponent from '../../components/adminDashboard/ValidationFormComponent.vue'
-
+import DoughnutDiagram from '../../components/userDashboard/DoughnutDiagramComponent.vue'
+import RadarChart from '../../components/userDashboard/RadarChartComponent.vue'
 import axios from 'axios'
 import LargeList from '../../components/userDashboard/LargeListComponent.vue'
+import RadarChartComponent from '../../components/userDashboard/RadarChartComponent.vue'
 
 const emitter = inject('emitter')
 

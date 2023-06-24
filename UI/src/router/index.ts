@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useUserStore } from '../stores/UserStore.js'
+import { useUserStore } from '../stores/UserStore.ts'
 import Home from '../views/HomeView.vue'
 import Login from '../views/LoginView.vue'
 import Dashboard from '../views/DashboardView.vue'

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { inject } from 'vue'
-import { useUserStore } from '../../stores/UserStore.js'
+import { useUserStore } from '../../stores/UserStore.ts'
 
 const emitter = inject('emitter')
 const hidden = ref(false)

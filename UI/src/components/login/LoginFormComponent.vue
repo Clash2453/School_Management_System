@@ -2,7 +2,7 @@
 import axios from 'axios'
 import router from '../../router'
 import { mapStores } from 'pinia'
-import { useUserStore } from '../../stores/UserStore.js'
+import { useUserStore } from '../../stores/UserStore.ts'
 export default {
   data: function () {
     return {
