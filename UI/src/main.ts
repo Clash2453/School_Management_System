@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import mitt from 'mitt'
+import mitt, { Emitter} from 'mitt'
 import { createPinia } from 'pinia' 
 import './assets/main.css'
 import vSelect from 'vue-select'
@@ -28,6 +28,7 @@ import {
   FaUniversity,
   BiArrowDownCircle
 } from 'oh-vue-icons/icons'
+import type { Emitter } from 'node_modules/mitt'
 
 addIcons(
   BiGithub,
@@ -51,7 +52,7 @@ addIcons(
 )
 const pinia = createPinia()
 const app = createApp(App)
-const emitter = mitt()
+const emitter:Emitter = mitt()
 
 app.config.globalProperties.emitter = emitter
 app.provide('emitter', emitter)
