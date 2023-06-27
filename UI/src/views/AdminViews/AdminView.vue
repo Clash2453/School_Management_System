@@ -23,6 +23,8 @@ import axios from 'axios'
 import LargeList from '../../components/userDashboard/LargeListComponent.vue'
 import RadarChartComponent from '../../components/userDashboard/RadarChartComponent.vue'
 
+import { fetchAdmins, fetchTeachers, fetchFaculties, fetchSpecialties, fetchSubjects, fetchStudents } from '../../api/apiService'
+
 const emitter = inject('emitter')
 
 const WaitList = defineAsyncComponent({
@@ -76,107 +78,6 @@ onMounted(async () => {
   })
 })
 
-async function fetchTeachers() {
-  try {
-    const result = await axios({
-      method: 'GET',
-      url: `https://localhost:7080/api/Admin/fetch/teachers`,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true
-    })
-    console.log(result.data)
-    return result.data
-  } catch (e) {
-    console.log(e)
-  }
-}
-async function fetchAdmins() {
-  try {
-    const result = await axios({
-      method: 'GET',
-      url: `https://localhost:7080/api/Admin/fetch/admins`,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true
-    })
-    console.log(admins.value)
-    renewLists()
-    return result.data
-  } catch (e) {
-    console.log(e)
-  }
-}
-
-async function renewLists() {
-  emitter.emit('usersRenewed', () => true)
-}
-
-async function fetchStudents() {
-  const result = await axios({
-    method: 'GET',
-    url: 'https://localhost:7080/api/Admin/fetch/students',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    withCredentials: true
-  })
-  renewLists()
-  return result.data
-}
-
-async function fetchSpecialties() {
-  try {
-    const result = await axios({
-      method: 'GET',
-      url: `https://localhost:7080/api/Subject/get-specialties`,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true
-    })
-    console.log(result.data)
-    return result.data
-  } catch (e) {
-    console.log(e)
-  }
-}
-
-async function fetchFaculties() {
-  try {
-    const result = await axios({
-      method: 'GET',
-      url: `https://localhost:7080/api/Subject/get-faculties`,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true
-    })
-    console.log(result.data)
-    return result.data
-  } catch (e) {
-    console.log(e)
-  }
-}
-
-async function fetchSubjects() {
-  try {
-    const result = await axios({
-      method: 'GET',
-      url: `https://localhost:7080/api/Subject/get-subjects`,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true
-    })
-    console.log(result.data)
-    return result.data
-  } catch (e) {
-    console.log(e)
-  }
-}
 </script>
 
 <style scoped>
