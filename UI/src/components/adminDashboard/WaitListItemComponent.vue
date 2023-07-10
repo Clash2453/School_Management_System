@@ -1,14 +1,19 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { inject } from 'vue'
 import axios from 'axios'
+import { Emitter } from 'mitt';
 const props = defineProps(['data'])
 let adding = ref(false)
 const waitingUser = ref(true)
-const emitter = inject('emitter')
-
+const emitter:Emitter<EventHandler> = inject('emitter')
+type EventHandler = {
+  onlyOne: any,
+  refreshList: boolean,
+  adding: User
+}
 onMounted(() => {
-  emitter.on('onlyOne', (user) => {
+  emitter.on('onlyOne', () => {
     if (adding.value === true) adding.value = false
   })
 })

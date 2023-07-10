@@ -1,9 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, inject } from 'vue'
 import axios from 'axios'
 import WaitListItemComponent from './WaitListItemComponent.vue'
+import { Emitter } from 'mitt';
 let guests = ref([])
-const emitter = inject('emitter')
+type refreshList = {
+  refreshList: string
+}
+const emitter:Emitter<refreshList> = inject('emitter')
 onMounted(async () => {
   guests.value = await fetchWaitList()
   emitter.on('refreshList', async () => {
