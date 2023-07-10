@@ -28,7 +28,7 @@ import {
   FaUniversity,
   BiArrowDownCircle
 } from 'oh-vue-icons/icons'
-import type { Emitter } from 'node_modules/mitt'
+import { ErrorHandlingService } from './services/ErrorHandlingService'
 
 addIcons(
   BiGithub,
@@ -56,6 +56,7 @@ const emitter:Emitter = mitt()
 
 app.config.globalProperties.emitter = emitter
 app.provide('emitter', emitter)
+app.provide('errorHandler', ErrorHandlingService)
 app.component('v-icon', OhVueIcon)
 app.component('v-select', vSelect)
 app.use(pinia)
