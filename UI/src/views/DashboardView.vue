@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import Sidebar from '../components/userDashboard/SidebarComponent.vue'
 </script>
 <template>

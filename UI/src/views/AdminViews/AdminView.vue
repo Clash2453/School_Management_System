@@ -2,30 +2,32 @@
   <section class="container">
     <WaitList></WaitList>
     <ValidationFormComponent :faculties="faculties" :groups="groups" :specialties="specialties" />
-    <SubjectFormComponent
-      :subjects="subjects"
-      :faculties="faculties"
-      :teachers="teachers"
-      :specialties="specialties"
-    />
     <LargeList :options="sortedUsers" v-if="dataFetched" />
   </section>
 </template>
 
-<script setup>
-import { ref, onMounted, defineAsyncComponent, inject } from 'vue'
+<script setup lang="ts">
+import { ref, onMounted, defineAsyncComponent, inject, Ref } from 'vue'
 import ErrorComponent from '../../components/general/ErrorComponent.vue'
 import LoadingComponent from '../../components/general/LoadingComponent.vue'
 import ValidationFormComponent from '../../components/adminDashboard/ValidationFormComponent.vue'
-import DoughnutDiagram from '../../components/userDashboard/DoughnutDiagramComponent.vue'
-import RadarChart from '../../components/userDashboard/RadarChartComponent.vue'
-import axios from 'axios'
 import LargeList from '../../components/userDashboard/LargeListComponent.vue'
-import RadarChartComponent from '../../components/userDashboard/RadarChartComponent.vue'
-
 import { fetchAdmins, fetchTeachers, fetchFaculties, fetchSpecialties, fetchSubjects, fetchStudents } from '../../api/apiService'
+import type { Teacher } from '../../interfaces/Teacher'
+import { Admin } from '../../interfaces/Admin'
+import { Student } from '../../interfaces/Student'
+import { Subject } from '../../interfaces/Subject'
+import { ErrorHandlingService } from '../../services/ErrorHandlingService'
+import { Emitter} from 'mitt'
 
-const emitter = inject('emitter')
+type RenewEvent = {
+  renewSpecialties?:string,
+  renewSubjects?:string,
+  renewFaculties?:string, 
+}
+
+const emitter:Emitter<RenewEvent> = inject('emitter')
+const errHandler:ErrorHandlingService = inject('errorHandler')
 
 const WaitList = defineAsyncComponent({
   // the loader function
@@ -46,28 +48,38 @@ const sortedUsers = ref({
   categories: ['Students, Teachers, Admins'],
   itemLists: []
 })
-const teachers = ref([])
-const subjects = ref([])
+const teachers: Ref<Teacher[]> = ref()
+const subjects:Ref<Subject[]> = ref()
 const specialties = ref([])
 const faculties = ref([])
-const admins = ref([])
-const students = ref([])
+const admins: Ref<Admin[]> = ref()
+const students: Ref<Student[]> = ref()
 const groups = ref([76, 77])
 const dataFetched = ref(false)
 onMounted(async () => {
-  teachers.value = await fetchTeachers()
-  subjects.value = await fetchSubjects()
-  faculties.value = await fetchFaculties()
-  specialties.value = await fetchSpecialties()
-  admins.value = await fetchAdmins()
-  students.value = await fetchStudents()
+  try {
+    teachers.value = await fetchTeachers()
+    subjects.value = await fetchSubjects()
+    faculties.value = await fetchFaculties()
+    specialties.value = await fetchSpecialties()
+    admins.value = await fetchAdmins()
+    students.value = await fetchStudents()
+  }catch(e:unknown ){
+    if(errHandler.isAxiosError(e)){
+      console.error(e)
+    }
+    if(errHandler.isError(e)){
+      console.error(e)
+    }
+      console.error(new Error(`Non typed error:\n ${e}`))
+  }
 
   sortedUsers.value.itemLists.push(students.value)
   sortedUsers.value.itemLists.push(teachers.value)
   sortedUsers.value.itemLists.push(admins.value)
 
   dataFetched.value = true
-  emitter.on('renewSubjects', async () => {
+   emitter.on('renewSubjects', async () => {
     subjects.value = await fetchSubjects()
   })
   emitter.on('renewSpecialties', async () => {

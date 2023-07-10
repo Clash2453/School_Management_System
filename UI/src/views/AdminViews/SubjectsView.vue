@@ -8,14 +8,15 @@
     />
   </section>
 </template>
-<script lang="ts" setup>
+<script setup lang="ts" >
 import SubjectFormComponent from '../../components/adminDashboard/SubjectFormComponent.vue'
-import axios from 'axios'
 import type {Teacher} from '../../interfaces/Teacher'
 import type {Subject} from '../../interfaces/Subject'
 import { ref, inject, onMounted} from 'vue'
 import{ Emitter } from 'mitt';
-import { fetchAdmins, fetchTeachers, fetchFaculties, fetchSpecialties, fetchSubjects } from '../../api/apiService'
+import { fetchTeachers, fetchFaculties, fetchSpecialties, fetchSubjects } from '../../api/apiService'
+import { Specialty } from '../../interfaces/Specialty';
+
 type RenewEvent = {
   renewSpecialties?:string,
   renewSubjects?:string,
@@ -25,9 +26,9 @@ type RenewEvent = {
 const emitter:Emitter<RenewEvent> = inject('emitter')
 const teachers = ref<Teacher[]>()
 const subjects = ref<Subject[]>()
-const specialties = ref([])
-const faculties = ref([])
-onMounted(async () => {
+const specialties = ref<Specialty[]>()
+const faculties = ref([]) 
+onMounted(async () => { 
   teachers.value = await fetchTeachers()
   subjects.value = await fetchSubjects()
   faculties.value = await fetchFaculties()
@@ -47,6 +48,7 @@ onMounted(async () => {
   }
 })
 </script>
+
 <style scoped>
 .main-container {
   display: flex;
