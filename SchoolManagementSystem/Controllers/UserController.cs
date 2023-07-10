@@ -14,16 +14,22 @@ public class UserController : ControllerBase
 {
     private readonly IUserManagementService _userManagementService;
     private readonly IAuthenticationManager _authManager;
-    private readonly IDataBundlingService _dataBundler;
-    
+    private readonly ITeacherDataBundler _teacherDataBundler;
+    private readonly IStudentDataBundler _studentDataBundler;
+    private readonly IAdminDataBundler _adminDataBundler;
+
     public UserController(IUserManagementService userManagementService,
         IAuthenticationManager authManager,
-        IDataBundlingService dataBundler
-        )
+        ITeacherDataBundler teacherDataBundler,
+        IStudentDataBundler studentDataBundler,
+        IAdminDataBundler adminDataBundler
+    )
     {
         _userManagementService = userManagementService;
         _authManager = authManager;
-        _dataBundler = dataBundler;
+        _teacherDataBundler = teacherDataBundler;
+        _studentDataBundler = studentDataBundler;
+        _adminDataBundler = adminDataBundler;
     }
 
     // GET: api/User/5
@@ -72,7 +78,7 @@ public class UserController : ControllerBase
         if (userCredentials == null)
             return StatusCode(502);
         int studentId = int.Parse(userCredentials["id"]);
-        var result = await _dataBundler.OrganizeStudentData(studentId);
+        var result = await _studentDataBundler.OrganizeStudentData(studentId);
         return Ok(result);
     }
     
@@ -84,7 +90,7 @@ public class UserController : ControllerBase
         if (userCredentials == null)
             return StatusCode(502);
         int studentId = int.Parse(userCredentials["id"]);
-        var result = await _dataBundler.OrganizeTeacherData(studentId);
+        var result = await _teacherDataBundler.OrganizeTeacherData(studentId);
             return Ok(result);
     }
     
@@ -96,7 +102,7 @@ public class UserController : ControllerBase
         if (userCredentials == null)
             return StatusCode(502);
         int studentId = int.Parse(userCredentials["id"]);
-        var result = await _dataBundler.OrganizeAdminData(studentId);
+        var result = await _adminDataBundler.OrganizeAdminData(studentId);
         return Ok(result);
     }
 }

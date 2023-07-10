@@ -1,15 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol;
-using SchoolManagementSystem.Data;
 using SchoolManagementSystem.Enums;
 using SchoolManagementSystem.Interfaces;
 using SchoolManagementSystem.Models;
@@ -26,12 +18,21 @@ namespace SchoolManagementSystem.Controllers
     {
         private readonly IGradingService _gradingService;
         private readonly IAuthenticationManager _authManager;
-        private readonly IDataBundlingService _bundlingService;
-        public GradeController(IGradingService gradingService, IAuthenticationManager authManager, IDataBundlingService dataBundlingService)
+        private readonly ITeacherDataBundler _teacherDataBundler;
+        private readonly IStudentDataBundler _studentDataBundler;
+        private readonly IGradeDataBundler _gradeDataBundler;
+        public GradeController(IGradingService gradingService, 
+            IAuthenticationManager authManager,
+            ITeacherDataBundler teacherDataBundler,
+            IStudentDataBundler studentDataBundler,
+            IGradeDataBundler gradeDataBundler  
+            )
         {
             _gradingService = gradingService;
             _authManager = authManager;
-            _bundlingService = dataBundlingService;
+            _teacherDataBundler = teacherDataBundler;
+            _studentDataBundler = studentDataBundler;
+            _gradeDataBundler = gradeDataBundler;
         }
         
         [HttpGet("student")] 
@@ -43,7 +44,7 @@ namespace SchoolManagementSystem.Controllers
                 return StatusCode(502);
             int studentId = int.Parse(userCredentials["id"]);
 
-            var grades = await _bundlingService.OrganizeStudentGradeData(studentId);
+            var grades = await _studentDataBundler.OrganizeStudentGradeData(studentId);
           if(grades == null)
               return StatusCode(418); //¯\_(ツ)_/¯   
 
@@ -58,7 +59,7 @@ namespace SchoolManagementSystem.Controllers
                 return StatusCode(502);
             int studentId = int.Parse(userCredentials["id"]);
 
-            var grades = await _bundlingService.OrganizeGradesPerSubjects(studentId);
+            var grades = await _gradeDataBundler.OrganizeGradesPerSubjects(studentId);
             if(grades == null)
                 return StatusCode(418); //¯\_(ツ)_/¯   
 
@@ -73,7 +74,7 @@ namespace SchoolManagementSystem.Controllers
                 return StatusCode(502);
             int teacherId = int.Parse(userCredentials["id"]);
 
-            var grades = await _bundlingService.OrganizeTeacherGradeData(teacherId);
+            var grades = await _teacherDataBundler.OrganizeTeacherGradeData(teacherId);
             if(grades == null)
                 return StatusCode(418); //¯\_(ツ)_/¯
 

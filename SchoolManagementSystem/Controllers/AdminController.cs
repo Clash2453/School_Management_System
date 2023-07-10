@@ -22,7 +22,7 @@ public class AdminController : ControllerBase
         _userManagementService = userManagementService;
         _emailService = emailService;
         _adminDataBundler = adminDataBundler; 
-    }
+    }   
     
     [Authorize(Roles = "Admin")]
     [HttpGet("guests")]
