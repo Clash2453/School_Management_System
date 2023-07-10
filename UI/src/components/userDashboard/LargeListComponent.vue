@@ -7,10 +7,14 @@
     <LargeListItemComponent :options="data" /> -->
   </ul>
 </template>
-<script setup>
+<script setup lang="ts">
+import { Emitter } from 'mitt';
 import LargeListItemComponent from './LargeListItemComponent.vue'
 import { ref, onMounted, inject } from 'vue'
-const emitter = inject('emitter')
+type EventHandler = {
+  renewUsers: ()=> void,
+}
+const emitter:Emitter<EventHandler> = inject('emitter')
 const props = defineProps(['options'])
 const dataset = ref([])
 const matrix = ref({})

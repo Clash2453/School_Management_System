@@ -3,7 +3,7 @@
     <Radar :data="data" :options="options"></Radar>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { Radar } from 'vue-chartjs'
 import {
   Chart as ChartJS,

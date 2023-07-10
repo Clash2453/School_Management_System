@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import RoundLoader from './RoundLoaderComponent.vue'
 const props = defineProps(['cardData'])
 const startColor = '#ceff8f'

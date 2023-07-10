@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Line } from 'vue-chartjs'
 import {
   Chart as ChartJS,
