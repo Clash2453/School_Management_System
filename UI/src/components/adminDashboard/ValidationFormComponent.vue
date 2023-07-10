@@ -1,20 +1,32 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, inject } from 'vue'
 import axios from 'axios'
+import { Emitter } from 'mitt';
+
+type RenewEvent = {
+  adding?:User,
+  renewUser?:boolean,
+}
 
 const isTeacher = ref(false)
-const emitter = inject('emitter')
-const user = ref({})
+const emitter:Emitter<RenewEvent> = inject('emitter')
+const user = ref<User>({
+id: 0,
+name: '',
+email: '',
+role: '',
+})
 const userRole = ref('student')
 const selectedFaculty = ref('')
 const selectedGroup = ref('')
 const selectedSpecialty = ref('')
 
-const props = defineProps(['faculties', 'groups', 'specialties'])
 
+const props = defineProps(['faculties', 'groups', 'specialties'])
+function onSubmit(){}
 const title = ref('')
 onMounted(() => {
-  emitter.on('adding', (userInfo) => {
+  emitter.on('adding', (userInfo:User) => {
     if (userInfo.role === 'student') {
       isTeacher.value = false
       userRole.value = 'student'

@@ -8,7 +8,7 @@
     </ul>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import SpecialtyStudentComponent from './SpecialtyStudentComponent.vue';
 
 const props = defineProps(['subjects', 'students'])

@@ -1,9 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import axios from 'axios'
 import DataGrid from '../../components/userDashboard/DataGridComponent.vue'
 import { onMounted, ref } from 'vue'
-let grades = ref({})
+let grades = ref()
 let dataFetched = ref(false)
+
 onMounted(async () => {
   const data = await getGradesPerSubject()
   if (data === undefined) return
@@ -16,6 +17,7 @@ onMounted(async () => {
   console.log(grades.value)
   dataFetched.value = true
 })
+
 async function getGradesPerSubject() {
   try {
     const response = await axios({
@@ -33,6 +35,7 @@ async function getGradesPerSubject() {
     console.log(e)
   }
 }
+
 </script>
 <template>
   <section id="grade-section">

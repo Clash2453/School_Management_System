@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
 import LoginFormComponent from '../components/login/LoginFormComponent.vue'
-
-export default {
+import { defineComponent } from 'vue'
+export default defineComponent({
   data: function () {
     return {
       loginImage: '/images/login/map-1.svg',
@@ -25,7 +25,7 @@ export default {
   mounted() {
     this.cycle()
   }
-}
+})
 </script>
 
 <template>

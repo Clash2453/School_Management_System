@@ -1,14 +1,15 @@
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue'
+export default defineComponent ({
   data: function () {
     return {
-      toggleMobile: true,
+      toggleMobile: true, 
       toggleMobileButton: false,
       extra: false
     }
   },
   methods: {
-    mobileNavigation() {
+    mobileNavigation():void {
       let width = window.innerWidth
       if (width < 600) {
         this.toggleMobile = true
@@ -20,7 +21,7 @@ export default {
       this.toggleMobileButton = false
       this.emitter.emit('toggle-mobile', this.toggleMobile)
     },
-    triggerMenu() {
+    triggerMenu():void {
       this.toggleMobile = !this.toggleMobile
     }
   },
@@ -36,7 +37,7 @@ export default {
       this.extra = toggleExtra
     })
   }
-}
+})
 </script>
 
 <template>

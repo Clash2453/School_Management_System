@@ -1,5 +1,9 @@
-<script setup>
-const props = defineProps(['errorCode', 'message'])
+<script setup lang="ts">
+
+const props = defineProps<{
+  errorCode:string,
+  message:string
+}>()
 </script>
 <template>
   <main>

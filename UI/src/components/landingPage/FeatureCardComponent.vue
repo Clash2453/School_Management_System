@@ -1,13 +1,6 @@
-<script>
-export default {
-  props: ['title', 'description', 'iconName'],
-  data: function () {
-    return {}
-  },
-  mounted() {
-    console.log(this.iconName)
-  }
-}
+<script setup lang="ts">
+
+const props = defineProps<{title:string, description:string, iconName:string}>()
 </script>
 <template>
   <section class="feature-card">

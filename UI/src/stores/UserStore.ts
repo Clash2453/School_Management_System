@@ -17,7 +17,7 @@ export const useUserStore = defineStore('user', {
     authenticateUser() {
       this.isAuthenticated = true
     },
-    setRole(newRole) {
+    setRole(newRole: string) {
       this.role = newRole
     }
   }

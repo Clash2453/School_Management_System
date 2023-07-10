@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
 import axios from 'axios'
 import router from '../../router'
 import { mapStores } from 'pinia'
-import { useUserStore } from '../../stores/UserStore.js'
+import { useUserStore } from '../../stores/UserStore'
 export default {
   data: function () {
     return {
@@ -39,7 +39,7 @@ export default {
           'Content-Type': 'application/json'
         },
         withCredentials: true
-      }).catch((e) => console.log(e))
+      })
       console.log(response.status)
       if (response.status == 200) {
         console.log(response.data.userRole)

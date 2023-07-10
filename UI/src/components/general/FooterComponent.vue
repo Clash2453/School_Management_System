@@ -1,9 +1,4 @@
-<script>
-export default {
-  data: function () {
-    return {}
-  }
-}
+<script setup lang="ts">
 </script>
 
 <template>

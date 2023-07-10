@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts" >
 import router from '../../router'
 function goToLogin() {
   router.push('/login')

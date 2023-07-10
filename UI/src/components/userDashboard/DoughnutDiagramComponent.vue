@@ -3,7 +3,7 @@
     <Doughnut :data="data"></Doughnut>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { Doughnut } from 'vue-chartjs'
 import {
   Chart as ChartJS,

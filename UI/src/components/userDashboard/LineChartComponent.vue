@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Line } from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -48,15 +48,5 @@ const chartOptions = {
 }
 </script>
 <style scoped>
-.chart {
-  width: 31rem;
-  height: 20rem;
-  background-color: var(--component-dark-blue);
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
 
-}
 </style>
