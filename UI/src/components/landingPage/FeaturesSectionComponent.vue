@@ -1,10 +1,10 @@
-<script>
+<script setup lang="ts">
 import FeatureCardComponent from './FeatureCardComponent.vue'
-
-export default {
-  data: function () {
-    return {
-      cards: [
+const cards: {
+  title: string,
+  description: string,
+  icon: string
+}[] = [
         {
           title: 'Lorem',
           description:
@@ -42,16 +42,12 @@ export default {
           icon: 'bi-calendar2-week'
         }
       ]
-    }
-  },
-  components: { FeatureCardComponent }
-}
 </script>
 
 <template>
   <section id="features-section">
     <FeatureCardComponent
-      v-for="card in this.cards"
+      v-for="card in cards"
       :title="card.title"
       :description="card.description"
       :iconName="card.icon"
