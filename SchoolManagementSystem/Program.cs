@@ -75,9 +75,12 @@ builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IAuthenticationManager, AuthenticationManager>();
 
 //data organization services
-builder.Services.AddScoped<IDataBundlingService, DataBundlingService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IAdminDataBundler, AdminDataBundler>();
+builder.Services.AddScoped<ITeacherDataBundler, TeacherDataBundler>();
+builder.Services.AddScoped<IStudentDataBundler, StudentDataBundler>();
+builder.Services.AddScoped<IGpiService, GpiService>();
+builder.Services.AddScoped<IGradeDataBundler, GradeDataBundler>();
 builder.Services.AddControllers();
 var app = builder.Build();
 
