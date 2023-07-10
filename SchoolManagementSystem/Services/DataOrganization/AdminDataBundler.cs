@@ -58,4 +58,17 @@ public class AdminDataBundler: IAdminDataBundler
             }).ToList();
         return result;
     }
+
+    public async Task<AdminResultDto?> OrganizeAdminData(int id)
+    {
+        var userData = await _userManagementService.FetchUser(id);
+        var studentData = await _userManagementService.FetchAdmin(id);
+        if (userData == null || studentData == null)
+            return null;
+        return new AdminResultDto()
+        {
+            Name = userData.Name,
+            Id = userData.UserId
+        };
+    }
 }
