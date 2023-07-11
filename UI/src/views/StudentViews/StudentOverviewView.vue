@@ -1,7 +1,7 @@
-<script lang="ts">
+<script setup lang="ts">
 import OverviewCardComponent from '../../components/userDashboard/OverviewCardComponent.vue'
 import LineChart from '../../components/userDashboard/LineChartComponent.vue'
-import { defineComponent } from 'vue'
+import { onMounted, ref } from 'vue'
 import axios from 'axios'
 
 const colors = [
@@ -12,113 +12,89 @@ const colors = [
   'rgba(54, 162, 235, 1)',
   'rgba(153, 102, 255, 1)'
 ]
+const chartDataObjects = ref([])
+const gradeCardData = ref()
+const absenceCardData = ref()
+const welcomeCardData = ref()
+const gradeDataFetched = ref()
+async function getStudentData() {
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: `https://localhost:7080/student`,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      withCredentials: true
+    })
 
-export default defineComponent({
-  async setup() {
-    const studentData = await getStudentData()
-    const gradeData = await getGradeData()
+    return response.data
+  }
+  catch (e) {
+    console.log(e)
+  }
 
-    async function getStudentData() {
-      try {
-        const response = await axios({
-          method: 'GET',
-          url: `https://localhost:7080/student`,
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          withCredentials: true
-        })
+}
 
-        return response.data
-      }
-      catch (e) {
-        console.log(e)
-      }
+async function getGradeData() {
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: `https://localhost:7080/api/Grade/student`,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      withCredentials: true
+    })
+    const grades = response.data.grades[0]
+    if (grades === undefined) return {}
+    const groups = grades.reduce((groups, item) => {
+      const group = groups[item.subject] || []
+      group.push(item)
+      groups[item.subject] = group
+      return groups
+    }, {})
 
-    }
-
-    async function getGradeData() {
-      try {
-        const response = await axios({
-          method: 'GET',
-          url: `https://localhost:7080/api/Grade/student`,
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          withCredentials: true
-        })
-        // console.log(response.data.grades)
-        const grades = response.data.grades[0]
-        if (grades === undefined) return {}
-        const groups = grades.reduce((groups, item) => {
-          const group = groups[item.subject] || []
-          group.push(item)
-          groups[item.subject] = group
-          return groups
-        }, {})
-
-        return groups
-      } catch (e) {
-        console.log(e)
-      }
-    }
-
-    return {
-      studentData,
-      gradeData
-    }
-  },
-  props: {
-    name: String,
-    msg: { type: String, required: true }
-  },
-  data() {
-    return {
-      chartDataObjects:  [],
-      gradeCardData:  {},
-      absenceCardData:  {},
-      welcomeCardData:  {},
-      gradeDataFetched:  false
-    }
-  },
-  components: {
-    OverviewCardComponent,
-    LineChart,
-  },
-  mounted() {
-    this.absenceCardData.value = {
-      mainContent: `Your absence: ${this.studentData.totalAbsence}`,
-      firstArgument: `Excused absence: ${this.studentData.excusedAbsence}`,
-      secondArgument: `Unexcused absence ${this.studentData.unExcusedAbsence}`,
-      displayedValue: this.studentData.totalAbsence,
+    return groups
+  } catch (e) {
+    console.log(e)
+  }
+}
+onMounted(async () => {
+  const studentData = await getStudentData()
+  const gradeData= await getGradeData()
+  absenceCardData.value = {
+      mainContent: `Your absence: ${studentData.totalAbsence}`,
+      firstArgument: `Excused absence: ${studentData.excusedAbsence}`,
+      secondArgument: `Unexcused absence ${studentData.unExcusedAbsence}`,
+      displayedValue: studentData.totalAbsence,
       backColor: '#b63e36',
       loaderNeeded: false,
       cardTitle: 'Absence'
     }
-    this.welcomeCardData.value = {
-      mainContent: `Your student ID is: ${this.studentData.studentId}`,
-      firstArgument: `Your group number is ${this.studentData.group}`,
+    welcomeCardData.value = {
+      mainContent: `Your student ID is: ${studentData.studentId}`,
+      firstArgument: `Your group number is ${studentData.group}`,
       secondArgument: ``,
-      displayedValue: this.studentData.avgGrade,
+      displayedValue: studentData.avgGrade,
       backColor: '#42a0ef',
       loaderNeeded: false,
-      cardTitle: `Welcome ${this.studentData.name}`
+      cardTitle: `Welcome ${studentData.name}`
     }
-    this.gradeCardData.value = {
-      mainContent: `Average Grade: ${this.studentData.avgGrade.toFixed(2)}`,
-      firstArgument: `Your weakest subject is ${this.studentData.lowestAvgSubject
-        }: ${this.studentData.lowestAvg.toFixed(2)}`,
-      secondArgument: `Your strongest subject is ${this.studentData.highestAvgSubject
-        }: ${this.studentData.highestAvg.toFixed(2)}`,
-      displayedValue: this.studentData.avgGrade.toFixed(2),
+    gradeCardData.value = {
+      mainContent: `Average Grade: ${studentData.avgGrade.toFixed(2)}`,
+      firstArgument: `Your weakest subject is ${studentData.lowestAvgSubject
+        }: ${studentData.lowestAvg.toFixed(2)}`,
+      secondArgument: `Your strongest subject is ${studentData.highestAvgSubject
+        }: ${studentData.highestAvg.toFixed(2)}`,
+      displayedValue: studentData.avgGrade.toFixed(2),
       backColor: '#33b864',
       loaderNeeded: true,
       cardTitle: 'Your Grades:'
     }
-    console.log(this.studentData)
-    const subjects = Object.keys(this.gradeData)
+    const subjects = Object.keys(gradeData)
     for (let i = 0; i < subjects.length; i++) {
-      const row = this.gradeData[subjects[i]]
+      const row = gradeData[subjects[i]]
       const subject = row[0].subject
       const gradeValues = row.map((g) => {
         return g.value
@@ -127,7 +103,7 @@ export default defineComponent({
         return g.date.split('T')[0]
       })
       console.log(gradeValues)
-      this.chartDataObjects.push({
+      chartDataObjects.value.push({
         labels: gradeDates,
         datasets: [
           {
@@ -138,11 +114,8 @@ export default defineComponent({
         ]
       })
     }
-    this.gradeDataFetched = true
-  }
+    gradeDataFetched.value = true
 })
-
-
 </script>
 <template>
   <div class="flex-container">
