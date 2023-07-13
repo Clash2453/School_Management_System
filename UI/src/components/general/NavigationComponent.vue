@@ -11,7 +11,7 @@ export default defineComponent ({
   methods: {
     mobileNavigation():void {
       let width = window.innerWidth
-      if (width < 600) {
+      if (width < 750) {
         this.toggleMobile = true
         this.toggleMobileButton = true
         this.emitter.emit('toggle-mobile', this.toggleMobile)
@@ -148,7 +148,7 @@ export default defineComponent ({
   font-size: 3rem;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 750px) {
   .link-list {
     flex-direction: column;
     align-items: flex-end;

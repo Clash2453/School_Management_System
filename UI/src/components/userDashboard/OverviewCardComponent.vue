@@ -38,7 +38,7 @@ const endColor = '#0eff00'
   background-color: v-bind('$props.cardData.backColor');
   border-radius: 5px;
   color: white;
-  width: clamp(25rem, 33%, 45rem);
+  width: 100%;
   height: 14.5rem;
   min-height: fit-content;
 }
@@ -67,8 +67,7 @@ const endColor = '#0eff00'
 
 @media (max-width: 1625px) {
   .overview {
-    /* flex-direction: column; */
-    width: 35rem;
+    width: 100%;
   }
 
   .discipline {
@@ -78,8 +77,12 @@ const endColor = '#0eff00'
 
 @media (max-width: 550px) {
   .overview {
-    flex-direction: column;
-    width: fit-content;
     padding: 1rem;
+    min-height: fit-content;
+    height: 100%;
+    width: 100%;
+    padding: 0;
   }
-}</style>
+}
+
+</style>
