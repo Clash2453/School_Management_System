@@ -1,5 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { useUserStore } from '../../stores/UserStore'
+import { mapStores } from 'pinia'
 export default defineComponent ({
   data: function () {
     return {
@@ -8,6 +10,9 @@ export default defineComponent ({
       extra: false
     }
   },
+  computed: {
+    ...mapStores(useUserStore)
+  },
   methods: {
     mobileNavigation():void {
       let width = window.innerWidth
@@ -15,10 +20,14 @@ export default defineComponent ({
         this.toggleMobile = true
         this.toggleMobileButton = true
         this.emitter.emit('toggle-mobile', this.toggleMobile)
+        if(this.userStore.authenticationStatus){
+          this.extra = true
+      }
         return
       }
       this.toggleMobile = false
       this.toggleMobileButton = false
+      this.extra = false 
       this.emitter.emit('toggle-mobile', this.toggleMobile)
     },
     triggerMenu():void {
