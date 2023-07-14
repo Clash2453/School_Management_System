@@ -118,15 +118,7 @@ onMounted(async () => {
   gradeDataFetched.value = true
 })
 </script>
-<template>
-  <!-- <div class="flex-container">
-    <section id="stats">
-    </section>
-    <section id="chart-section" v-if="gradeDataFetched">
-
-
-    </section>
-  </div> -->
+<template>  
   <div class="flex-container">
     <div class="grid-container">
       <div class="card-container" id="gpi-chart">
@@ -172,6 +164,7 @@ onMounted(async () => {
 #gpi-chart {
   grid-column: 1 / span 2;
   grid-row: 1 / span 3;
+  justify-self: start;
 }
 
 #welcome-container {
@@ -231,9 +224,6 @@ onMounted(async () => {
   width: 100%;
   height: 100%;
   padding: 1rem;
-  /* height: 100%; */
-  /* padding: 1rem 3rem; */
-  /* background-color: var(--component-light-blue); */
 }
 
 .main-title {
@@ -255,6 +245,7 @@ onMounted(async () => {
   #gpi-chart {
     grid-column: 1;
     grid-row: 1;
+    justify-self: center;
   }
 
   #welcome-container {
