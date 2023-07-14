@@ -9,6 +9,9 @@
   --dashboard-background-blue: #131924;
   --dashboard-background-light-blue: rgb(25, 32, 46);
 }
+/* * {
+  outline: 2px solid green
+} */
 .wh-p {
     color: white;
     font-size: 1rem;
@@ -228,11 +231,9 @@ tdf {
   color: white;
   font-family: 'Roboto', sans-serif;
 
-  width: 23.4375rem;
+  width: 100%;
   border-radius: 15px;
-  min-width: 18rem;
   height: 100%;
-  max-height: 40rem;
 }
 .list {
   width: 100%;
@@ -258,10 +259,8 @@ tdf {
 
 /* CHART STYLES */
 .chart {
-  width: 31rem;
-  height: 20rem;
   background-color: var(--component-dark-blue);
-  border-radius: 5px;
+  border-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
