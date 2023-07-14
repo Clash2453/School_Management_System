@@ -1,11 +1,3 @@
-<template>
-  <section class="container">
-    <WaitList></WaitList>
-    <ValidationFormComponent :faculties="faculties" :groups="groups" :specialties="specialties" />
-    <LargeList :options="sortedUsers" v-if="dataFetched" />
-  </section>
-</template>
-
 <script setup lang="ts">
 import { ref, onMounted, defineAsyncComponent, inject, Ref } from 'vue'
 import ErrorComponent from '../../components/general/ErrorComponent.vue'
@@ -19,7 +11,7 @@ import { Student } from '../../interfaces/Student'
 import { Subject } from '../../interfaces/Subject'
 import { ErrorHandlingService } from '../../services/ErrorHandlingService'
 import { Emitter} from 'mitt'
-
+import DoughnutChartComponent from '../../components/userDashboard/DoughnutChartComponent.vue'
 type RenewEvent = {
   renewSpecialties?:string,
   renewSubjects?:string,
@@ -92,7 +84,48 @@ onMounted(async () => {
 
 </script>
 
+<template>
+  <section class="grid-container">
+    <div class="grid-item" id="user-chart">
+      <DoughnutChartComponent />
+    </div>
+    <div class="grid-item" id="wait-list-container">
+      <WaitList></WaitList>
+    </div>
+    <div class="grid-item" id="validation-container">
+      <ValidationFormComponent :faculties="faculties" :groups="groups" :specialties="specialties" />
+    </div>
+    <LargeList :options="sortedUsers" v-if="dataFetched" />
+  </section>
+</template>
+
 <style scoped>
+.grid-container {
+  display: grid;
+  grid-template-columns: 45rem repeat(auto-fit, minmax(25rem, 1fr));
+  grid-template-rows: repeat(auto-fit, 40rem);
+  gap: 1.5rem;
+  width: 100%;
+  padding: 1rem
+}
+
+/* #user-chart {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+#wait-list-container {
+  grid-column: 2;
+  grid-row: 1;
+} */
+
+.grid-item {
+  width: 100%;
+  height: 100%;
+  align-self: center;
+  justify-self: center;
+}
+
 .container {
   display: flex;
   flex-wrap: nowrap;
@@ -104,9 +137,12 @@ onMounted(async () => {
   gap: 1rem;
   overflow: hidden;
 }
-@media (max-width: 1550px) {
-  .container {
-    flex-direction: column;
+
+@media (max-width: 1450px) {
+  .grid-container{
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(auto-fit, 1fr);
   }
 }
+
 </style>
