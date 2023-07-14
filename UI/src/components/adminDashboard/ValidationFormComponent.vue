@@ -147,4 +147,8 @@ async function addUser() {
 .input-field {
   min-width: 15.3rem;
 }
+.form-container {
+  max-height: none;
+  max-width: none;
+}
 </style>

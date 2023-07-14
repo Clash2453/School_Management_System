@@ -1,10 +1,6 @@
 <template>
   <ul class="list shadow">
     <LargeListItemComponent v-for="(option, index) in dataset" :key="index" :options="option" />
-    <!-- <LargeListItemComponent :options="data" />
-    <LargeListItemComponent :options="data" />
-    <LargeListItemComponent :options="data" />
-    <LargeListItemComponent :options="data" /> -->
   </ul>
 </template>
 <script setup lang="ts">
@@ -58,6 +54,7 @@ function parseData() {
 <style scoped>
 .list {
   display: flex;
+  height: 100% ;
   gap: 1rem;
   padding: 1rem;
   background-color: #00499b;
@@ -66,8 +63,8 @@ function parseData() {
   background-size: cover;
   background-position: center;
   border-radius: 15px;
-  max-width: 50rem;
-  max-height: 40rem;
+  /* max-width: 50rem; */
+  /* max-height: 40rem; */
   overflow-y: auto;
 }
 </style>
