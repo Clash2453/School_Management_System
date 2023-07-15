@@ -4,5 +4,7 @@ public enum GradeType
 {
     Regular,
     Term,
-    Yearly
+    Yearly,
+    Exam,
+    Project
 }
