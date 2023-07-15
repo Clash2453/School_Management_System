@@ -1,15 +1,27 @@
 using SchoolManagementSystem.Interfaces;
+using SchoolManagementSystem.Models;
 using SchoolManagementSystem.Models.QuerryResultDtos;
 
 namespace SchoolManagementSystem.Services.DataOrganization;
 
+public class GradeValue
+{
+    public readonly string Subject;
+    public readonly float Value;
+
+    public GradeValue(string subject, float value)
+    {
+        Subject = subject;
+        Value = value;
+    }
+}
 public class StudentDataBundler: IStudentDataBundler
 {
     private readonly IGradingService _gradingService;
     private readonly IAbsenceService _absenceService;
     private readonly ISubjectService _subjectService;
     private readonly IUserManagementService _userService;
-
+    
     public StudentDataBundler(IGradingService gradingService,
         IAbsenceService absenceService,
         ISubjectService subjectService,
@@ -27,7 +39,7 @@ public class StudentDataBundler: IStudentDataBundler
         if (userData == null || studentData == null)
             return null;
         
-        var grades = await _gradingService.GetGradesByStudentId(userData.UserId);
+        var grades = await GetStudentGrades(userData.UserId);
         if (grades.Count == 0)
         {
             var subjects = await _subjectService.GetSubjectsByStudent(studentData.Specialty.SpecialtyId);
@@ -49,8 +61,10 @@ public class StudentDataBundler: IStudentDataBundler
                 UnExcusedAbsence = 0
             };  
         }
-        var gradeValues = grades.Select(g => new { Subject = g.Subject.Name, Value = g.Value }).ToList();
-        var average = gradeValues.Select(g => g.Value).Average();
+
+        var gradeValues = GetGradeValues(grades);
+        // var average = gradeValues.Select(g => g.Value).Average();
+        var average = CalculateAverageGrade(gradeValues);
 
         var groupedGrades = gradeValues
             .GroupBy(grade => grade.Subject)
@@ -123,4 +137,11 @@ public class StudentDataBundler: IStudentDataBundler
              Grades = groupedGrades,
          };
      }
+     public float CalculateAverageGrade(IEnumerable<GradeValue> grades) => grades.Select(g => g.Value).Average();
+     
+     public List<GradeValue> GetGradeValues(List<Grade> grades) =>
+         grades.Select(g => new GradeValue(g.Subject.Name, g.Value)).ToList();
+     
+     public async Task<List<Grade>> GetStudentGrades(int studentId) =>
+         await _gradingService.GetGradesByStudentId(studentId);
 }
