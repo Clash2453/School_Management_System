@@ -9,6 +9,7 @@ import AbsenceView from '../views/StudentViews/AbsenceView.vue'
 import TeachersView from '../views/TeacherViews/TeachersView.vue'
 import SubjectsView from '../views/AdminViews/SubjectsView.vue'
 import AdminView from '../views/AdminViews/AdminView.vue'
+import SettingsView from '../views/SettingsView.vue'
 // import ErrorComponent from '../components/general/ErrorComponent.vue'
 import WaitingPage from '../views/AdminViews/WaitingApprovalView.vue'
 const router = createRouter({
@@ -42,6 +43,13 @@ const router = createRouter({
         requiresAuthentication: true
       },
       children: [
+        {
+          path: `settings`, // Define a separate route for settings
+          component: SettingsView, // Replace "SettingsView" with the actual component for your settings page
+          meta: {
+            requiresAuthentication: true // Add any required meta info here if needed
+          }
+        },
         {
           path: 'student', // Remove the leading slash (/)
           meta: {
@@ -106,7 +114,7 @@ const router = createRouter({
           }
         }
       ]
-    }
+    },
   ]
 })
 
