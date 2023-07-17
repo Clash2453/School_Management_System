@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolManagementSystem", "SchoolManagementSystem\SchoolManagementSystem.csproj", "{36AA478B-4090-4930-8812-5A0655344BFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolManagementSystem.Test", "SchoolManagementSystem.Test\SchoolManagementSystem.Test.csproj", "{171816B9-F862-4A90-8B86-2E614F6D1960}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,6 +14,10 @@ Global
 		{36AA478B-4090-4930-8812-5A0655344BFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36AA478B-4090-4930-8812-5A0655344BFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36AA478B-4090-4930-8812-5A0655344BFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{171816B9-F862-4A90-8B86-2E614F6D1960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{171816B9-F862-4A90-8B86-2E614F6D1960}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{171816B9-F862-4A90-8B86-2E614F6D1960}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{171816B9-F862-4A90-8B86-2E614F6D1960}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
