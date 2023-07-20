@@ -59,7 +59,7 @@ function parseData() {
   padding: 1rem;
   background-color: #00499b;
   /* background: url('/images/form-background.svg') no-repeat; */
-  background-color: var(--component-dark-blue);
+  background-color: var(--primary-color);
   background-size: cover;
   background-position: center;
   border-radius: 15px;

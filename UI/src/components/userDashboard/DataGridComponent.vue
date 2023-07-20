@@ -72,7 +72,7 @@ console.log(props.options)
   padding: 1rem;
 }
 #grades-table {
-  color: var(--component-font-white);
+  color: var(--font-color-primary);
   width: 100%;
   height: 100%;
   min-width: 62.5rem;
@@ -83,7 +83,7 @@ console.log(props.options)
   width: fit-content;
   padding: 0.5rem;
   min-width: 10rem;
-  background-color: var(--component-dark-blue);
+  background-color: var(--primary-color);
   white-space: nowrap;
 }
 .main-title {
@@ -94,10 +94,10 @@ console.log(props.options)
   padding: 1rem 0.5rem;
 }
 .light {
-  background-color: var(--component-light-blue);
+  background-color: var(--secondary-color);
 }
 .dark {
-  background-color: var(--component-dark-blue);
+  background-color: var(--primary-color);
 }
 .table-component {
   color: white;

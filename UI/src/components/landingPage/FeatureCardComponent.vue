@@ -1,10 +1,26 @@
 <script setup lang="ts">
+import { ThemeSwitcher } from '../../themeSwitcher';
+import {inject, onBeforeMount} from 'vue'
+const theme:ThemeSwitcher = inject('themeSwitcher')
+let iconFill = ''
+
+function setFill() {
+  if(theme.getPreference() === 'dark'){
+    console.log('dark')
+    return theme.getDarkThemeIconFill()
+  }
+  return theme.getLightThemeIconFill()
+}
+
+onBeforeMount(() => {
+  iconFill = setFill()
+})
 
 const props = defineProps<{title:string, description:string, iconName:string}>()
 </script>
 <template>
   <section class="feature-card">
-    <v-icon :name="this.iconName" scale="5" fill="white" />
+    <v-icon :name="this.iconName" scale="5" :fill="iconFill" />
     <div class="text-wrapper">
       <h3 class="subtitle">{{ this.title }}</h3>
       <p class="description">{{ this.description }}</p>
@@ -21,10 +37,10 @@ const props = defineProps<{title:string, description:string, iconName:string}>()
 
   border-radius: 5px;
   padding: 2rem;
-  background-color: var(--dashboard-background-light-blue);
+  background-color: var(--primary-color);
 }
 .text-wrapper {
-  color: white;
+  color: var(--font-color-primary);
   padding: 1rem;
   display: flex;
   flex-direction: column;

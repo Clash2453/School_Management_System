@@ -90,7 +90,7 @@ function addRole(role) {
   align-items: center;
   justify-content: flex-start;
   border-radius: 25px;
-  background-color: rgb(57, 72, 103);
+  background-color: var(--tertiary-color); /*was darker component idk*/
   will-change: height;
   transform-origin: top center;
   cursor: pointer;
@@ -145,7 +145,7 @@ function addRole(role) {
   backface-visibility: hidden;
 }
 .selected {
-  background-color: rgb(38, 48, 68);
+  background-color: var(--secondary-color);
 }
 @keyframes growAnimation {
   0% {

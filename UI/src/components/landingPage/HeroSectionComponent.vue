@@ -1,5 +1,9 @@
 <script setup lang="ts" >
 import router from '../../router'
+import { ThemeSwitcher } from '../../themeSwitcher';
+import {inject, onBeforeMount} from 'vue'
+const theme:ThemeSwitcher = inject('themeSwitcher')
+
 function goToLogin() {
   router.push('/login')
 }
@@ -7,6 +11,18 @@ function goToLogin() {
 function goToAbout() {
   router.push('/about')
 }
+
+let fillColor = ''
+function setFill() {
+  if(theme.getPreference() === 'dark'){
+    console.log('its dark')
+    return theme.getDarkThemeHeroFill()
+  }
+  return theme.getLightThemeHeroFill()
+}
+onBeforeMount(() => {
+  fillColor = setFill()
+})
 </script>
 
 <template>
@@ -22,7 +38,7 @@ function goToAbout() {
         <button class="secondary-button" @click="goToAbout">Learn more</button>
       </div>
     </div>
-    <v-icon name="md-school-outlined" class="hero-image" fill="white"></v-icon>
+    <v-icon name="md-school-outlined" class="hero-image" :fill="fillColor"></v-icon>
   </section>
 </template>
 
@@ -33,8 +49,8 @@ function goToAbout() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #1f4873;
-  background-image: url('/images/hero-background.svg');
+  background-color: var(--primary-color);
+  background-image: var(--hero-image  );
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom;
@@ -53,7 +69,7 @@ function goToAbout() {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: white;
+  color: var(--font-color-secondary);
   gap: 2rem;
 }
 .button-wrapper {

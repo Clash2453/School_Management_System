@@ -11,7 +11,7 @@
         <v-icon
           name="bi-arrow-down-circle"
           scale="2"
-          fill="white"
+          :fill="iconFill"
           class="icon-button"
           @click="expandTrigger = !expandTrigger"
         ></v-icon>
@@ -20,33 +20,37 @@
     <div class="expanded-section" v-if="expandTrigger">
       <div class="wrapper">
         <h2 class="subtitle">
-          <v-icon name="hi-solid-mail-open" scale="1.45" fill="white"></v-icon>
+          <v-icon name="hi-solid-mail-open" scale="1.45" :fill="iconFill"></v-icon>
           {{ options.firstField }}
         </h2>
       </div>
       <div class="wrapper">
-        <v-icon name="fa-university" scale="1.45" fill="white"></v-icon>
+        <v-icon name="fa-university" scale="1.45" :fill="iconFill"></v-icon>
         <h2 class="subtitle">{{ options.secondField }}</h2>
       </div>
       <div class="wrapper" v-if="!(options.thirdField === '')">
-        <v-icon name="fa-user-graduate" scale="1.45" fill="white"></v-icon>
+        <v-icon name="fa-user-graduate" scale="1.45" :fill="iconFill"></v-icon>
         <h2 class="subtitle">{{ options.thirdField }}</h2>
       </div>
     </div>
   </li>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
+import { ThemeSwitcher } from '../../themeSwitcher';
+
+const themeSwitcher:ThemeSwitcher = inject('themeSwitcher')
+const iconFill = themeSwitcher.getIconFill();
+
 const props = defineProps(['options'])
 const expandTrigger = ref(false)
 </script>
 <style scoped>
 .list-item {
-  color: white;
-  background-color: var(--component-selected-blue);
+  color: var(--font-color-primary);
+  background-color: var(--tertiary-color);
 
   width: 100%;
-  height: 5;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -58,7 +62,7 @@ const expandTrigger = ref(false)
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
 }
 .header-section {
-  color: white;
+  color: var(--font-color-primary);
 
   width: 100%;
   display: flex;
@@ -67,7 +71,7 @@ const expandTrigger = ref(false)
   padding: 0 0.5rem;
 }
 .expanded {
-  min-height: 10rem;
+  min-height: 17rem;
   align-items: flex-start;
 }
 .wrapper {
@@ -94,11 +98,12 @@ const expandTrigger = ref(false)
 }
 .expanded-section {
   width: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 2rem;
-  background-color: var(--component-light-blue);
+  height: 100%;
+  display: grid;
+  grid-template-columns: 2;
+  grid-template-rows: 3; 
+  /* gap: 2rem; */
+  background-color: var(--accent-color);
   border-radius: 5px;
   padding: 0 0.5rem;
   animation: fade-in 0.5s;

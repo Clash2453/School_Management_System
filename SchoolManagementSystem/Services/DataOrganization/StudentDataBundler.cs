@@ -8,7 +8,6 @@ public class GradeValue
 {
     public readonly string Subject;
     public readonly float Value;
-
     public GradeValue(string subject, float value)
     {
         Subject = subject;

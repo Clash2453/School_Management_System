@@ -107,7 +107,7 @@ export default defineComponent ({
   top: 0;
   left: 0;
   min-height: 6rem;
-  background-color: var(--dashboard-background-light-blue);
+  background-color: var(--primary-color);
   padding: 0.5rem;
   box-sizing: border-box;
   z-index: 999;
@@ -129,7 +129,7 @@ export default defineComponent ({
 .button-container {
   width: 5rem;
   height: 5rem;
-  color: white;
+  color: var(--font-color-primary );
 }
 #logo {
   width: 5rem;
@@ -138,20 +138,20 @@ export default defineComponent ({
 }
 .nav-list-item {
   padding: 0.25rem 1rem;
-  color: white;
+  color: var(--font-color-primary);
   border-bottom: 5px solid transparent;
 }
 .nav-list-item:hover {
-  background-color: white;
-  color: #00617e;
-  border-bottom: 5px solid #00c08d;
+  background-color: var(--font-color-secondary);
+  color: var(--secondary-color);
+  border-bottom: 5px solid var(--font-color-primary);
 }
 .nav-link {
-  color: inherit;
+  color: var(--font-color-primary);
   font-size: 1.5rem;
   font-family: 'Roboto', sans-serif;
   font-weight: 800;
-  color: white;
+  color: var(--font-color-secondary);
 }
 .material-symbols-outlined {
   font-size: 3rem;

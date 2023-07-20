@@ -1,45 +1,46 @@
 <script setup lang="ts">
 import FeatureCardComponent from './FeatureCardComponent.vue'
+
 const cards: {
   title: string,
   description: string,
-  icon: string
+  icon: string,
 }[] = [
         {
           title: 'Lorem',
           description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a efficitur mi. Fusce pretium viverra ante, ac semper est imperdiet sit amet. Ut porta vehicula. ',
-          icon: 'md-web'
+          icon: 'md-web',
         },
         {
           title: 'Lorem',
           description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a efficitur mi. Fusce pretium viverra ante, ac semper est imperdiet sit amet. Ut porta vehicula. ',
-          icon: 'md-accounttree-outlined'
+          icon: 'md-accounttree-outlined',
         },
         {
           title: 'Lorem',
           description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a efficitur mi. Fusce pretium viverra ante, ac semper est imperdiet sit amet. Ut porta vehicula. ',
-          icon: 'md-supportagent'
+          icon: 'md-supportagent',
         },
         {
           title: 'Lorem',
           description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a efficitur mi. Fusce pretium viverra ante, ac semper est imperdiet sit amet. Ut porta vehicula. ',
-          icon: 'hi-solid-chart-pie'
+          icon: 'hi-solid-chart-pie',
         },
         {
           title: 'Lorem',
           description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a efficitur mi. Fusce pretium viverra ante, ac semper est imperdiet sit amet. Ut porta vehicula. ',
-          icon: 'hi-clipboard-list'
+          icon: 'hi-clipboard-list',
         },
         {
           title: 'Lorem',
           description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a efficitur mi. Fusce pretium viverra ante, ac semper est imperdiet sit amet. Ut porta vehicula. ',
-          icon: 'bi-calendar2-week'
+          icon: 'bi-calendar2-week',
         }
       ]
 </script>
@@ -66,10 +67,11 @@ const cards: {
   grid-template-rows: repeat(2, 250px);
   gap: 2rem;
   padding: 2rem;
-  background-color: var(--dashboard-background-blue);
+  background-color: var(--background-color);
   /* background-image: url('/images/feature-section-background.svg'); */
   background-repeat: no-repeat;
   background-size: cover;
+  /* color: var(--component-font-color); */
 }
 @media (max-width: 1350px) {
   #features-section {

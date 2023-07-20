@@ -184,12 +184,12 @@ async function addFaculty() {
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  color: white;
+  color: var(--font-color-primary);
 }
 
 .tab-button {
   padding: 1rem;
-  background-color: var(--component-selected-blue);
+  background-color: var(--primary-color);
   border-radius: 15px;
 }
 
@@ -210,6 +210,6 @@ async function addFaculty() {
 }
 
 .active-tab {
-  background-color: var(--component-light-blue);
+  background-color: var(--secondary-color);
 }
 </style>

@@ -48,7 +48,7 @@ export default defineComponent({
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--font-color-primary);
   height: calc(100vh - 13rem);
 }
 .main-title {
@@ -56,7 +56,7 @@ export default defineComponent({
   font-size: 3.5rem;
 }
 .solid-color {
-  background-color: var(--dashboard-background-blue);
+  background-color: var(--background-color);
   display: flex;
   justify-content: flex-start;
   align-items: center;

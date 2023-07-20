@@ -15,9 +15,13 @@ public class GpiService : IGpiService
         _studentDataBundler = studentDataBundler;
     }
 
+    public GpiService()
+    {
+    }
+
     private double CalculateAcademicGpi(string average, GradingSystem gradingSystem)
     {
-        double convertedScore = 100;
+        double convertedScore;
         switch (gradingSystem)
         {
             case GradingSystem.LetterGradingUs:
@@ -56,10 +60,10 @@ public class GpiService : IGpiService
                 return -1;
         }   
     }
-    private double CalculateAcademicGpi(float averageFloat, GradingSystem gradingSystem)
+    public double CalculateAcademicGpi(float averageFloat, GradingSystem gradingSystem)
     {
 
-        double convertedScore = 100;
+        double convertedScore;
         
         switch (gradingSystem)
         {
@@ -77,7 +81,8 @@ public class GpiService : IGpiService
                 // Define the minimum and maximum scores on the 2 to 6 grading scale
                 double minScore = 2.0;
                 double maxScore = 6.0;
-
+                if (averageFloat > 6.0 || averageFloat < 2.0)
+                    return -1;
                 // Define the minimum and maximum scores on the 100-point scale
                 double min100Point = 0.0;
                 double max100Point = 100.0;
@@ -92,7 +97,6 @@ public class GpiService : IGpiService
                 return -1;
                 break;
         }
-        throw new NotImplementedException();
     }
     private double CalculateAcademicGpi(double globalAvgSuccess, double subjectCredits)
     {
@@ -109,7 +113,7 @@ public class GpiService : IGpiService
     }
 
     
-    public StudentGpiDto CalculateStudentGpi(string avgGrade, GradingSystem gradingSystem)
+    public double CalculateStudentGpi(string avgGrade, GradingSystem gradingSystem)
     {
         
         //calculate the overall academic grade of the student/undergrad
@@ -121,8 +125,32 @@ public class GpiService : IGpiService
         
         throw new NotImplementedException();
     }
-    
-    public StudentGpiDto CalculateStudentGpi(float avgGrade, GradingSystem gradingSystem)
+
+    public double CalculateExamGpi(List<GradeValue> examGrades)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>Calculate the progress indicator grade for the student using the formula
+    /// ((avgGrade - currentMin) / (currentMax - currentMin)) * (targetMax - targetMin) + targetMin
+    /// </summary>
+    /// <param name="grades">A list of the grades sort by exam or project tag for the specific categories</param>
+    /// <param name="currentMax">current grading scale max</param>
+    /// <param name="currentMin">current grading scale min</param>
+    /// <returns>A double ranging from 0 to 100 if the conversion was successful or -1 if there was an error</returns>
+    public double CalculateGpi(List<GradeValue> grades, double currentMin, double currentMax)
+    {
+        const double targetMin = 0;
+        const double targetMax = 0;
+        float avgGrade = _studentDataBundler.CalculateAverageGrade(grades);
+        
+        double unifiedGrade = ((avgGrade - currentMin) / (currentMax - currentMin)) * (targetMax - targetMin) + targetMin;
+        unifiedGrade = Math.Round(unifiedGrade, 2);
+
+        return unifiedGrade;
+    }
+
+    public double CalculateStudentGpi(float avgGrade, GradingSystem gradingSystem)
     {
         
         //calculate the overall academic grade of the student/undergrad
@@ -130,8 +158,6 @@ public class GpiService : IGpiService
         double academicGpi = CalculateAcademicGpi(67, unifiedGrade);
         
         //calculate the examination gpi grade of the student/undergrad
-            
-        
-        throw new NotImplementedException();
+        return academicGpi;
     }
 }

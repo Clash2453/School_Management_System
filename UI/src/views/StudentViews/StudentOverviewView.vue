@@ -212,7 +212,7 @@ onMounted(async () => {
   justify-content: flex-start;
   align-items: center;
   gap: 2rem;
-  color: white;
+  color: var(--component-font-color);
   text-align: center;
 
 }
@@ -238,7 +238,7 @@ onMounted(async () => {
 
   .grid-container {
     width: 100%;
-    grid-template-rows: 25rem 20rem 20rem 20rem;
+    grid-template-rows: 25rem 1fr 1fr 1fr;
     grid-template-columns: 1fr;
   }
 

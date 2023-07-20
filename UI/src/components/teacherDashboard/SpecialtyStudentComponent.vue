@@ -91,7 +91,7 @@ async function addGrade() {
 }
 
 .subject-name {
-  background-color: var(--component-light-blue);
+  background-color: var(--secondary-color);
   width: 100%;
   border-radius: 5px;
   font-weight: 600;
@@ -106,13 +106,13 @@ async function addGrade() {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--component-darker-blue);
+  background-color: var(--component-darker-blue); /*was darker blue idk*/
   border-radius: 5px;
 }
 
 .info-wrapper {
   width: 100%;
-  background-color: var(--component-dark-blue);
+  background-color: var(--secondary-color); /*was dark blue idk*/
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -123,7 +123,7 @@ async function addGrade() {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  background-color: var(--component-dark-blue);
+  background-color: var(--secondary-color); /*was dark blue idk*/
   padding: 0.5rem;
   border-radius: 5px;
   gap: 0.5rem;

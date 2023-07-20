@@ -201,9 +201,9 @@ export default {
   object-fit: fill;
 
   flex: auto;
-  background-color: var(--dashboard-background-blue);
+  background-color: var(--dashboard-background);
   padding: 2rem;
-  background-image: url('/images/login/login-background.svg');
+  background-image: var(--login-image);
 }
 .main-title {
   text-align: left;
@@ -222,23 +222,23 @@ export default {
 
   gap: 1rem;
   padding: 2rem;
-  background-color: var(--component-darker-blue);
-  color: var(--component-font-white);
+  background-color: var(--secondary-color);
+  color: var(--font-color-primary);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
 .form-input {
-  background-color: var(--component-selected-blue);
+  background-color: var(--tertiary-color);
   border-radius: 5px;
   font-size: 1.125rem;
   font-family: 'Montserrat', sans-serif;
   padding: 0.25rem;
   width: 100%;
   max-width: 20rem;
-  color: var(--component-font-white);
+  color: var(--font-color-primary);
 }
 .form-input:focus {
-  outline: 2px solid var(--component-light-blue);
+  outline: 2px solid var(--secondary-color);
 }
 .input-label {
   font-family: 'Roboto', sans-serif;
@@ -246,7 +246,7 @@ export default {
   text-align: left;
   width: 100%;
   max-width: 20rem;
-  color: var(--component-font-white);
+  color: var(--font-color-primary);
 }
 .password-link {
   text-decoration: underline;
@@ -273,7 +273,7 @@ export default {
 .active,
 .inactive {
   width: 100%;
-  color: var(--component-font-white);
+  color: var(--font-color-primary);
   font-size: 1.25rem;
   font-family: 'Roboto', sans-serif;
   padding: 1rem;
@@ -293,10 +293,10 @@ export default {
   border-top-right-radius: 5px;
 }
 .active {
-  background-color: var(--component-light-blue);
+  background-color: var(--secondary-color);
 }
 .inactive {
-  background-color: var(--component-selected-blue);
+  background-color: var(--accent-color);
 }
 @media (max-width: 1250px) {
   #form-section {

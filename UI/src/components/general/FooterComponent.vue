@@ -1,12 +1,20 @@
 <script setup lang="ts">
+import {inject, onBeforeMount} from 'vue'
+import { ThemeSwitcher } from '../../themeSwitcher';
+
+const themeSwitcher:ThemeSwitcher = inject('themeSwitcher')
+
+const iconFill = themeSwitcher.getIconFill();
+
+console.log(iconFill)
 </script>
 
 <template>
   <footer id="footer">
     <div class="icon-row">
-      <v-icon class="icon" name="bi-github" scale="2"></v-icon>
-      <v-icon class="icon" name="bi-facebook" scale="2"></v-icon>
-      <v-icon class="icon" name="bi-linkedin" scale="2"></v-icon>
+      <v-icon class="icon" name="bi-github" scale="2" :fill="iconFill"></v-icon>
+      <v-icon class="icon" name="bi-facebook" scale="2" :fill="iconFill"></v-icon>
+      <v-icon class="icon" name="bi-linkedin" scale="2" :fill="iconFill"></v-icon>
     </div>
     <p class="wh-p align-c">© 2023 All Rights Reserved | This site was made by Spas Milenkov</p>
   </footer>
@@ -30,7 +38,7 @@
   bottom: 0;
   right: 0;
 
-  background-color: var(--dashboard-background-light-blue);
+  background-color: var(--primary-color  );
 }
 .icon-row {
   gap: 1rem;

@@ -9,43 +9,58 @@ const store = useUserStore()
 const dynamicLinks = {
   Admin: [
     {
-      path: 'overview',
+      path: '/dashboard/teacher/overview',
       icon: 'hi-solid-chart-pie',
       text: 'Overview'
     },
     {
-      path: 'subjects',
+      path: '/dashboard/student/subjects',
       icon: 'bi-calendar2-week',
       text: 'Subjects'
+    },
+    {
+      path: '/dashboard/settings',
+      icon: 'fa-cog',
+      text: 'Settings'
     }
   ],
   Teacher: [
     {
-      path: 'overview',
+      path: '/dashboard/student/overview',
       icon: 'hi-solid-chart-pie',
       text: 'Overview'
     },
     {
-      path: 'absence',
+      path: '/dashboard/student/absence',
       icon: 'md-stickynote2-outlined',
       text: 'Absence'
+    },
+    {
+      path: '/dashboard/settings',
+      icon: 'fa-cog',
+      text: 'Settings'
     }
   ],
   Student: [
     {
-      path: 'overview',
+      path: '/dashboard/student/overview',
       icon: 'hi-solid-chart-pie',
       text: 'Overview'
     },
     {
-      path: 'grades',
+      path: '/dashboard/student/grades',
       icon: 'bi-table',
       text: 'Grades'
     },
     {
-      path: 'teachers ',
+      path: '/dashboard/student/teachers ',
       icon: 'fa-chalkboard-teacher',
       text: 'Teachers'
+    },
+    {
+      path: '/dashboard/settings',
+      icon: 'fa-cog',
+      text: 'Settings'
     }
   ]
 }
@@ -93,8 +108,8 @@ window.addEventListener('resize', toggleExtra())
   min-width: 15rem;
   flex-grow: 1;
   min-height: calc(100vh - 7rem);
-  background-color: var(--dashboard-background-light-blue);
-  color: white;
+  background-color: var(--primary-color);
+  color: var(--font-color-primary);
 }
 .action-list {
   display: flex;
@@ -108,7 +123,7 @@ window.addEventListener('resize', toggleExtra())
   left: 0;
 }
 .action-button:hover {
-  background-color: var(--component-selected-blue);
+  background-color: var(--accent-color);
 }
 .action-button {
   text-align: left;
