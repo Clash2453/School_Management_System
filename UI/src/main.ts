@@ -26,9 +26,12 @@ import {
   HiSolidMailOpen,
   FaUserGraduate,
   FaUniversity,
-  BiArrowDownCircle
+  BiArrowDownCircle,
+  FaCog,
+  IoEllipseSharp
 } from 'oh-vue-icons/icons'
 import { ErrorHandlingService } from './services/ErrorHandlingService'
+import { ThemeSwitcher } from './themeSwitcher'
 
 addIcons(
   BiGithub,
@@ -48,13 +51,31 @@ addIcons(
   HiSolidMailOpen,
   FaUserGraduate,
   FaUniversity,
-  BiArrowDownCircle
+  BiArrowDownCircle,
+  FaCog
 )
 const pinia = createPinia()
 const app = createApp(App)
 const emitter:Emitter = mitt()
+const switcher:ThemeSwitcher = new ThemeSwitcher();
+
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  switcher.setDarkTheme()
+  switcher.setPreference()
+}
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    switcher.setDarkTheme()
+  }
+  else{
+    switcher.setLightTheme()
+  }
+  console.log('i change from dark to light')
+  switcher.setPreference()
+});
 
 app.config.globalProperties.emitter = emitter
+app.provide('themeSwitcher', switcher)
 app.provide('emitter', emitter)
 app.provide('errorHandler', ErrorHandlingService)
 app.component('v-icon', OhVueIcon)
