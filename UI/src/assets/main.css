@@ -1,52 +1,86 @@
 @import url(base.css);
-:root {
-  --component-light: #384766;
-  --component-background: #212b3f;
-  --component-darker-background: #151b27;
-  --component-gray: rgb(155, 164, 181);
-  --component-font-color: rgb(241, 246, 249);
-  --component-selected: rgb(38, 48, 68);
-  --dashboard-background: #131924;
-  --dashboard-lighter-background: rgb(25, 32, 46);
-  --button-dark-theme-red: #ff4463;
-  --button-blue: #4ca0e7;
-}
-/* * {
-  outline: 2px solid green
-} */
+
 body.light {
-  --component-light: rgb(252, 252, 252);
-  --component-background: rgb(252, 252, 252);
-  --component-darker-background: rgb(252, 252, 252);
-  --component-gray: rgb(155, 164, 181);
-  --component-font-color: rgb(21, 50, 67);
-  --component-selected: rgb(223, 217, 217);
-  --dashboard-background: rgb(252, 252, 252);
-  --dashboard-lighter-background: rgb(252, 252, 252);
-  --button-red: rgb(216, 0, 50);
-  --button-blue: rgb(49, 133, 252);
-  
+  --primary-color: #bddcff;   
+  --secondary-color: #a0ccff;
+  --tertiary-color: rgb(212, 237, 252);;
+  --accent-color:  #94c4f9;
+  --background-color: #f4faff;
+
+  --font-color-primary:  #0E0F19;
+  --font-color-secondary: #f5faff;  
+
+  --decline-button: #ff4463;
+  --approve-button: #4ca0e7;
+
+  --hero-image: url('/imagesLight/hero-background.svg');
+  --login-image: url('/imagesLight/login/login-background.svg');
+
+  --vs-dropdown-bg: var(--tertiary-color);
+  --vs-dropdown-option--active-bg: var(--accent-color);
+  --vs-dropdown-option--active-color: var(--font-color-primary);
+  --vs-search-input-color: var(--font-color-primary);
+  --vs-dropdown-color: var(--font-color-primary);
+  --vs-controls-color: var(--font-color-primary);
+  --vs-dropdown-option-color: var(--vs-dropdown-color);
+  --vs-dropdown-option-padding: 3px 20px;
+  --vs-selected-border-color: var(--vs-border-color);
 }
+
+body.dark {
+  --primary-color: #212b3f;
+  --secondary-color: #151b27;
+  --tertiary-color: #394867;
+  --accent-color:  rgb(38, 48, 68);
+  --background-color: #131924;
+
+  --font-color-primary: rgb(241, 246, 249); 
+  --font-color-secondary: rgb(241, 246, 249);
+
+  --decline-button: #ff4463;
+  --approve-button: #4ca0e7;
+
+  --hero-image: url('/images/hero-background.svg');
+  --login-image: url('/images/login/login-background.svg');
+
+  --vs-dropdown-bg: var(--tertiary-color);
+  --vs-dropdown-option-bg: white;
+  --vs-dropdown-option--active-bg: rgb(69, 88, 126);
+  --vs-dropdown-option--active-color: #fff;
+  --vs-search-input-color: #fff;
+  --vs-dropdown-color: white;
+  --vs-controls-color: white;
+  --vs-dropdown-option-color: var(--vs-dropdown-color);
+  --vs-dropdown-option-padding: 3px 20px;
+  --vs-selected-color: white;
+  --vs-selected-border-color: var(--vs-border-color);
+  --vs-selected-bg: rgb(3, 59, 105);
+}
+
 .wh-p {
-    color: var(--component-font-color);
+    color: var(--font-color-primary);
     font-size: 1rem;
     font-family: "Montserrat", sans-serif;
 }
+
 .align-c {
   text-align: center;
 }
+
 .main-title {
     font-family: "Roboto", sans-serif;
     font-size: 2.5rem;
     color: inherit;
     width: 100%;
 }
+
 .subtitle{
     font-family: "Montserrat", sans-serif;
 
     font-size: 1.25rem;
     color: inherit;
 }
+
 #app{
     display: flex;
     flex-direction: column;
@@ -54,26 +88,30 @@ body.light {
     flex: 1;
     /* overflow: hidden; */
 }
+
 textarea:focus, input:focus{
     outline: none;
 }
+
 table, tr, th {
   border-spacing: 5px;
   border-collapse: collapse;
 }
+
 tdf {
   white-space: nowrap;
 
 }
+
 .flex {
   display: flex;
-  
 }
+
 .main-button {
-    background-color: var(--component-background);
+    background-color: var(--primary-color);
     border: 1px solid transparent;
     border-radius: 0.75rem;
-    color: #ffffff;
+    color: var(--component-font-off-color);
     cursor: pointer;
     flex: 0 0 auto;
     font-family: Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
@@ -90,7 +128,7 @@ tdf {
   }
   
   .main-button:hover {
-    background-color: var(--component-selected);
+    background-color: var(--accent-color);
   }
   
   .main-button:focus {
@@ -102,7 +140,7 @@ tdf {
   .secondary-button {
     appearance: none;
     background-color: transparent;
-    border: 2px solid #ffffff;
+    border: 2px solid var(--font-color-secondary);
     border-radius: 15px;
     cursor: pointer;
     display: inline-block;
@@ -128,14 +166,17 @@ tdf {
 }
   
 .secondary-button:hover {
-  color: #fff;
-  background-color: var(--component-selected);
+  color: var(--font-color-primary);
+  background-color: var(--accent-color);
   box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
 }
 .add-button {
-  background-color: var(--button-blue);
+  color: var(--font-color-secondary);
+  background-color: var(--approve-button);
 }
 .decline-button {
+  color: var(--font-color-secondary);
+
   background-color: #f05e77;
 }
 .add-button:hover {
@@ -171,7 +212,7 @@ tdf {
 
   padding: 1rem;
   /* background: url('/images/form-background.svg') no-repeat; */
-  background-color: var(--component-background);
+  background-color: var(--primary-color);
   background-size: cover;
   background-position: center;
   border-radius: 15px;
@@ -188,11 +229,11 @@ tdf {
   gap: 1rem;
 
   padding: 1rem;
-  color: var(--component-font-color);
+  color: var(--font-color-primary);
 }
 .input-field {
-  /* background-color: rgba(0, 45, 83, 1); */
-  background-color: #394867;
+  background-color: rgba(0, 45, 83, 1);
+  background-color: var(--tertiary-color);
   font-size: 1rem;
   min-height: 2.5rem;
   padding: 0.5rem;
@@ -207,19 +248,7 @@ tdf {
   background-color: #0068bd;
 }
 .select-wrapper {
-  background-color: rgb(57, 72, 103);
-  --vs-dropdown-bg: rgb(57, 72, 103);
-  --vs-dropdown-option-bg: white;
-  --vs-dropdown-option--active-bg: rgb(69, 88, 126);
-  --vs-dropdown-option--active-color: #fff;
-  --vs-search-input-color: #fff;
-  --vs-dropdown-color: white;
-  --vs-controls-color: white;
-  --vs-dropdown-option-color: var(--vs-dropdown-color);
-  --vs-dropdown-option-padding: 3px 20px;
-  --vs-selected-color: white;
-  --vs-selected-border-color: var(--vs-border-color);
-  --vs-selected-bg: rgb(3, 59, 105);
+  background-color: var(--tertiary-color);
   /* --vs-selected-color: rgb(0, 45, 83); */
   color: white;
   border-radius: 5px;
@@ -232,7 +261,7 @@ tdf {
 
 .list-container {
   /* background-image: url('/images/waitList-background.svg'); */
-  background-color: var(--component-background);
+  background-color: var(--primary-color);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -243,7 +272,7 @@ tdf {
   justify-content: center;
   gap: 1rem;
 
-  color: var(--component-font-color);
+  color: var(--font-color-primary);
   font-family: 'Roboto', sans-serif;
 
   width: 100%;
@@ -274,7 +303,7 @@ tdf {
 
 /* CHART STYLES */
 .chart {
-  background-color: var(--component-background);
+  background-color: var(--primary-color);
   border-radius: 15px;
   display: flex;
   align-items: center;
