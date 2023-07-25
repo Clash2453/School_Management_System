@@ -19,7 +19,7 @@ export default defineComponent ({
       if (width < 750) {
         this.toggleMobile = true
         this.toggleMobileButton = true
-        this.emitter.emit('toggle-mobile', this.toggleMobile)
+        this.emitter.emit('toggleMobile', this.toggleMobile)
         if(this.userStore.authenticationStatus){
           this.extra = true
       }
@@ -28,7 +28,7 @@ export default defineComponent ({
       this.toggleMobile = false
       this.toggleMobileButton = false
       this.extra = false 
-      this.emitter.emit('toggle-mobile', this.toggleMobile)
+      this.emitter.emit('toggleMobile', this.toggleMobile)
     },
     triggerMenu():void {
       this.toggleMobile = !this.toggleMobile
