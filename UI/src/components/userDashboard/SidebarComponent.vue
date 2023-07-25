@@ -2,14 +2,19 @@
 import { ref, onMounted } from 'vue'
 import { inject } from 'vue'
 import { useUserStore } from '../../stores/UserStore'
+import { ThemeSwitcher } from '../../themeSwitcher';
+import {fill} from '../../stores/iconStore'
+import { Emitter } from 'mitt';
 
-const emitter = inject('emitter')
+const emitter:Emitter<GlobalEvents> = inject('emitter')
+const switcher:ThemeSwitcher = inject('themeSwitcher')
+const iconFill = ref<string>()
 const hidden = ref(false)
 const store = useUserStore()
 const dynamicLinks = {
   Admin: [
     {
-      path: '/dashboard/teacher/overview',
+      path: '/dashboard/admin/overview',
       icon: 'hi-solid-chart-pie',
       text: 'Overview'
     },
@@ -65,9 +70,12 @@ const dynamicLinks = {
   ]
 }
 onMounted(() => {
-  emitter.on('toggle-mobile', (state) => {
+  emitter.on('toggleMobile', (state) => {
     hidden.value = state
     console.log(state)
+  })
+  emitter.on('updateTheme', () => {
+    iconFill.value = switcher.getIconFill()
   })
 })
 
@@ -83,7 +91,6 @@ window.addEventListener('resize', toggleExtra())
 </script>
 <template>
   <section class="container" v-if="!hidden">
-    <h1 class="main-title">{{ state }}</h1>
     <ul class="action-list">
       <li
         v-for="(navLink, index) in dynamicLinks[store.getRole]"
@@ -91,7 +98,7 @@ window.addEventListener('resize', toggleExtra())
         class="action-button"
       >
         <router-link :to="navLink.path" class="action-button action-card subtitle">
-          <v-icon :name="navLink.icon" scale="1.5" fill="white"></v-icon>
+          <v-icon :name="navLink.icon" scale="1.5" :fill="iconFill"></v-icon>
           {{ navLink.text }}</router-link
         >
       </li>

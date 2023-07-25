@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import {inject, onBeforeMount} from 'vue'
+import {inject, onBeforeMount, ref } from 'vue'
 import { ThemeSwitcher } from '../../themeSwitcher';
+import { Emitter } from 'mitt';
 
 const themeSwitcher:ThemeSwitcher = inject('themeSwitcher')
+const emitter: Emitter<GlobalEvents> = inject('emitter')
+const iconFill = ref<string>();
 
-const iconFill = themeSwitcher.getIconFill();
-
+onBeforeMount(() => {
+  iconFill.value = themeSwitcher.getIconFill()
+  emitter.on('updateTheme', () => {
+    iconFill.value = themeSwitcher.getIconFill()
+  })
+})
 console.log(iconFill)
 </script>
 
