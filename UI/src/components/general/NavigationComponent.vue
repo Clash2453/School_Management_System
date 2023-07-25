@@ -40,7 +40,7 @@ export default defineComponent ({
   unmounted() {
     window.removeEventListener('resize', this.mobileNavigation)
   },
-  mounted() {
+  mounted() { 
     this.mobileNavigation()
     this.emitter.on('toggle-extra', (toggleExtra) => {
       this.extra = toggleExtra
@@ -64,7 +64,7 @@ export default defineComponent ({
     <nav class="nav-bar">
       <ul class="link-list">
         <li v-if="!toggleMobile">
-          <router-link to="/" class="nav-link nav-list-item" id="logo">Home</router-link>
+          <router-link to="/" class="nav-link nav-list-item" >Home</router-link>
         </li>
         <li v-if="!toggleMobile">
           <router-link to="/" class="nav-link nav-list-item">About</router-link>
@@ -151,7 +151,6 @@ export default defineComponent ({
   font-size: 1.5rem;
   font-family: 'Roboto', sans-serif;
   font-weight: 800;
-  color: var(--font-color-secondary);
 }
 .material-symbols-outlined {
   font-size: 3rem;

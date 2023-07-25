@@ -36,12 +36,14 @@
   </li>
 </template>
 <script setup lang="ts">
-import { inject, ref } from 'vue'
+import { inject, ref, onBeforeMount } from 'vue'
 import { ThemeSwitcher } from '../../themeSwitcher';
 
 const themeSwitcher:ThemeSwitcher = inject('themeSwitcher')
-const iconFill = themeSwitcher.getIconFill();
-
+let iconFill = ''
+onBeforeMount(() => {
+  iconFill = themeSwitcher.getIconFill()
+})
 const props = defineProps(['options'])
 const expandTrigger = ref(false)
 </script>
