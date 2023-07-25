@@ -59,20 +59,8 @@ const app = createApp(App)
 const emitter:Emitter = mitt()
 const switcher:ThemeSwitcher = new ThemeSwitcher();
 
-if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-  switcher.setDarkTheme()
-  switcher.setPreference()
-}
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    switcher.setDarkTheme()
-  }
-  else{
-    switcher.setLightTheme()
-  }
-  console.log('i change from dark to light')
-  switcher.setPreference()
-});
+switcher.getPreference();
+switcher.setPreference();
 
 app.config.globalProperties.emitter = emitter
 app.provide('themeSwitcher', switcher)
