@@ -28,10 +28,11 @@
     </section>
 </template>
 <script setup lang="ts">
-import SidebarComponent from '../components/userDashboard/SidebarComponent.vue'
 import { inject, ref } from 'vue'
 import { ThemeSwitcher } from '../themeSwitcher';
+import {Emitter} from 'mitt'
 
+const emitter:Emitter<GlobalEvents> = inject('emitter')
 const switcher:ThemeSwitcher = inject('themeSwitcher')
 const selected = ref<string>()
 
@@ -50,8 +51,10 @@ function setTheme(){
     else{
         switcher.setDarkTheme()
     }
-    console.log(selected.value)
+    console.log(`the user selected theme is ${selected.value}`)
     switcher.setPreference()
+    emitter.emit('updateTheme')
+
 }
 </script>
 <style scoped>

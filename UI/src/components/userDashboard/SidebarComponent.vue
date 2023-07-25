@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue'
 import { inject } from 'vue'
 import { useUserStore } from '../../stores/UserStore'
 import { ThemeSwitcher } from '../../themeSwitcher';
-import {fill} from '../../stores/iconStore'
 import { Emitter } from 'mitt';
 
 const emitter:Emitter<GlobalEvents> = inject('emitter')
