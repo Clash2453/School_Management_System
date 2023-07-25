@@ -1,3 +1,5 @@
+
+
 export class ThemeSwitcher {
     private readonly lightThemeHeroFill: string
     private readonly darkThemeHeroFill: string
@@ -5,7 +7,7 @@ export class ThemeSwitcher {
     private readonly darkThemeIconFIll: string
     private isLight: string=  'light';
     /**
-     * setLightTheme
+     * Sets the current theme preference to light
      */
     public setLightTheme() {
         this.isLight = 'light';
@@ -14,61 +16,65 @@ export class ThemeSwitcher {
      * setPreference
      */
     public setPreference() {
-        console.log('HERE I AM')
+        this.savePreference()
+        console.log('setting preference')
         if(this.isLight === 'light' ){
             document.body.classList.add('light')
             document.body.classList.remove('dark')
-            console.log('light')
 
             return
         }
         if(this.isLight === 'dark') {
             document.body.classList.add('dark')
             document.body.classList.remove('light')
-            console.log('dark')
 
             return 
         }
     }
     /**
-     * setDarkTheme
+     * Saves the user theme preference in the local storage
+     */
+    public savePreference() {
+        localStorage.setItem('userTheme', this.isLight)
+    }
+    /**
+     * Sets the current theme preference to dark
      */
     public setDarkTheme() {
         this.isLight = 'dark';
     }
-
     /**
-     * getTheme
+     * Getter for the current user preferred theme
      */
     public getPreference() {
         return this.isLight;
     }
     /**
-     * getHeroFill
+     * Get light theme fill colors for the hero section 
      */
     public getLightThemeHeroFill() {
         return this.lightThemeHeroFill
     }
     /**
-     * getDarkThemeHeroFill
+     * Get dark theme fill colors for the hero section 
      */
     public getDarkThemeHeroFill() {
         return this.darkThemeHeroFill
     }
     /**
-     * getLightThemeIconFill
+     * Get light theme fill colors for the hero section 
      */
     public getLightThemeIconFill() {
         return this.lightThemeIconFill
     }
     /**
-     * getDarkThemeIconFill
+     * Get dark theme fill colors for the icons
      */
     public getDarkThemeIconFill() {
         return this.darkThemeIconFIll
     }
     /**
-     * returns the name of the 
+     * Returns the icon fill color based on teh currently preferred user theme
      */
     public getIconFill() {
         if(this.getPreference() === 'dark'){
@@ -78,9 +84,39 @@ export class ThemeSwitcher {
           return this.getLightThemeIconFill()
     }
     /**
+     * Applies the selected user theme from the local storage
+     */
+    public applyTheme() {
+        const persistentTheme = localStorage.getItem("userTheme")
+        console.log('I AM APPLYING THE THEME')
+        console.log(`the theme is ${persistentTheme}`)
+
+        if (persistentTheme === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                this.setDarkTheme()
+                this.setPreference()
+              }
+              window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                  this.setDarkTheme()
+                }
+                else{
+                  this.setLightTheme()
+                }
+                console.log('i change from dark to light')
+                this.setPreference()
+              });
+        }
+        else {
+            console.log('setting theme from local')
+            this.isLight = persistentTheme
+        }
+    }
+    /**
      *
      */
     constructor() {
+        this.applyTheme()
         this.lightThemeHeroFill = 'white'
         this.darkThemeHeroFill = 'white'
         this.lightThemeIconFill = '#272635'
