@@ -1,5 +1,5 @@
 <script lang="ts">
-import LoginFormComponent from '../components/login/LoginFormComponent.vue'
+import LoginFormComponent from '../../components/login/LoginFormComponent.vue'
 import { defineComponent } from 'vue'
 export default defineComponent({
   data: function () {
@@ -46,10 +46,11 @@ export default defineComponent({
 .flex-container {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
   color: var(--font-color-primary);
-  height: calc(100vh - 13rem);
+  /* height: calc(100vh - 13rem); */
+  flex: 1;
 }
 .main-title {
   text-align: center;
@@ -62,8 +63,7 @@ export default defineComponent({
   align-items: center;
   flex-direction: column;
   width: 100%;
-  height: 100%;
-  /* min-height: 100vh; */
+  /* flex: 1; */
   padding: 2rem;
 }
 .subtitle {
