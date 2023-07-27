@@ -12,9 +12,13 @@ body.light {
 
   --decline-button: #ff4463;
   --approve-button: #4ca0e7;
+  --button-font: 'Roboto', sans-serif;
+  --main-font: Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+  'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
   --hero-image: url('/imagesLight/hero-background.svg');
   --login-image: url('/imagesLight/login/login-background.svg');
+  --user-icon: url('/imagesLight/user-light-mode.png');
 
   --vs-dropdown-bg: var(--tertiary-color);
   --vs-dropdown-option--active-bg: var(--accent-color);
@@ -39,10 +43,14 @@ body.dark {
 
   --decline-button: #ff4463;
   --approve-button: #4ca0e7;
+  --button-font: 'Roboto', sans-serif;
+  --main-font: Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+  'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
   --hero-image: url('/images/hero-background.svg');
   --login-image: url('/images/login/login-background.svg');
-
+  --user-icon: url('/images/user-dark-mode.png');
+  
   --vs-dropdown-bg: var(--tertiary-color);
   --vs-dropdown-option-bg: white;
   --vs-dropdown-option--active-bg: rgb(69, 88, 126);
@@ -170,6 +178,18 @@ tdf {
   background-color: var(--accent-color);
   box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
 }
+.add-button,
+.decline-button {
+  width: 4rem;
+  min-width: fit-content;
+  border-radius: 5px;
+  padding: 0.5rem;
+  backface-visibility: hidden;
+  font-family: var(--button-font);
+  font-size: 1rem;
+  font-weight: bold;
+}
+
 .add-button {
   color: var(--font-color-secondary);
   background-color: var(--approve-button);
@@ -187,9 +207,6 @@ tdf {
 }
 
 .input-wrapper {
-  display: flex;
-  flex-direction: column;
-}.input-wrapper {
   display: flex;
   flex-direction: column;
 }
@@ -211,7 +228,6 @@ tdf {
   justify-content: center;
 
   padding: 1rem;
-  /* background: url('/images/form-background.svg') no-repeat; */
   background-color: var(--primary-color);
   background-size: cover;
   background-position: center;
@@ -249,7 +265,6 @@ tdf {
 }
 .select-wrapper {
   background-color: var(--tertiary-color);
-  /* --vs-selected-color: rgb(0, 45, 83); */
   color: white;
   border-radius: 5px;
   width: 15.31rem;
@@ -260,7 +275,6 @@ tdf {
 /* LIST COMPONENT STYLES-START*/
 
 .list-container {
-  /* background-image: url('/images/waitList-background.svg'); */
   background-color: var(--primary-color);
   background-position: center;
   background-size: cover;
