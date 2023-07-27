@@ -23,10 +23,15 @@ const dynamicLinks = {
       text: 'Subjects'
     },
     {
+      path: '/dashboard/admin/institution-settings',
+      icon: 'fa-university',
+      text: 'My institution'
+    },
+    {
       path: '/dashboard/settings',
       icon: 'fa-cog',
       text: 'Settings'
-    }
+    },
   ],
   Teacher: [
     {
@@ -138,3 +143,4 @@ window.addEventListener('resize', toggleExtra())
   padding: 0.5rem;
 }
 </style>
+../../api/themeSwitcher
