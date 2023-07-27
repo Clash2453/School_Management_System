@@ -3,15 +3,18 @@ import { ref, onMounted } from 'vue'
 import { inject } from 'vue'
 import axios from 'axios'
 import { Emitter } from 'mitt';
+
 const props = defineProps(['data'])
-let adding = ref(false)
+const adding = ref(false)
 const waitingUser = ref(true)
 const emitter:Emitter<EventHandler> = inject('emitter')
+
 type EventHandler = {
   onlyOne: any,
   refreshList: boolean,
   adding: User
 }
+
 onMounted(() => {
   emitter.on('onlyOne', () => {
     if (adding.value === true) adding.value = false
@@ -51,6 +54,7 @@ function addRole(role) {
     role: role
   })
 }
+
 </script>
 <template>
   <div
@@ -79,11 +83,11 @@ function addRole(role) {
 <style scoped>
 .card-container {
   width: 20rem;
-  height: 100%;
-  max-height: 7rem;
+  height: 10rem;
+  /* max-height: 10rem; */
   min-height: fit-content;
   min-width: 17.25rem;
-  padding: 0.5rem;
+  padding: 1rem;
   gap: 0.5rem;
   display: flex;
   flex-direction: column;
@@ -127,18 +131,12 @@ function addRole(role) {
 .role-buttons {
   padding: 0.5rem;
 }
-.add-button,
-.decline-button {
-  width: 4rem;
-  border-radius: 5px;
-  backface-visibility: hidden;
-}
 .expanded {
   min-height: fit-content;
 }
 .expand-main {
   justify-content: space-between;
-  max-height: 12rem;
+  height: 15rem;
 }
 .expand-transition {
   animation: growAnimation 0.6s;
