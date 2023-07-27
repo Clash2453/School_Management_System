@@ -1,17 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useUserStore } from '../stores/UserStore.ts'
+import { useUserStore } from '../stores/UserStore'
 import Home from '../views/HomeView.vue'
-import Login from '../views/LoginView.vue'
+import Login from '../views/LoginViews/LoginView.vue'
 import Dashboard from '../views/DashboardView.vue'
 import OverviewView from '../views/StudentViews/StudentOverviewView.vue'
 import GradesView from '../views/StudentViews/GradesView.vue'
 import AbsenceView from '../views/StudentViews/AbsenceView.vue'
+import ForgottenPasswordView from '../views/LoginViews/ForgottenPasswordView.vue'
 import TeachersView from '../views/TeacherViews/TeachersView.vue'
 import SubjectsView from '../views/AdminViews/SubjectsView.vue'
 import AdminView from '../views/AdminViews/AdminView.vue'
 import SettingsView from '../views/SettingsView.vue'
-// import ErrorComponent from '../components/general/ErrorComponent.vue'
+import ErrorComponent from '../components/general/ErrorComponent.vue'
 import WaitingPage from '../views/AdminViews/WaitingApprovalView.vue'
+import InstitutionConfiguration from '@/views/AdminViews/InstitutionConfigurationView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -37,6 +39,13 @@ const router = createRouter({
       }
     },
     {
+      path: '/reset-password',
+      component: ForgottenPasswordView,
+      meta: {
+        requiresAuthentication: false
+      }
+    },
+    {
       path: '/dashboard',
       component: Dashboard,
       meta: {
@@ -45,7 +54,7 @@ const router = createRouter({
       children: [
         {
           path: `settings`, // Define a separate route for settings
-          component: SettingsView, // Replace "SettingsView" with the actual component for your settings page
+          component: SettingsView,
           meta: {
             requiresAuthentication: true // Add any required meta info here if needed
           }
@@ -96,6 +105,11 @@ const router = createRouter({
               path: 'subjects',
               component: SubjectsView,
               meta: { requiresAuthentication: true }
+            },
+            {
+              path: 'institution-settings',
+              component: InstitutionConfiguration,
+              meta: {requiresAuthentication: true}
             }
           ]
         },
@@ -115,6 +129,7 @@ const router = createRouter({
         }
       ]
     },
+    { path: '/:pathMatch(.*)*', component: ErrorComponent },
   ]
 })
 

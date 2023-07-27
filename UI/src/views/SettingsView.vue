@@ -29,7 +29,7 @@
 </template>
 <script setup lang="ts">
 import { inject, ref } from 'vue'
-import { ThemeSwitcher } from '../themeSwitcher';
+import { ThemeSwitcher } from '../services/themeSwitcher';
 import {Emitter} from 'mitt'
 
 const emitter:Emitter<GlobalEvents> = inject('emitter')
@@ -155,4 +155,4 @@ function setTheme(){
     background-color: var(--decline-button);
     margin-bottom: 5rem;
 }
-</style>zx
+</style>zx../api/themeSwitcher

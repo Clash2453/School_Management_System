@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ThemeSwitcher } from '../../themeSwitcher';
+import { ThemeSwitcher } from '../../services/themeSwitcher';
 import {inject, onBeforeMount} from 'vue'
 const theme:ThemeSwitcher = inject('themeSwitcher')
 let iconFill = ''
@@ -62,3 +62,4 @@ const props = defineProps<{title:string, description:string, iconName:string}>()
   }
 }
 </style>
+../../api/themeSwitcher

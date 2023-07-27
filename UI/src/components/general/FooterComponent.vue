@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {inject, onBeforeMount, ref } from 'vue'
-import { ThemeSwitcher } from '../../themeSwitcher';
+import { ThemeSwitcher } from '../../services/themeSwitcher';
 import { Emitter } from 'mitt';
 
 const themeSwitcher:ThemeSwitcher = inject('themeSwitcher')
@@ -38,7 +38,6 @@ console.log(iconFill)
 }
 #footer {
   padding: 1rem;
-
   flex-direction: column;
   gap: 1rem;
   min-height: 7rem;

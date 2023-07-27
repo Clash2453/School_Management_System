@@ -88,8 +88,6 @@ export class ThemeSwitcher {
      */
     public applyTheme() {
         const persistentTheme = localStorage.getItem("userTheme")
-        console.log('I AM APPLYING THE THEME')
-        console.log(`the theme is ${persistentTheme}`)
 
         if (persistentTheme === null) {
             if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
