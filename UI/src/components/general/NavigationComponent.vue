@@ -2,12 +2,15 @@
 import { defineComponent } from 'vue'
 import { useUserStore } from '../../stores/UserStore'
 import { mapStores } from 'pinia'
+import ProfileDropdown from './ProfileDropdown.vue'
 export default defineComponent ({
   data: function () {
     return {
       toggleMobile: true, 
       toggleMobileButton: false,
-      extra: false
+      extra: false,
+      loginActive: false,
+      activeDropdown: false
     }
   },
   computed: {
@@ -32,7 +35,10 @@ export default defineComponent ({
     },
     triggerMenu():void {
       this.toggleMobile = !this.toggleMobile
-    }
+    },
+  },
+  components: {
+    ProfileDropdown,
   },
   created() {
     window.addEventListener('resize', this.mobileNavigation)
@@ -44,6 +50,9 @@ export default defineComponent ({
     this.mobileNavigation()
     this.emitter.on('toggle-extra', (toggleExtra) => {
       this.extra = toggleExtra
+    })
+    this.emitter.on('user-logged', () => {
+      this.loginActive = true
     })
   }
 })
@@ -69,7 +78,11 @@ export default defineComponent ({
         <li v-if="!toggleMobile">
           <router-link to="/" class="nav-link nav-list-item">About</router-link>
         </li>
-        <li v-if="!toggleMobile" class="">
+        <li v-if="!toggleMobile && loginActive" class="dropdown">
+          <button class="nav-link nav-list-item" @click="activeDropdown = !activeDropdown" >User</button>
+          <ProfileDropdown class="dropdown-menu" :class="{'dropdown-active': activeDropdown}" />
+        </li>
+        <li v-if="!toggleMobile && !loginActive">
           <router-link to="/login" class="nav-link nav-list-item">Login</router-link>
         </li>
         <li v-if="!toggleMobile && extra">
@@ -155,7 +168,31 @@ export default defineComponent ({
 .material-symbols-outlined {
   font-size: 3rem;
 }
-
+.dropdown {
+  position: relative;
+}
+.dropdown-menu {
+  position: absolute;
+  top: 3rem;
+  right: 1rem;
+  display: none;
+  opacity: 0%;
+}
+.dropdown-active {
+  display: flex;
+  opacity: 100%;
+  animation: dropdownToggleAnimation 0.5s;
+}
+@keyframes dropdownToggleAnimation{
+  0%{
+    opacity: 0%;
+    display: none;
+  }
+  100%{
+    opacity: 100%;
+    display: block;
+  }
+}
 @media only screen and (max-width: 750px) {
   .link-list {
     flex-direction: column;
