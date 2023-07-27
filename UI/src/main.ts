@@ -28,10 +28,12 @@ import {
   FaUniversity,
   BiArrowDownCircle,
   FaCog,
-  IoEllipseSharp
+  IoEllipseSharp,
+  RiLogoutBoxRLine,
+  MdArrowforwardiosRound
 } from 'oh-vue-icons/icons'
 import { ErrorHandlingService } from './services/ErrorHandlingService'
-import { ThemeSwitcher } from './themeSwitcher'
+import { ThemeSwitcher } from './services/themeSwitcher'
 
 addIcons(
   BiGithub,
@@ -52,7 +54,10 @@ addIcons(
   FaUserGraduate,
   FaUniversity,
   BiArrowDownCircle,
-  FaCog
+  FaCog,
+  IoEllipseSharp,
+  RiLogoutBoxRLine,
+  MdArrowforwardiosRound
 )
 const pinia = createPinia()
 const app = createApp(App)
