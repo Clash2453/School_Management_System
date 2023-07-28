@@ -4,13 +4,14 @@
             <h2 class="container">Username placeholder</h2>
             <img src="" alt="" class="profile-image">
         </div>
-        <div class="icon-container container">
+        <router-link to="/dashboard/profile" class="icon-container container">
             <h2 class="institution-name container">Edit profile </h2>
             <v-icon name="md-arrowforwardios-round" scale="1.5" :fill="iconFill"></v-icon>
-        </div>
+        </router-link>
         <div class="button-container container">
-            <button  class="log-out">Log
-                out <v-icon name="ri-logout-box-r-line" scale="1.5"></v-icon></button>
+            <button class="log-out">Log out
+                <v-icon name="ri-logout-box-r-line" scale="1.5"></v-icon>
+            </button>
         </div>
     </div>
 </template>
@@ -55,11 +56,13 @@ onMounted(() => {
     max-height: 3rem;
     border-radius: 5px;
 }
+
 .container {
-    background-color: var(--accent-color);
+    background-color: var(--primary-color);
     padding: 0.5rem;
 
 }
+
 .icon-container {
     display: flex;
     justify-content: space-between;
@@ -68,18 +71,22 @@ onMounted(() => {
     /* max-height: 4rem; */
 
 }
+
 .icon-container .container {
     width: 80%;
 }
+
 .log-out {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
+
 .log-out:hover {
     color: var(--decline-button);
 }
+
 .profile-image {
     content: var(--user-icon);
 }
