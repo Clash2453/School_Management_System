@@ -58,13 +58,11 @@ function parseData() {
   gap: 1rem;
   padding: 1rem;
   background-color: #00499b;
-  /* background: url('/images/form-background.svg') no-repeat; */
   background-color: var(--primary-color);
   background-size: cover;
   background-position: center;
   border-radius: 15px;
-  /* max-width: 50rem; */
-  /* max-height: 40rem; */
+  max-height: 40rem; /* dont remove causes the page to resize uncontrolably */
   overflow-y: auto;
 }
 </style>
