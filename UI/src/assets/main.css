@@ -19,7 +19,8 @@ body.light {
   --hero-image: url('/imagesLight/hero-background.svg');
   --login-image: url('/imagesLight/login/login-background.svg');
   --user-icon: url('/imagesLight/user-light-mode.png');
-
+  --large-user-icon: url('/imagesLight/user-icon-light-big.png');
+  
   --vs-dropdown-bg: var(--tertiary-color);
   --vs-dropdown-option--active-bg: var(--accent-color);
   --vs-dropdown-option--active-color: var(--font-color-primary);
@@ -50,7 +51,8 @@ body.dark {
   --hero-image: url('/images/hero-background.svg');
   --login-image: url('/images/login/login-background.svg');
   --user-icon: url('/images/user-dark-mode.png');
-  
+  --large-user-icon: url('/images/user-icon-dark-big.png');
+
   --vs-dropdown-bg: var(--tertiary-color);
   --vs-dropdown-option-bg: white;
   --vs-dropdown-option--active-bg: rgb(69, 88, 126);
