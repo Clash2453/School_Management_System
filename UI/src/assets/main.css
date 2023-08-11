@@ -12,14 +12,15 @@ body.light {
 
   --decline-button: #ff4463;
   --approve-button: #4ca0e7;
+    --approve-button-hover: #74c1ff;
   --button-font: 'Roboto', sans-serif;
   --main-font: Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
   'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
   --hero-image: url('/imagesLight/hero-background.svg');
   --login-image: url('/imagesLight/login/login-background.svg');
-  --user-icon: url('/imagesLight/user-light-mode.png');
-  --large-user-icon: url('/imagesLight/user-icon-light-big.png');
+  --user-icon: /imagesLight/user-light-mode.png;
+  --large-user-icon: /imagesLight/user-icon-light-big.png;
   
   --vs-dropdown-bg: var(--tertiary-color);
   --vs-dropdown-option--active-bg: var(--accent-color);
@@ -44,14 +45,15 @@ body.dark {
 
   --decline-button: #ff4463;
   --approve-button: #4ca0e7;
+  --approve-button-hover: #74c1ff;
   --button-font: 'Roboto', sans-serif;
-  --main-font: Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+  --main-font: 'Roboto', 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
   'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
   --hero-image: url('/images/hero-background.svg');
   --login-image: url('/images/login/login-background.svg');
-  --user-icon: url('/images/user-dark-mode.png');
-  --large-user-icon: url('/images/user-icon-dark-big.png');
+  --user-icon: /images/user-dark-mode.png;
+  --large-user-icon: /images/user-icon-dark-big.png;
 
   --vs-dropdown-bg: var(--tertiary-color);
   --vs-dropdown-option-bg: white;
