@@ -30,16 +30,16 @@ public class TeacherDataBundler:ITeacherDataBundler
             var studentsBySubject = await _userService.FetchStudentsBySubject(subject.Id);
             var formattedStudents = studentsBySubject.Select(student => new StudentDataDto()
             {
-                Name = student.User.Name,
+                Name = student.User.GetFullName(),
                 StudentId = student.StudentId,
-                Specialty = student.Specialty.Name
+                Specialty = student.Major.Name
             }).ToList();
             students.Add(subject.Name, formattedStudents);
         }
 
         var result = new TeacherDataDto()
         {
-            Name = userData.Name,
+            Name = userData.GetFullName(),
             Id = teacherData.TeacherId,
             Students = students
         };
@@ -60,15 +60,15 @@ public class TeacherDataBundler:ITeacherDataBundler
             var studentsBySubject = await _userService.FetchStudentsBySubject(subject.Id);
             var formattedStudents = studentsBySubject.Select(student => new StudentDataDto()
             {
-                Name = student.User.Name,
-                Specialty = student.Specialty.Name
+                Name = student.User.GetFullName(),
+                Specialty = student.Major.Name
             }).ToList();
             students.Add(subject.Name, formattedStudents);
         }
 
         var result = new TeacherDataDto()
         {
-            Name = userData.Name,
+            Name = userData.GetFullName(),
             Id = teacherData.TeacherId,
             Students = students
         };

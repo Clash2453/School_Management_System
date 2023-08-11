@@ -27,7 +27,7 @@ public class UserManagementService : IUserManagementService
 
     public async Task<Student?> FetchStudent(int id)
     {
-        return await _context.Students.Include(student => student.Specialty).Include(student => student.Faculty).FirstOrDefaultAsync(s => s.StudentId == id);
+        return await _context.Students.Include(student => student.Major).Include(student => student.Faculty).FirstOrDefaultAsync(s => s.StudentId == id);
     }
     public async Task<Teacher?> FetchTeacher(int id)
     {
@@ -50,7 +50,7 @@ public class UserManagementService : IUserManagementService
         var result = await _context.Students
             .Include(student => student.User)
             .Include(student => student.Faculty )
-            .Include(student => student.Specialty)
+            .Include(student => student.Major)
             .ToListAsync();
         return result; 
     }
@@ -65,7 +65,7 @@ public class UserManagementService : IUserManagementService
         return await _context.Users.Where(u => u.Role == "guest").Select(u => new UserResultDto()
         {
             Id = u.UserId,
-            Name = u.Name,
+            Name = $"",
             Email = u.Email,
         }).ToListAsync();
     }
@@ -87,15 +87,17 @@ public class UserManagementService : IUserManagementService
     {
         return await _context.Teachers.Include(t => t.User ).Select( t => new UserResultDto()
         {
-            Name = t.User.Name,
+            Name = t.User.GetFullName(),
             Email = t.User.Email,
             Id = t.TeacherId
         }).ToListAsync();
     }
     public async Task<List<Student>> FetchStudentsBySubject(int subjectId)
     {
-        var specialties = await  _context.SubjectSpecialties.Where(specialty => specialty.Subject.Id == subjectId).Select(subSpecialty => subSpecialty.Specialty).ToListAsync();
-        return await _context.Students.Include(student=> student.User).Where(student => specialties.Contains(student.Specialty)).ToListAsync();
+        var specialties = await  _context.SubjectMajors.Where(specialty => specialty.Subject.Id == subjectId).Select(subSpecialty => subSpecialty.Major).ToListAsync();
+        return await _context.Students
+            .Include(student=> student.User)
+            .Where(student => specialties.Contains(student.Major)).ToListAsync();
     }
 
     public async Task<Status> CreateUser(UserDto request)
@@ -106,13 +108,15 @@ public class UserManagementService : IUserManagementService
             Email = request.Email,
             Password = passwordHash,
             Salt = passwordSalt,
-            Name = request.Name,
+            FirstName = request.FirstName,
+            LastName = request.LastName,
             Role = "Guest"
         };
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
         return Status.Success;
     }
+    
     public async Task<Status> CreateStudent(StudentDto request)
     {
         var user = await FetchUser(request.UserId);
@@ -127,7 +131,7 @@ public class UserManagementService : IUserManagementService
             StudentId = user.UserId,
             Group = request.Group,
             Course = request.Course,
-            SpecialtyId = request.Specialty,
+            MajorId = request.Specialty,
             FacultyId = request.Faculty,
         };
         _context.Students.Add(student);

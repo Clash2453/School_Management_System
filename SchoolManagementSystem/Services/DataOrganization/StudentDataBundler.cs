@@ -41,14 +41,14 @@ public class StudentDataBundler: IStudentDataBundler
         var grades = await GetStudentGrades(userData.UserId);
         if (grades.Count == 0)
         {
-            var subjects = await _subjectService.GetSubjectsByStudent(studentData.Specialty.SpecialtyId);
+            var subjects = await _subjectService.GetSubjectsByStudent(studentData.Major.Id);
             return new StudentDataDto   
             {
                 StudentId = studentData.StudentId,
-                Name = userData.Name,
+                Name = userData.GetFullName(),
                 Faculty = studentData.Faculty.Name,
                 Course = studentData.Course,
-                Specialty = studentData.Specialty.Name,
+                Specialty = studentData.Major.Name,
                 Group = studentData.Group,
                 AvgGrade = 6,
                 HighestAvgSubject = subjects[0].Name,
@@ -89,10 +89,10 @@ public class StudentDataBundler: IStudentDataBundler
         var response = new StudentDataDto   
         {
             StudentId = studentData.StudentId,
-            Name = userData.Name,
+            Name = $"{userData.FirstName} {userData.LastName}",
             Faculty = studentData.Faculty.Name,
             Course = studentData.Course,
-            Specialty = studentData.Specialty.Name,
+            Specialty = studentData.Major.Name,
             Group = studentData.Group,
             AvgGrade = average,
             HighestAvgSubject = max.Subject,
