@@ -2,9 +2,10 @@
     <div class="flex-container">
         <div class="profile-container">
             <div class="profile-icon-container">
-                <img src="" alt="" class="profile-image">
-                <button class="add-button">Change picture</button>
+                <img :src="pictureSource" alt="" class="profile-image">
+                <button class="add-button" @click="showUploadPrompt = !showUploadPrompt">Change picture</button>
             </div>
+            <PictureUpload :state="showUploadPrompt" v-if="showUploadPrompt"></PictureUpload>
             <div class="information-container">
                 <div class="information-bar subtitle">
                     <p class="user-info">
@@ -37,16 +38,30 @@
 </template>
 <script setup lang="ts">
 import { Emitter } from 'mitt';
-import { ThemeSwitcher } from '../services/themeSwitcher';
-import { ref, inject, onMounted } from 'vue'
-const themeSwitcher: ThemeSwitcher = inject('themeSwitcher')
-const emitter: Emitter<GlobalEvents> = inject('emitter')
-const iconFill = ref<string>()
+import {ref, inject, onMounted } from 'vue'
+import PictureUpload from '../../components/general/PictureUploadComponent.vue';
+import { fetchProfilePicture } from '../../api/apiService';
 
-onMounted(() => {
-    iconFill.value = themeSwitcher.getIconFill()
-    emitter.on('updateTheme', () => {
-        iconFill.value = themeSwitcher.getIconFill()
+const style = getComputedStyle(document.body)
+const pictureSource = ref<string>(style.getPropertyValue('--large-user-icon')) 
+console.log(pictureSource.value)
+const emitter: Emitter<{
+    toggleMobile:string,
+    updateTheme:string,
+    closeDialogue:string
+}> = inject('emitter')  
+
+const showUploadPrompt = ref<boolean>()
+
+onMounted(async () => {
+    pictureSource.value = await fetchProfilePicture()
+
+    if (pictureSource.value === '') {
+        pictureSource.value = style.getPropertyValue('--large-user-icon')
+        console.log(pictureSource.value)
+    }
+    emitter.on('closeDialogue', () => {
+        showUploadPrompt.value = false
     })
 })
 </script>
@@ -85,12 +100,12 @@ onMounted(() => {
 }
 
 .profile-image {
-    content: var(--large-user-icon);
     background-color: var(--secondary-color);
     padding: 1rem;
     border-radius: 50%;
 
     width: 100%;
+    aspect-ratio: 1;
     max-width: 20rem;
     max-height: 20rem;
 }
@@ -130,4 +145,5 @@ onMounted(() => {
     .subtitle {
         font-size: 1rem;
     }
-}</style>
+}
+</style>

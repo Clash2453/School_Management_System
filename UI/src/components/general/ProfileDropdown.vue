@@ -2,7 +2,7 @@
     <div class="flex-container">
         <div class="icon-container">
             <h2 class="container">Username placeholder</h2>
-            <img src="" alt="" class="profile-image">
+            <img :src="pictureSource" alt="" class="profile-image">
         </div>
         <router-link to="/dashboard/profile" class="icon-container container">
             <h2 class="institution-name container">Edit profile </h2>
@@ -16,19 +16,21 @@
     </div>
 </template>
 <script setup lang="ts">
-import { Emitter } from 'mitt';
-import { ThemeSwitcher } from '../../services/themeSwitcher';
-import { ref, inject, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
+import { fetchProfilePicture } from '../../api/apiService';
+import {iconFill} from '../../GlobalVariables'
 
-const themeSwitcher: ThemeSwitcher = inject('themeSwitcher')
-const emitter: Emitter<GlobalEvents> = inject('emitter')
-const iconFill = ref<string>()
+const style = getComputedStyle(document.body)
+const pictureSource = ref<string>()
 
-onMounted(() => {
-    iconFill.value = themeSwitcher.getIconFill()
-    emitter.on('updateTheme', () => {
-        iconFill.value = themeSwitcher.getIconFill()
-    })
+onMounted(async () => {
+    pictureSource.value = await fetchProfilePicture()
+
+    if(pictureSource.value === ''){
+        pictureSource.value = style.getPropertyValue('--user-icon')
+        console.log(pictureSource.value)
+    }
+    console.log(pictureSource.value)
 })
 </script>
 <style scoped>
@@ -88,6 +90,7 @@ onMounted(() => {
 }
 
 .profile-image {
-    content: var(--user-icon);
+    width: 3rem;
+    height: 3rem;
 }
 </style>
