@@ -37,13 +37,7 @@
 </template>
 <script setup lang="ts">
 import { inject, ref, onBeforeMount } from 'vue'
-import { ThemeSwitcher } from '../../themeSwitcher';
-
-const themeSwitcher:ThemeSwitcher = inject('themeSwitcher')
-let iconFill = ''
-onBeforeMount(() => {
-  iconFill = themeSwitcher.getIconFill()
-})
+import {iconFill} from '../../GlobalVariables'
 const props = defineProps(['options'])
 const expandTrigger = ref(false)
 </script>
@@ -123,3 +117,4 @@ const expandTrigger = ref(false)
   cursor: pointer;
 }
 </style>
+../../api/themeSwitcher

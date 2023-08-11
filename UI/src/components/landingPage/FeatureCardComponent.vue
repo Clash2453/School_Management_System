@@ -1,22 +1,7 @@
 <script setup lang="ts">
-import { ThemeSwitcher } from '../../services/themeSwitcher';
-import {inject, onBeforeMount} from 'vue'
-const theme:ThemeSwitcher = inject('themeSwitcher')
-let iconFill = ''
+import { iconFill } from '../../GlobalVariables';
 
-function setFill() {
-  if(theme.getPreference() === 'dark'){
-    console.log('dark')
-    return theme.getDarkThemeIconFill()
-  }
-  return theme.getLightThemeIconFill()
-}
-
-onBeforeMount(() => {
-  iconFill = setFill()
-})
-
-const props = defineProps<{title:string, description:string, iconName:string}>()
+defineProps<{title:string, description:string, iconName:string}>()
 </script>
 <template>
   <section class="feature-card">

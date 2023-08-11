@@ -1,8 +1,7 @@
 <script setup lang="ts" >
 import router from '../../router'
-import { ThemeSwitcher } from '../../themeSwitcher';
 import {inject, onBeforeMount} from 'vue'
-const theme:ThemeSwitcher = inject('themeSwitcher')
+import {heroFill} from '../../GlobalVariables'
 
 function goToLogin() {
   router.push('/login')
@@ -12,17 +11,6 @@ function goToAbout() {
   router.push('/about')
 }
 
-let fillColor = ''
-function setFill() {
-  if(theme.getPreference() === 'dark'){
-    console.log('its dark')
-    return theme.getDarkThemeHeroFill()
-  }
-  return theme.getLightThemeHeroFill()
-}
-onBeforeMount(() => {
-  fillColor = setFill()
-})
 </script>
 
 <template>
@@ -38,7 +26,7 @@ onBeforeMount(() => {
         <button class="secondary-button" @click="goToAbout">Learn more</button>
       </div>
     </div>
-    <v-icon name="md-school-outlined" class="hero-image" :fill="fillColor"></v-icon>
+    <v-icon name="md-school-outlined" class="hero-image" :fill="heroFill"></v-icon>
   </section>
 </template>
 
@@ -107,3 +95,4 @@ onBeforeMount(() => {
   }
 }
 </style>
+../../api/themeSwitcher

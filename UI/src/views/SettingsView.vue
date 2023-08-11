@@ -28,33 +28,34 @@
     </section>
 </template>
 <script setup lang="ts">
-import { inject, ref } from 'vue'
-import { ThemeSwitcher } from '../services/themeSwitcher';
-import {Emitter} from 'mitt'
+import { ref } from 'vue'
+import {theme, iconFill, heroFill, applyTheme} from '../GlobalVariables'
 
-const emitter:Emitter<GlobalEvents> = inject('emitter')
-const switcher:ThemeSwitcher = inject('themeSwitcher')
+
 const selected = ref<string>()
-
 function selectTheme(theme:string) {
     if(theme === 'light'){
         selected.value = 'light'
     }
     else{
         selected.value = 'dark'
+        
     }
 }
 function setTheme(){
     if(selected.value === 'light'){
-        switcher.setLightTheme()
+        theme.value = 'light'
+        iconFill.value = '#272635'
+        heroFill.value = 'white'
     }
     else{
-        switcher.setDarkTheme()
+        theme.value = 'dark'
+        iconFill.value = 'white'
+        heroFill.value = 'white'
     }
+    localStorage.setItem('userTheme', selected.value)
+    applyTheme()
     console.log(`the user selected theme is ${selected.value}`)
-    switcher.setPreference()
-    emitter.emit('updateTheme')
-
 }
 </script>
 <style scoped>
@@ -155,4 +156,4 @@ function setTheme(){
     background-color: var(--decline-button);
     margin-bottom: 5rem;
 }
-</style>zx../api/themeSwitcher
+</style>

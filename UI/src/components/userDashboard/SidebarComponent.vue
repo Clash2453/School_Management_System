@@ -2,12 +2,10 @@
 import { ref, onMounted } from 'vue'
 import { inject } from 'vue'
 import { useUserStore } from '../../stores/UserStore'
-import { ThemeSwitcher } from '../../themeSwitcher';
 import { Emitter } from 'mitt';
+import {iconFill} from '../../GlobalVariables'
 
 const emitter:Emitter<GlobalEvents> = inject('emitter')
-const switcher:ThemeSwitcher = inject('themeSwitcher')
-const iconFill = ref<string>()
 const hidden = ref(false)
 const store = useUserStore()
 const dynamicLinks = {
@@ -77,9 +75,6 @@ onMounted(() => {
   emitter.on('toggleMobile', (state) => {
     hidden.value = state
     console.log(state)
-  })
-  emitter.on('updateTheme', () => {
-    iconFill.value = switcher.getIconFill()
   })
 })
 

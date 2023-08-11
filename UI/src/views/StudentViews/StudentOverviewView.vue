@@ -61,6 +61,7 @@ async function getGradeData() {
     console.log(e)
   }
 }
+
 onMounted(async () => {
   const studentData = await getStudentData()
   const gradeData = await getGradeData()
@@ -93,6 +94,7 @@ onMounted(async () => {
     loaderNeeded: true,
     cardTitle: 'Your Grades:'
   }
+  
   const subjects = Object.keys(gradeData)
   for (let i = 0; i < subjects.length; i++) {
     const row = gradeData[subjects[i]]

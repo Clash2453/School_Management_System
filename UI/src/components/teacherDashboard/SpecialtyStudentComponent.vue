@@ -184,10 +184,6 @@ async function addGrade() {
   padding: 0.5rem;
 }
 
-.expanded {
-  min-height: 5rem;
-}
-
 .grade:focus {
   border: 2px solid blue;
 }
