@@ -73,6 +73,7 @@ builder.Services.AddScoped<IGradingService, GradingService>();
 builder.Services.AddScoped<IAbsenceService, AbsenceService>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IAuthenticationManager, AuthenticationManager>();
+builder.Services.AddScoped<IFileService, FileService>();
 
 //data organization services
 builder.Services.AddScoped<IEmailService, EmailService>();
@@ -82,6 +83,7 @@ builder.Services.AddScoped<IStudentDataBundler, StudentDataBundler>();
 builder.Services.AddScoped<IGpiService, GpiService>();
 builder.Services.AddScoped<IGradeDataBundler, GradeDataBundler>();
 builder.Services.AddControllers();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipelines

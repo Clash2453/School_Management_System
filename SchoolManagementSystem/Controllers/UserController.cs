@@ -17,12 +17,14 @@ public class UserController : ControllerBase
     private readonly ITeacherDataBundler _teacherDataBundler;
     private readonly IStudentDataBundler _studentDataBundler;
     private readonly IAdminDataBundler _adminDataBundler;
+    private readonly IFileService _fileService;
 
     public UserController(IUserManagementService userManagementService,
         IAuthenticationManager authManager,
         ITeacherDataBundler teacherDataBundler,
         IStudentDataBundler studentDataBundler,
-        IAdminDataBundler adminDataBundler
+        IAdminDataBundler adminDataBundler,
+        IFileService fileService
     )
     {
         _userManagementService = userManagementService;
@@ -30,6 +32,7 @@ public class UserController : ControllerBase
         _teacherDataBundler = teacherDataBundler;
         _studentDataBundler = studentDataBundler;
         _adminDataBundler = adminDataBundler;
+        _fileService = fileService;
     }
 
     // GET: api/User/5
@@ -62,7 +65,9 @@ public class UserController : ControllerBase
     [HttpPost("register")]
     public async Task<ActionResult<User>> Register(UserDto request)
     {
-
+        if (request.Password != request.ConfirmPassword)
+            return BadRequest();
+        
         var result = await _userManagementService.CreateUser(request);
         if (result == Status.Fail)
             return StatusCode(502);
@@ -93,10 +98,10 @@ public class UserController : ControllerBase
         var result = await _teacherDataBundler.OrganizeTeacherData(studentId);
             return Ok(result);
     }
-    
-    [Authorize(Roles="Admin")]
+
+    [Authorize(Roles = "Admin")]
     [HttpGet("/admins")]
-    public async Task<ActionResult<AdminResultDto >> GetAdminData()
+    public async Task<ActionResult<AdminResultDto>> GetAdminData()
     {
         var userCredentials = _authManager.ParseToken(HttpContext.Request.Cookies["token"]);
         if (userCredentials == null)
@@ -104,5 +109,38 @@ public class UserController : ControllerBase
         int studentId = int.Parse(userCredentials["id"]);
         var result = await _adminDataBundler.OrganizeAdminData(studentId);
         return Ok(result);
+
     }
+    [HttpPost("/profile-picture/upload")]
+    public async Task<ActionResult> PostProfilePicture(IFormFile userFile)
+    {
+        var userCredentials = _authManager.ParseToken(HttpContext.Request.Cookies["token"]);
+        if (userCredentials == null)
+            return StatusCode(502);
+        int userId = int.Parse(userCredentials["id"]);
+        var result = await _fileService.UploadFileAsync(userFile, userId);
+        
+        if (result == Status.Fail)
+            return new BadRequestResult();
+        
+        return Ok("Profile picture successfully updated");
+    }
+    [HttpGet("/profile-picture/fetch")]
+    public async Task<ActionResult> GetProfilePicture()
+    {
+        var userCredentials = _authManager.ParseToken(HttpContext.Request.Cookies["token"]);
+        if (userCredentials == null)
+        {
+            return StatusCode(404);
+        }
+        int id = int.Parse(userCredentials["id"]);
+        return Ok(await _fileService.GetProfilePicture(id));
+    }
+    
+    [HttpPut("/update-profile")]
+    public async Task<ActionResult> UpdateProfile()
+    {
+        return Ok("Data edited successfully");
+    }
+    
 }
