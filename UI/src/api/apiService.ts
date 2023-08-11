@@ -5,15 +5,14 @@ import { inject} from 'vue'
 import { Emitter } from 'mitt'
 import type { Admin } from '@/interfaces/Admin';
 import type { Student } from '@/interfaces/Student';
-import type { ErrorHandlingService } from '@/services/ErrorHandlingService'
+import { ErrorHandlingService } from '@/services/ErrorHandlingService'
 import type { Specialty } from '@/interfaces/Specialty'
-
 type ListUpdate = {
   usersRenewed:()=>boolean
 }
 
 const emitter:Emitter<ListUpdate> | undefined = inject('emitter')
-const errorHandler:ErrorHandlingService | undefined = inject('errorHandler')
+const errorHandler:ErrorHandlingService = new ErrorHandlingService()
 
 function errorCheck(e:unknown){
   if(errorHandler === undefined)
@@ -138,10 +137,51 @@ async function fetchAdmins(): Promise<Admin[]> {
       throw internetError
     }
 }
+
+async function uploadProfilePicture (file: FormData): Promise<void> {
+    try {
+        const result = await axios({
+            method: 'POST',
+            url: `https://localhost:7080/profile-picture/upload`,
+            data: file,
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+            withCredentials: true
+        })
+        return result.data
+    }
+    catch (e: unknown) {
+        const internetError = errorCheck(e)
+        console.error(internetError)
+        throw internetError
+    }
+}
+
+async function fetchProfilePicture (): Promise<string> {
+    try {
+        const result = await axios({
+            method: 'GET',
+            url: `https://localhost:7080/profile-picture/fetch`,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            withCredentials: true
+        })
+        console.log(result)
+        return result.data
+    }
+    catch (e: unknown) {
+        const internetError = errorCheck(e)
+        console.error(internetError)
+        throw internetError
+    }
+}
+
 async function renewLists() {
   if(emitter == undefined)
     console.log('emitter error')
   else
     emitter.emit('usersRenewed', () => true)
 }
-  export {fetchFaculties, fetchSpecialties, fetchSubjects, fetchTeachers, fetchAdmins, fetchStudents}
+  export {fetchFaculties, fetchSpecialties, fetchSubjects, fetchTeachers, fetchAdmins, fetchStudents, uploadProfilePicture, fetchProfilePicture}
