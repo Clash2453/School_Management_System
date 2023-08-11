@@ -30,10 +30,11 @@ import {
   FaCog,
   IoEllipseSharp,
   RiLogoutBoxRLine,
-  MdArrowforwardiosRound
+  MdArrowforwardiosRound,
+  MdKeyboardarrowrightRound,
+  MdKeyboardarrowleftRound
 } from 'oh-vue-icons/icons'
 import { ErrorHandlingService } from './services/ErrorHandlingService'
-import { ThemeSwitcher } from './services/themeSwitcher'
 
 addIcons(
   BiGithub,
@@ -49,6 +50,8 @@ addIcons(
   HiSolidChartPie,
   BiTable,
   MdStickynote2Outlined,
+  MdKeyboardarrowrightRound,
+  MdKeyboardarrowleftRound,
   FaChalkboardTeacher,
   HiSolidMailOpen,
   FaUserGraduate,
@@ -62,13 +65,11 @@ addIcons(
 const pinia = createPinia()
 const app = createApp(App)
 const emitter:Emitter = mitt()
-const switcher:ThemeSwitcher = new ThemeSwitcher();
 
-switcher.getPreference();
-switcher.setPreference();
+import { applyTheme } from './GlobalVariables'
+applyTheme()
 
 app.config.globalProperties.emitter = emitter
-app.provide('themeSwitcher', switcher)
 app.provide('emitter', emitter)
 app.provide('errorHandler', ErrorHandlingService)
 app.component('v-icon', OhVueIcon)
