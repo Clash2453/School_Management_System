@@ -25,7 +25,7 @@ public class GradeDataBundler : IGradeDataBundler
         if(user == null)
             return new Dictionary<string, List<GradeResultDto>>();
         
-        var subjects = await _subjectService.GetSubjectsByStudent(user.Specialty.SpecialtyId);
+        var subjects = await _subjectService.GetSubjectsByStudent(user.Major.Id);
         var grades = await _gradingService.GetGradesByStudentId(id);
         
         if (grades.Count == 0)

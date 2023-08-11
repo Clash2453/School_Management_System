@@ -2,9 +2,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolManagementSystem.Models.IntermediateTables;
 
-public class SubjectSpecialty
+public class SubjectMajor
 {
     public int Id { get; set; }
-    public Specialty Specialty { get; set; } = null!;
+    public Major Major { get; set; } = null!;
     public Subject Subject { get; set; } = null!;
 }

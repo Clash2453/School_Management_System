@@ -16,13 +16,13 @@ public class AdminDataBundler: IAdminDataBundler
         var result = students.Select(student => new UserResultDto()
         {
             Id = student.StudentId,
-            Name = student.User.Name,
+            Name = student.User.GetFullName(),
             Role = student.User.Role,
             Email = student.User.Email,
             Attributes = new Dictionary<string, string>
             {
                 { "Faculty", student.Faculty.Name },
-                { "Specialty", student.Specialty.Name },
+                { "Major", student.Major.Name },
                 { "Course", student.Course.ToString() }
             },
         }).ToList();
@@ -35,7 +35,7 @@ public class AdminDataBundler: IAdminDataBundler
         var result  = teachers.Select(teacher => new UserResultDto()
         {
             Id = teacher.TeacherId,
-            Name = teacher.User.Name,
+            Name = teacher.User.GetFullName(),
             Role = teacher.User.Role,
             Attributes = new Dictionary<string, string>
             {
@@ -52,7 +52,7 @@ public class AdminDataBundler: IAdminDataBundler
         var result = admins.Select(admin => new UserResultDto
             {
                 Id = admin.AdminId,
-                Name = admin.User.Name,
+                Name = admin.User.GetFullName(),
                 Email = admin.User.Email,
                 Role = admin.User.Role,
             }).ToList();
@@ -67,7 +67,7 @@ public class AdminDataBundler: IAdminDataBundler
             return null;
         return new AdminResultDto()
         {
-            Name = userData.Name,
+            Name = userData.GetFullName(),
             Id = userData.UserId
         };
     }

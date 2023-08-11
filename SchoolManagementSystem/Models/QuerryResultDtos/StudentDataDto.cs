@@ -4,11 +4,11 @@ public class StudentDataDto
 {
     
     public int StudentId { get; set; }
-    public string Email { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string Faculty { get; set; } = string.Empty;
+    public string Email { get; set; } = null!;
+    public string Name { get; set; } = null!;
+    public string Faculty { get; set; } = null!;
     public int Course { get; set; }
-    public string Specialty { get; set; } = string.Empty;
+    public string Specialty { get; set; } = null!;
     public int Group { get; set; }
     public float AvgGrade { get; set; }
     public string HighestAvgSubject { get; set; } = string.Empty;

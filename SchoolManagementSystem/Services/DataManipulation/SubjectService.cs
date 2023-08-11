@@ -20,9 +20,9 @@ public class SubjectService : ISubjectService
     [HttpPost("post-subject")]
     public async Task<Status> CreateSubject(SubjectDto request)
     {
-        var subject = new Subject()
+        var subject = new Subject
         {
-            Name = request.Name,
+            Name = request.Name
         };
         List<TeacherSubject> teacherSubjects = new List<TeacherSubject>();
         
@@ -74,8 +74,8 @@ public class SubjectService : ISubjectService
 
     public async Task<List<Subject>> GetSubjectsByStudent(int specialtyId)
     {
-        return await _context.SubjectSpecialties
-            .Where(s => s.Specialty.SpecialtyId == specialtyId)
+        return await _context.SubjectMajors
+            .Where(s => s.Major.Id == specialtyId)
             .Select(studentSubject => studentSubject.Subject)
             .ToListAsync();
     }
@@ -100,9 +100,9 @@ public class SubjectService : ISubjectService
 
     public async Task<List<SpecialtyQueryResult>?> GetAllSpecialties()
     {
-        return await _context.Specialties.Select(specialty => new SpecialtyQueryResult()
+        return await _context.Majors.Select(specialty => new SpecialtyQueryResult
         {
-            Id = specialty.SpecialtyId,
+            Id = specialty.Id,
             Name = specialty.Name,
             Subjects = specialty.SubjectSpecialties
                 .Select(intermid => intermid.Subject.Name).ToList()
@@ -123,20 +123,20 @@ public class SubjectService : ISubjectService
     {
         try
         {
-            var faculty = new Faculty()
+            var faculty = new Faculty
             {
                 Name = request.Name
             };
-            var specialties = new List<Specialty>();
+            
             foreach (var specialty in request.SpecialtyIds)
             {
-                var newSpecialty = new Specialty()
+                var newSpecialty = new Major
                 {
-                    SpecialtyId = specialty
+                    Id = specialty
                 };
-                specialties.Add(newSpecialty);
                 faculty.Specialties.Add(newSpecialty);
             }
+
             _context.Faculties.Add(faculty);
             await _context.SaveChangesAsync();
         }   
@@ -164,7 +164,7 @@ public class SubjectService : ISubjectService
     {
         try
         {
-            var specialty = new Specialty
+            var specialty = new Major
             {
                 Name = request.Name,
             };
@@ -172,18 +172,18 @@ public class SubjectService : ISubjectService
             if (faculty != null)
                 specialty.Faculty = faculty;
             
-            var subjects = new List<SubjectSpecialty>();
+            var subjects = new List<SubjectMajor>();
             foreach (int id in request.SubjectIds)
             {
-                var subjectSpecialty = new SubjectSpecialty()
+                var subjectSpecialty = new SubjectMajor()
                 {
-                    Specialty = specialty,
+                    Major = specialty,
                     Subject = new Subject(){Id = id}
                 };
                 subjects.Add(subjectSpecialty);
             }
-            _context.SubjectSpecialties.AttachRange(subjects);
-            _context.Specialties.Add(specialty);
+            _context.SubjectMajors.AttachRange(subjects);
+            _context.Majors.Add(specialty);
             await _context.SaveChangesAsync();
             return Status.Success;
 
