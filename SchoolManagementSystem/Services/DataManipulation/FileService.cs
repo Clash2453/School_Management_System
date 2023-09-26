@@ -28,6 +28,12 @@ public class FileService : IFileService
             .Build();
     }
 
+    /// <summary>
+    /// Uploads a file to the MinIO storage bucket
+    /// </summary>
+    /// <param name="profilePicture">The profile picture of the user</param>
+    /// <param name="userId">The id of the user</param>
+    /// <returns>Status of the operation</returns>
     public async Task<Status> UploadFileAsync(IFormFile profilePicture, int userId)
     {
         string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif" };
@@ -45,7 +51,7 @@ public class FileService : IFileService
         }
 
         var existingEntry = await _context.UserFiles.FirstOrDefaultAsync(entry => entry.UserId == userId);
-        
+
         var data = await GetBytesTask(profilePicture);
         var contentType = $"application/{fileExtension}";
         try
@@ -59,9 +65,9 @@ public class FileService : IFileService
             }
 
             var objectName = Guid.NewGuid() + fileExtension;
-            
+
             UploadFile(objectName, contentType, profilePicture.Length, data);
-            
+
             var userFileEntry = new UserFile
             {
                 UserId = userId,
@@ -69,7 +75,7 @@ public class FileService : IFileService
                 UploadTimestamp = DateTime.Now
             };
 
-            _context.UserFiles.Add(userFileEntry); 
+            _context.UserFiles.Add(userFileEntry);
             await _context.SaveChangesAsync();
         }
         catch (MinioException e)
@@ -81,29 +87,33 @@ public class FileService : IFileService
         return Status.Success;
     }
 
+    /// <summary>
+    /// Gets the profile picture of a user from the storage and generates an access link
+    /// </summary>
+    /// <param name="userId">The id of the user</param>
+    /// <returns>Link with access to the user picture in string format</returns>
+    /// <exception cref="Exception"></exception>
     public async Task<string> GetProfilePicture(int userId)
     {
         var linkToFile = string.Empty;
-        try
-        {
-            var fileEntry = await _context.UserFiles.FirstOrDefaultAsync(f => f.UserId == userId);
+        var fileEntry = await _context.UserFiles.FirstOrDefaultAsync(f => f.UserId == userId);
 
-            if (fileEntry == null)
-                throw new Exception();
-            PresignedGetObjectArgs args = new PresignedGetObjectArgs()
-                .WithBucket(BucketName)
-                .WithObject(fileEntry.ObjectName)
-                .WithExpiry(60 * 60 * 24);
-            linkToFile = await _minioClient.PresignedGetObjectAsync(args);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Error occurred: " + e); 
-        }
+        if (fileEntry == null)
+            throw new Exception();
+        PresignedGetObjectArgs args = new PresignedGetObjectArgs()
+            .WithBucket(BucketName)
+            .WithObject(fileEntry.ObjectName)
+            .WithExpiry(60 * 60 * 24);
+        linkToFile = await _minioClient.PresignedGetObjectAsync(args);
 
         return linkToFile;
     }
 
+    /// <summary>
+    /// Converts the FormFile to a byte array
+    /// </summary>
+    /// <param name="formFile">The picture supplied by the user</param>
+    /// <returns>Byte array</returns>
     private async Task<byte[]> GetBytesTask(IFormFile formFile)
     {
         using var memoryStream = new MemoryStream();
@@ -111,6 +121,13 @@ public class FileService : IFileService
         return memoryStream.ToArray();
     }
 
+    /// <summary>
+    /// Uploads a user picture to he Minio storage
+    /// </summary>
+    /// <param name="objectName">Name of the object that is going to be uploaded</param>
+    /// <param name="contentType">The type of the file being uploaded</param>
+    /// <param name="fileLength">The lenght of the file in bytes</param>
+    /// <param name="data">The data when the file was uploaded</param>
     private async void UploadFile(string objectName, string contentType, long fileLength, byte[] data)
     {
         var beArgs = new BucketExistsArgs()
