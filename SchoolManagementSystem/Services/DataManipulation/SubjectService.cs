@@ -17,35 +17,11 @@ public class SubjectService : ISubjectService
     {
         _context = context;
     }
-    [HttpPost("post-subject")]
-    public async Task<Status> CreateSubject(SubjectDto request)
-    {
-        var subject = new Subject
-        {
-            Name = request.Name
-        };
-        List<TeacherSubject> teacherSubjects = new List<TeacherSubject>();
-        
-
-        foreach (int teacherId in request.TeacherIds)
-        {
-            TeacherSubject intermid = new TeacherSubject()
-            {
-                Subject = subject,
-                Teacher = new Teacher()
-                {
-                    TeacherId = teacherId
-                }
-            };
-            teacherSubjects.Add(intermid);
-        }
-        _context.TeacherSubjects.AttachRange(teacherSubjects);
-        _context.Subjects.Add(subject);
-
-        await _context.SaveChangesAsync();
-        return Status.Success;
-    }
-
+    /// <summary>
+    /// Removes a faculty entry
+    /// </summary>
+    /// <param name="facultyId">Id of the faculty</param>
+    /// <returns>Status of the operation</returns>
     public async Task<Status> RemoveFaculty(int facultyId)
     {
         var faculty = await _context.Faculties.FindAsync(facultyId);
@@ -55,12 +31,21 @@ public class SubjectService : ISubjectService
         await _context.SaveChangesAsync();
         return Status.Success;
     }
-
+    /// <summary>
+    /// Updates an existing subject entry
+    /// </summary>
+    /// <param name="request">Data for the entry</param>
+    /// <returns>Status of the opreation</returns>
+    /// <exception cref="NotImplementedException"></exception>
     public async Task<Status> UpdateSubject(SubjectDto request)
     {
         throw new NotImplementedException();
     }
-
+    /// <summary>
+    /// Removes a subject entry from 
+    /// </summary>
+    /// <param name="id">Id of the subject</param>
+    /// <returns>Status of the operation</returns>
     public async Task<Status> RemoveSubject(int id)
     {
         var subject = await _context.Subjects.FindAsync(id);
@@ -71,15 +56,23 @@ public class SubjectService : ISubjectService
         await _context.SaveChangesAsync();
         return Status.Success;
     }
-
-    public async Task<List<Subject>> GetSubjectsByStudent(int specialtyId)
+    /// <summary>
+    /// Gets all subject entries a student has
+    /// </summary>
+    /// <param name="majorId"></param>
+    /// <returns>List with all the subjects belonging to that student</returns>
+    public async Task<List<Subject>> GetSubjectsByStudent(int majorId)
     {
         return await _context.SubjectMajors
-            .Where(s => s.Major.Id == specialtyId)
+            .Where(s => s.Major.Id == majorId)
             .Select(studentSubject => studentSubject.Subject)
             .ToListAsync();
     }
-
+    /// <summary>
+    /// Gets all subject entries this teacher is currently teaching
+    /// </summary>
+    /// <param name="teacherId">Id of the teacher</param>
+    /// <returns>List with all subjects this teacher is teaching</returns>
     public async Task<List<Subject>> GetSubjectsByTeacher(int teacherId)
     {
         return await _context.TeacherSubjects
@@ -87,7 +80,10 @@ public class SubjectService : ISubjectService
             .Select(teacherSubject => teacherSubject.Subject)
             .ToListAsync();
     }
-
+    /// <summary>
+    /// Gets all subject entries
+    /// </summary>
+    /// <returns>List with all subjects</returns>
     public async Task<List<SubjectDto>?> GetAllSubjects()
     {
         return await _context.Subjects.Select(s => new SubjectDto()
@@ -97,10 +93,13 @@ public class SubjectService : ISubjectService
             TeacherIds = s.Teachers.Select(teacher => teacher.Id).ToList()
         }).ToListAsync();
     }
-
-    public async Task<List<SpecialtyQueryResult>?> GetAllSpecialties()
+    /// <summary>
+    /// Gets all major entries
+    /// </summary>
+    /// <returns>Returns List of Major objects</returns>
+    public async Task<List<MajorQueryResult>?> GetAllMajors()
     {
-        return await _context.Majors.Select(specialty => new SpecialtyQueryResult
+        return await _context.Majors.Select(specialty => new MajorQueryResult
         {
             Id = specialty.Id,
             Name = specialty.Name,
@@ -108,7 +107,10 @@ public class SubjectService : ISubjectService
                 .Select(intermid => intermid.Subject.Name).ToList()
         }).ToListAsync();
     }
-
+    /// <summary>
+    /// Gets all faculty entries
+    /// </summary>
+    /// <returns>A list of faculty objects</returns>
     public async Task<List<FacultyQueryResult>?> GetAllFaculties()
     {
         return await _context.Faculties.Select(faculty =>  new FacultyQueryResult()
@@ -118,7 +120,11 @@ public class SubjectService : ISubjectService
             Specialties = faculty.Specialties
         }).ToListAsync();
     }
-
+    /// <summary>
+    /// Adds a new faculty entry
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns>Status of the operation</returns>
     public async Task<Status> AddFaculty(FacultyDto request)
     {
         try
@@ -148,19 +154,44 @@ public class SubjectService : ISubjectService
 
         return Status.Success;
     }
-    public async Task<Status> RemoveSpecialty(int specialtyId)
+    /// <summary>
+    /// Removes a Major entry from the db
+    /// </summary>
+    /// <param name="majorId">Id of the major</param>
+    /// <returns>Status of the operation</returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<Status> RemoveSpecialty(int majorId)
     {
         throw new NotImplementedException();
     }
-
+    /// <summary>
+    /// Gets a single faculty entry from the system
+    /// </summary>
+    /// <param name="facultyId">Id of the faculty</param>
+    /// <returns>Faculty object</returns>
     public async Task<Faculty?> GetFaculty(int facultyId)
     {
         var result =  await _context.Faculties
             .FirstOrDefaultAsync(f => f.FacultyId == facultyId);
         return result;
     }
+    /// <summary>
+    /// Creates a new subject entry
+    /// </summary>
+    /// <param name="request">Entry data</param>
+    /// <returns>Status of the operation</returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<Status> CreateSubject(SubjectDto request)
+    {
+        throw new NotImplementedException();
+    }
 
-    public async Task<Status> AddSpecialty(SpecialtyDto request)
+    /// <summary>
+    /// Adds a new major entry into the system
+    /// </summary>
+    /// <param name="request">Entry data</param>
+    /// <returns>Status of the operation</returns>
+    public async Task<Status> AddMajor(MajorDto request)
     {
         try
         {
@@ -195,13 +226,22 @@ public class SubjectService : ISubjectService
         }
 
     }
-
+    /// <summary>
+    /// Gets a single subject from the system
+    /// </summary>
+    /// <param name="subjectId">Id of the subject</param>
+    /// <returns>Subject object</returns>
     public async Task<Subject?> GetSubjectById(int subjectId)
     {
         return await _context.Subjects.FindAsync(subjectId);
     }
-
-    public async Task<Status> GetSpecialty(SpecialtyDto request)
+    /// <summary>
+    /// Gets a major entry
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<Status> GetMajor(MajorDto request)
     {
         throw new NotImplementedException();
     }

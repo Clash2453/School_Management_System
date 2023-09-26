@@ -16,19 +16,29 @@ namespace SchoolManagementSystem.Controllers
         {
             _subjectService = subjectService;
         }
-        [HttpPost]
+        /// <summary>
+        /// Adds a new subject
+        /// </summary>
+        /// <param name="request">Subject Dto containing the subject data</param>
+        [HttpPost("subjects")]
         public async Task<ActionResult<Subject>> PostSubject(SubjectDto request)
         {
             return Ok(await _subjectService.CreateSubject(request));
         }
 
-        // DELETE: api/Subject/5
-        [HttpDelete]
+        /// <summary>
+        /// Deletes a subject
+        /// </summary>
+        /// <param name="id">The id of the subject to be deleted</param>
+        [HttpDelete("subjects")]
         public async Task<IActionResult> DeleteSubject(int id)
         {
             return Ok(await _subjectService.RemoveSubject(id));
         }
-        [HttpPost("add-faculty")]
+        /// <summary>
+        /// Adds a new faculty
+        /// </summary>
+        [HttpPost("faculties")]
         public async Task<IActionResult> AddFaculty(FacultyDto request)
         {
             var result = await _subjectService.AddFaculty(request);
@@ -36,23 +46,32 @@ namespace SchoolManagementSystem.Controllers
                 return StatusCode(500);
             return Ok();
         }
-        [HttpPost("add-specialty")]
-        public async Task<IActionResult> AddSpecialty(SpecialtyDto request)
+        /// <summary>
+        /// Adds a new major
+        /// </summary>
+        [HttpPost("majors")]
+        public async Task<IActionResult> AddSpecialty(MajorDto request)
         {
             var result = await _subjectService.AddSpecialty(request);
             if (result == Status.Fail)
                 return StatusCode(500);
             return Ok();
         }
-        [HttpGet("get-specialty")]
-        public async Task<IActionResult> GetSpecialties(SpecialtyDto request)
+        /// <summary>
+        /// Gets a major
+        /// </summary>
+        [HttpGet("major")]
+        public async Task<IActionResult> GetSpecialties(MajorDto request)
         {
             var result = await _subjectService.GetSpecialty(request);
             if (result == Status.Fail)
                 return StatusCode(500);
             return Ok();
-        }
-        [HttpGet("get-faculty")]
+        }        
+        /// <summary>
+        /// Gets a faculty
+        /// </summary>
+        [HttpGet("faculty")]
         public async Task<IActionResult> GetFaculties(int facultyId)
         {   
             var result = await _subjectService.GetFaculty(facultyId);
@@ -60,8 +79,10 @@ namespace SchoolManagementSystem.Controllers
                 return StatusCode(500);
             return Ok(result.Specialties);
         }
-
-        [HttpGet("get-subjects")]
+        /// <summary>
+        /// Gets a list of subjects
+        /// </summary>
+        [HttpGet("subjects")]
         public async Task<IActionResult> GetSubjects()
         {
             var result = await _subjectService.GetAllSubjects();
@@ -69,7 +90,10 @@ namespace SchoolManagementSystem.Controllers
                 return StatusCode(500);
             return Ok(result);
         }
-        [HttpGet("get-specialties")]
+        /// <summary>
+        /// Gets a list of majors 
+        /// </summary>
+        [HttpGet("majors")]
         public async Task<IActionResult> GetSpecialties()
         {
             var result = await _subjectService.GetAllSpecialties();
@@ -77,7 +101,10 @@ namespace SchoolManagementSystem.Controllers
                 return StatusCode(500);
             return Ok(result);
         }
-        [HttpGet("get-faculties")]
+        /// <summary>
+        /// Gets a list of faculties
+        /// </summary>
+        [HttpGet("faculties")]
         public async Task<IActionResult> GetFaculties()
         {
             var result = await _subjectService.GetAllFaculties();
