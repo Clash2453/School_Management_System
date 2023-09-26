@@ -34,8 +34,10 @@ namespace SchoolManagementSystem.Controllers
             _studentDataBundler = studentDataBundler;
             _gradeDataBundler = gradeDataBundler;
         }
-        
-        [HttpGet("student")] 
+        /// <summary>
+        /// Gets the grades of a student
+        /// </summary>
+        [HttpGet("student-grades")] 
         [Authorize(Roles="Student,Admin")]
         public async Task<ActionResult<GradeDto>> GetStudentGrades()
         {
@@ -50,7 +52,10 @@ namespace SchoolManagementSystem.Controllers
 
           return Ok(grades);
         }
-        [HttpGet("subjects-with-grades")]
+        /// <summary>
+        /// Gets the grades grouped with the respective subject for a student
+        /// </summary>
+        [HttpGet("subjects-grades")]
         [Authorize(Roles="Student,Admin")]
         public async Task<ActionResult<Dictionary<string, List<GradeResultDto>>>> GetStudentGradesAndSubjects()
         {
@@ -65,7 +70,10 @@ namespace SchoolManagementSystem.Controllers
 
             return Ok(grades);
         }
-        [HttpGet("teacher")] 
+        /// <summary>
+        /// Get the grades of a teacher
+        /// </summary>
+        [HttpGet("teacher-grades")] 
         [Authorize(Roles="Teacher,Admin")]
         public async Task<ActionResult<GradeDto>> GetTeacherGrades()
         {
@@ -80,7 +88,12 @@ namespace SchoolManagementSystem.Controllers
 
             return Ok(grades);
         }
-        [HttpPost]
+        /// <summary>
+        /// Adds a new grade
+        /// </summary>
+        /// <param name="request">GradeDto object with the grade data</param>
+        [HttpPost("grades")]
+        [Authorize(Roles="Teacher,Admin")]
         public async Task<ActionResult<Grade>> AddGrade(GradeDto request)
         {
             var userCredentials = _authManager.ParseToken(HttpContext.Request.Cookies["token"]);
@@ -94,8 +107,11 @@ namespace SchoolManagementSystem.Controllers
             
             return Ok("Grade added successfully");
         }
-        // DELETE: api/Teacher/5
-        [HttpDelete("{id}")]
+        /// <summary>
+        /// Delete a grade by id
+        /// </summary>
+        /// <param name="id">The id of the grade that needs to be deleted</param>
+        [HttpDelete("grades")]
         public async Task<IActionResult> DeleteGrade(int id)
         {
             var status = await _gradingService.DeleteGrade(id);

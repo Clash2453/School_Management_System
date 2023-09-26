@@ -10,6 +10,10 @@ public class AdminDataBundler: IAdminDataBundler
     {
         _userManagementService = userManagementService;
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     public async Task<List<UserResultDto>> FetchAllStudents()
     {
         var students = await _userManagementService.FetchAllStudents();
@@ -28,7 +32,10 @@ public class AdminDataBundler: IAdminDataBundler
         }).ToList();
         return result;
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     public async Task<List<UserResultDto>> FetchAllTeachers()
     {
         var teachers = await _userManagementService.FetchAllTeachers();
@@ -45,7 +52,10 @@ public class AdminDataBundler: IAdminDataBundler
         }).ToList();
         return result;
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     public async Task<List<UserResultDto>> FetchAllAdmins()
     {
         var admins = await _userManagementService.FetchAllAdmins();
@@ -58,7 +68,11 @@ public class AdminDataBundler: IAdminDataBundler
             }).ToList();
         return result;
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public async Task<AdminResultDto?> OrganizeAdminData(int id)
     {
         var userData = await _userManagementService.FetchUser(id);
