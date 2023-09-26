@@ -16,7 +16,7 @@ namespace SchoolManagementSystem.Controllers
             _absenceService = absenceService;
         }
         
-        [HttpGet("absenceBy/id")]
+        [HttpGet("absences")]
         public async Task<ActionResult<IEnumerable<Absence>>> GetAbsenceById(int id)
         {
             var absence = await _absenceService.GetAbsenceById(id);
@@ -26,27 +26,17 @@ namespace SchoolManagementSystem.Controllers
             return Ok(absence);
         }
         
-        [HttpGet("absenceBy/studentId")]
+        [HttpGet("absenceBy/id/student")]
         public async Task<ActionResult<List<Absence>>> GetAbsenceByStudent(int id)
         {
             return Ok(await _absenceService.GetAbsenceByStudent(id));
         }
-        [HttpGet("absenceBy/teacherId")]
+        [HttpGet("absenceBy/id/teacher")]
         public async Task<ActionResult<List<Absence>>> GetAbsenceByTeacher(int id)
         {
             return Ok(await _absenceService.GetAbsenceByTeacher(id));
         }
-        [HttpPut("excuse/absence")]
-        public async Task<IActionResult> ExcuseAbsence(int id)
-        {
-            var task = await _absenceService.ExcuseAbsenceById(id);
-            if (task == Status.Fail)
-                return NotFound();
-
-            return Ok();
-        }
-        
-        [HttpPut("excuse/absences")]
+        [HttpPut("absences")]
         public async Task<IActionResult> ExcuseAbsences(int subjectId, DateTime date, int studentId)
         {
             var task = await _absenceService.ExcuseAbsences(studentId, subjectId, date);
@@ -56,7 +46,7 @@ namespace SchoolManagementSystem.Controllers
             return Ok();
         }
         
-        [HttpPost]
+        [HttpPost("absences")]
         public async Task<ActionResult<Absence>> PostAbsence(AbsenceDto request)
         {
             var task = await _absenceService.CreateAbsence(request);
@@ -67,7 +57,7 @@ namespace SchoolManagementSystem.Controllers
             return Ok("Successfully created");
         }
         
-        [HttpDelete]
+        [HttpDelete("absences")]
         public async Task<IActionResult> DeleteAbsence(int id)
         {
             var task = await _absenceService.RemoveAbsenceById(id);
