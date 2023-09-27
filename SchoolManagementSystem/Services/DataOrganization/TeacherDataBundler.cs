@@ -15,6 +15,15 @@ public class TeacherDataBundler:ITeacherDataBundler
         _subjectService = subjectService;
         _userService = userService;
     }
+    /// <summary>
+    /// Organizes the teacher data fetched from the data layer
+    /// </summary>
+    /// <param name="id">Id of the teacher</param>
+    /// <returns>
+    /// Object containing the name and id of the
+    /// teacher together with a dictionary of grades per
+    /// student the teacher has graded
+    /// </returns>
     public async Task<TeacherDataDto> OrganizeTeacherData(int id)
     {
         var userData = await _userService.FetchUser(id);
@@ -45,6 +54,11 @@ public class TeacherDataBundler:ITeacherDataBundler
         };
         return result;
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public async Task<TeacherDataDto> OrganizeTeacherGradeData(int id)
     {
         var userData = await _userService.FetchUser(id);

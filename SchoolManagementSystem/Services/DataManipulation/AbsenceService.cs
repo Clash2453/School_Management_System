@@ -15,9 +15,18 @@ public class AbsenceService : IAbsenceService
     {
         _context = context;
     }
+    /// <summary>
+    /// Gets an absence by its id
+    /// </summary>
+    /// <param name="absenceId">The id of the absence</param>
+    /// <returns>Absence or null</returns>
     public async Task<Absence?> GetAbsenceById(int absenceId) => await _context.Absences.FindAsync(absenceId);
     
-
+    /// <summary>
+    /// Gets the absence of a student using the userId
+    /// </summary>
+    /// <param name="studentId">The id of the student</param>
+    /// <returns>A list of absence objects</returns>
     public async Task<List<Absence>> GetAbsenceByStudent(int studentId)
     {
         return await  _context.Absences
@@ -26,12 +35,20 @@ public class AbsenceService : IAbsenceService
             .Include(absence =>  absence.Student)
             .Where(a => a.Student.StudentId == studentId).ToListAsync();
     }
-
+    /// <summary>
+    /// Gets all the absences a teacher has put into the system
+    /// </summary>
+    /// <param name="teacherId">The id of the teacher</param>
+    /// <returns>A list of absence objects</returns>
     public async Task<List<Absence>> GetAbsenceByTeacher(int teacherId)
     {
         return await _context.Absences.Where(a => a.Teacher.TeacherId == teacherId).ToListAsync();
     }
-
+    /// <summary>
+    /// Removes an absence entry from the db
+    /// </summary>
+    /// <param name="absenceId">The id of the absence</param>
+    /// <returns>Status of the operation</returns>
     public async Task<Status> RemoveAbsenceById(int absenceId)
     {
         var absence = await GetAbsenceById(absenceId);
@@ -48,7 +65,11 @@ public class AbsenceService : IAbsenceService
         }
         return Status.Success;
     }
-
+    /// <summary>
+    /// Changes the state of an absence entry from 'unexcused' to 'excused'
+    /// </summary>
+    /// <param name="absenceId">Id of the absence</param>
+    /// <returns>Status of the operation</returns>
     public async Task<Status> ExcuseAbsenceById(int absenceId)
     {
         var absence = await _context.Absences.FindAsync(absenceId);
@@ -59,7 +80,13 @@ public class AbsenceService : IAbsenceService
         await _context.SaveChangesAsync();
         return Status.Success;
     }
-
+    /// <summary>
+    /// Changes the state of multiple absence entries from 'unexcused' to 'excused'
+    /// </summary>
+    /// <param name="studentId">Id of the student whose absence are being excused</param>
+    /// <param name="subjectId"> Id of the teacher who is excusing the absence</param>
+    /// <param name="date">Date when the absence was excused </param> 
+    /// <returns>Status of the operation</returns>
     public async Task<Status> ExcuseAbsences(int studentId, int subjectId, DateTime date)
     {
         var absences = await _context.Absences.Where(a => a.Student.StudentId == studentId 
@@ -78,7 +105,11 @@ public class AbsenceService : IAbsenceService
         }
         return Status.Success;
     }
-
+    /// <summary>
+    /// Adds an absence entry to the database
+    /// </summary>
+    /// <param name="request">AbsenceDto with entry data</param>
+    /// <returns>Status of the operation</returns>
     public async Task<Status> CreateAbsence(AbsenceDto request)
     {
         var student = await _context.Students.FindAsync(request.StudentId);
@@ -87,7 +118,7 @@ public class AbsenceService : IAbsenceService
         if (student == null || teacher == null || subject == null)
             return Status.Fail;
 
-        var absence = new Absence()
+        var absence = new Absence
         {
             Teacher = teacher,
             Student = student,
@@ -102,6 +133,7 @@ public class AbsenceService : IAbsenceService
         }
         catch (Exception e)
         {
+            Console.WriteLine(e);
             return Status.Fail;
         }
         return Status.Success;

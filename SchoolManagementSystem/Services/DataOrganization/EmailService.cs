@@ -16,6 +16,11 @@ public class EmailService : IEmailService
     {
         _configuration = configuration;
     }
+    /// <summary>
+    /// Sends an e-mail to the user's e-mail address
+    /// </summary>
+    /// <param name="request">The data that will be displayed in the e-mail</param>
+    /// <returns></returns>
     public Status SendMail(EmailDto request)
     { 
         var email = new MimeMessage();
