@@ -31,6 +31,11 @@ public class StudentDataBundler: IStudentDataBundler
         _subjectService = subjectService;
         _userService = userService;
     }
+    /// <summary>
+    /// Organized the student data from the data layer into a single object
+    /// </summary>
+    /// <param name="id">StudentId</param>
+    /// <returns>StudentDataDto containing the data of the student</returns>
      public async Task<StudentDataDto?> OrganizeStudentData(int id)
     {
         var userData = await _userService.FetchUser(id);
@@ -105,6 +110,11 @@ public class StudentDataBundler: IStudentDataBundler
         };
         return response;
     }
+    /// <summary>
+    ///  Returns all the data about the student's grades organized into a single object
+    /// </summary>
+    /// <param name="id">Student id</param>
+    /// <returns>Object containing the regular, term and yearly grades of the student</returns>
      public async Task<GradeDataDto?> OrganizeStudentGradeData(int id)
      {
          var userData = await _userService.FetchUser(id);
@@ -136,11 +146,23 @@ public class StudentDataBundler: IStudentDataBundler
              Grades = groupedGrades,
          };
      }
+    /// <summary>
+    /// Calculates the average grade of the student 
+    /// </summary>
+    /// <param name="grades">A collection of key-value pairs containing the subject and the numeric value of the grade</param>
+    /// <returns>A float presenting the average grade</returns>
      public float CalculateAverageGrade(IEnumerable<GradeValue> grades) => grades.Select(g => g.Value).Average();
-     
+     /// <summary>
+     /// Extracts the numeric value of the grade from a list of Grade objects
+     /// </summary>
+     /// <param name="grades">List of grade objects</param>
+     /// <returns>A list of key-value pairs containing the subject and the numeric value of the grade</returns>
      public List<GradeValue> GetGradeValues(List<Grade> grades) =>
          grades.Select(g => new GradeValue(g.Subject.Name, g.Value)).ToList();
-     
+     /// <summary>
+     /// Fetches the grades of the student from the data layer 
+     /// </summary>
+     /// <returns>List with the student grades</returns>
      public async Task<List<Grade>> GetStudentGrades(int studentId) =>
          await _gradingService.GetGradesByStudentId(studentId);
 }

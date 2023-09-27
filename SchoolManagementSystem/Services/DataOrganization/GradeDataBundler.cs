@@ -18,6 +18,11 @@ public class GradeDataBundler : IGradeDataBundler
         _subjectService = subjectService;
         _userService = userService;
     }
+    /// <summary>
+    /// Bundles the grade data retrieved from the data service in a dictionary
+    /// </summary>
+    /// <param name="id">UserId</param>
+    /// <returns>Dictionary with string as the subject and a list of Grade objects</returns>
     public async Task<Dictionary<string, List<GradeResultDto>>?> OrganizeGradesPerSubjects(int id)
     {
         var user = await _userService.FetchStudent(id);
