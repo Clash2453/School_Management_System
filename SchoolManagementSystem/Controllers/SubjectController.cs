@@ -52,7 +52,7 @@ namespace SchoolManagementSystem.Controllers
         [HttpPost("majors")]
         public async Task<IActionResult> AddSpecialty(MajorDto request)
         {
-            var result = await _subjectService.AddSpecialty(request);
+            var result = await _subjectService.AddMajor(request);
             if (result == Status.Fail)
                 return StatusCode(500);
             return Ok();
@@ -63,7 +63,7 @@ namespace SchoolManagementSystem.Controllers
         [HttpGet("major")]
         public async Task<IActionResult> GetSpecialties(MajorDto request)
         {
-            var result = await _subjectService.GetSpecialty(request);
+            var result = await _subjectService.GetMajor(request);
             if (result == Status.Fail)
                 return StatusCode(500);
             return Ok();
@@ -96,7 +96,7 @@ namespace SchoolManagementSystem.Controllers
         [HttpGet("majors")]
         public async Task<IActionResult> GetSpecialties()
         {
-            var result = await _subjectService.GetAllSpecialties();
+            var result = await _subjectService.GetAllMajors();
             if (result == null || result.Count == 0  )
                 return StatusCode(500);
             return Ok(result);

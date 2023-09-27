@@ -1,6 +1,6 @@
 namespace SchoolManagementSystem.Models.QuerryResultDtos;
 
-public class SpecialtyQueryResult
+public class MajorQueryResult
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;

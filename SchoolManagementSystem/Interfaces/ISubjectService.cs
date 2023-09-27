@@ -9,11 +9,11 @@ public interface ISubjectService
 {
     //CRUD
     public Task<Status> CreateSubject(SubjectDto request);
-    public Task<Status> AddSpecialty(SpecialtyDto request);
+    public Task<Status> AddMajor (MajorDto request);
     public Task<Faculty?> GetFaculty(int facultyId);
     public Task<Status> AddFaculty(FacultyDto request);
     public Task<List<SubjectDto>?> GetAllSubjects();
-    public Task<List<SpecialtyQueryResult>?> GetAllSpecialties();
+    public Task<List<MajorQueryResult>?> GetAllMajors();
     public Task<List<FacultyQueryResult>?> GetAllFaculties();
     public Task<Status> RemoveSpecialty(int specialtyId);
     public Task<Status> RemoveFaculty(int facultyId);
@@ -23,5 +23,5 @@ public interface ISubjectService
     public Task<List<Subject>> GetSubjectsByStudent(int studentId);
     public Task<List<Subject>> GetSubjectsByTeacher(int teacherId);
     public Task<Subject?> GetSubjectById(int subjectId);
-    Task<Status> GetSpecialty(SpecialtyDto request);
+    Task<Status> GetMajor(MajorDto request);
 }

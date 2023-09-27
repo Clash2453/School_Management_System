@@ -1,6 +1,6 @@
 namespace SchoolManagementSystem.Models.DataTransferObjects;
 
-public class SpecialtyDto
+public class MajorDto
 {
     public string Name { get; set; } = null!;
     public int FacultyId { get; set; }
