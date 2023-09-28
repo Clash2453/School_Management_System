@@ -84,7 +84,7 @@ namespace SchoolManagementSystem.Controllers
 
             var grades = await _teacherDataBundler.OrganizeTeacherGradeData(teacherId);
             if(grades == null)
-                return StatusCode(418); //¯\_(ツ)_/¯
+                return StatusCode(404);
 
             return Ok(grades);
         }
@@ -103,7 +103,7 @@ namespace SchoolManagementSystem.Controllers
             var status = await _gradingService.AddGrade(request, teacherId); 
             
             if(status == Status.Fail)
-              return StatusCode(418); //¯\_(ツ)_/¯
+              return StatusCode(500); 
             
             return Ok("Grade added successfully");
         }
@@ -116,7 +116,7 @@ namespace SchoolManagementSystem.Controllers
         {
             var status = await _gradingService.DeleteGrade(id);
             if(status == Status.Fail)
-                return StatusCode(418); //¯\_(ツ)_/¯
+                return StatusCode(500); 
 
             return Ok();
         }
